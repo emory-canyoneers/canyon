@@ -1,3 +1,87 @@
 nav {
-    display: flex
+    float: flex;
+    font-size: 140%;
+}
+
+nav ul {
+    margin: 0; 
+    padding: 0; 
+    list-style: none;
+    
+}
+
+nav li {
+    display: inline-block;
+    margin-left: 3%; 
+    padding-top: 1%;
+}
+
+nav a {
+    color: black; 
+    text-decoration: none;
+
+}
+
+nav li:hover {
+    text-shadow: 0 0 10px rgba(255, 165, 0, 0.8);
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-image: url('Vector.svg'); /* Default background image */
+    background-size: cover;
+    font: 'Roboto';
+}
+
+/* Split the screen in half */
+.split {
+    height: 100%;
+    width: 50%;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    overflow-x: hidden;
+    padding-top: 20px;
+}
+  
+  /* Control the left side */
+.left {
+    left: -3%;
+}
+  
+  /* Control the right side */
+.right {
+    right: 0;
+    
+}
+
+.logo {
+    float: left;
+    width: 5%;
+    border-radius: 50%;
+}
+  
+/* If you want the content centered horizontally and vertically */
+.centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+  
+/* Style the image inside the centered container, if needed */
+.centered img {
+    width: 100%;
+    margin-left: 3%; 
+    padding: 10%;
+}
+
+.centered h2 {
+    font-size: 220%;
+    width: 130%; 
+}
+
+.paragraph {
+    width: 130%;
 }
