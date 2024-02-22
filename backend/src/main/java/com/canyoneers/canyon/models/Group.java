@@ -27,7 +27,17 @@ public class Group {
         users = new ArrayList<>();
     }
 
-    public void addUser(User user) {
-        users.add(user);
+    public Group(String name) {
+        id = new ObjectId();
+        this.name = name;
+        users = new ArrayList<>();
+    }
+
+    public boolean addUser(User user) {
+        return users.add(user);
+    }
+
+    public boolean removeUser(User user) {
+        return users.remove(user);
     }
 }
