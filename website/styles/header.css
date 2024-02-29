@@ -2,14 +2,13 @@
 
 nav {
     float: flex;
-    font-size: 140%;
+    font-size: 110%;
 }
 
 nav ul {
-    margin: 0; 
+    margin: 10px; 
     padding: 0; 
     list-style: none;
-    
 }
 
 nav li {
@@ -62,9 +61,8 @@ body {
 .logo {
     float: left;
     width: 4%;
-    border-radius: 3rem;
+    border-radius: 10px;
     margin-left: .3%;
-    margin-top: .3%;
 }
   
 /* If you want the content centered horizontally and vertically */
@@ -78,12 +76,12 @@ body {
 /* Style the image inside the centered container, if needed */
 .centered img {
     width: 100%;
-    margin-left: 3%; 
+    margin-left: -10%; 
     padding: 10%;
 }
 
 .centered h2 {
-    font-size: 220%;
+    font-size: 44px;
     width: 130%; 
 }
 
@@ -92,13 +90,15 @@ body {
 }
 
 button {
-    background-color: rgba(0, 122, 255, 0.8);
-    color: white; 
+    background-color: rgba(255, 255, 255, 0.8);
+    color: rgb(83, 83, 83); 
     border: 0; 
     width: 25%;
     height: 50%;
     border-radius: .5rem;
     font-size: 90%;
     padding: 3% 2%;
+    margin-top: 3%;
+    border: solid .5px #818181;
     font-family: 'Roboto', sans-serif;
 }
