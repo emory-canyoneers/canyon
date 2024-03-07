@@ -27,8 +27,8 @@ public class UserController {
 
     // CREATE
     @PostMapping("/new")
-    public User newUser(@RequestBody String name) {
-        return users.save(new User(name));
+    public User newUser() {
+        return users.save(new User());
     }
 
     // UPDATE

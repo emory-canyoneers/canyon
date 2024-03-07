@@ -15,8 +15,9 @@ import lombok.Data;
 public class User {
     @Id
     private ObjectId id;
-
     private String name;
+    private String email;
+    private String number;
     // TODO: add user configurations here
 
     private List<ObjectId> groups;
@@ -28,14 +29,32 @@ public class User {
     public User() {
         id = new ObjectId();
         name = "Test User " + id.toString();
+        email = "test" + id.toString() + "@test.com";
+        number = "1234567890";
+
+        groups = new ArrayList<>();
+        friends = new ArrayList<>();
         responses = new ArrayList<>();
+    }
+
+    public User(String name, String number) {
+        id = new ObjectId();
+        this.name = name;
+        this.number = number;
+
+        responses = new ArrayList<>();
+        friends = new ArrayList<>();
         groups = new ArrayList<>();
     }
 
-    public User(String name) {
+    public User(String name, String email, String number) {
         id = new ObjectId();
         this.name = name;
+        this.email = email;
+        this.number = number;
+
         responses = new ArrayList<>();
+        friends = new ArrayList<>();
         groups = new ArrayList<>();
     }
 
