@@ -65,4 +65,10 @@ public class Group {
         } else
             return false;
     }
+
+    public Issue currentIssue() {
+        if (issues.size() == 0)
+            return null;
+        return issues.get(issues.size() - 1);
+    }
 }
