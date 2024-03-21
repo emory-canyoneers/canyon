@@ -2,7 +2,6 @@ package com.canyoneers.canyon.models;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.Data;
@@ -14,12 +13,9 @@ public class Response {
     private ObjectId id;
     private String response;
 
-    @DBRef
-    private User user;
-    @DBRef
-    Group group;
-    @DBRef
-    private Issue issue;
+    private ObjectId user;
+    private ObjectId group;
+    private ObjectId issue;
 
     public Response() {
         id = new ObjectId();
@@ -33,7 +29,7 @@ public class Response {
         id = new ObjectId();
         this.response = response;
 
-        this.user = user;
+        this.user = user.getId();
         this.group = null;
         this.issue = null;
     }
@@ -42,20 +38,21 @@ public class Response {
         id = new ObjectId();
         this.response = response;
 
-        this.user = user;
-        this.group = group;
-        this.issue = group.currentIssue();
+        this.user = user.getId();
+        this.group = group.getId();
+        this.issue = group.currentIssueId();
     }
 
     public void addGroup(Group group) {
-        this.group = group;
-        this.issue = group.currentIssue();
+        this.group = group.getId();
+        this.issue = group.currentIssueId();
     }
 
-    public boolean sendToIssue(Group group) { // keep group? or remove from class and pass in service layer
-        if (group != null) {
-            return group.currentIssue().addResponse(this);
-        } else
-            return false;
-    }
+    // public boolean sendToIssue(Group group) { // keep group? or remove from class
+    // and pass in service layer
+    // if (group != null) {
+    // return group.currentIssue().addResponse(this);
+    // } else
+    // return false;
+    // }
 }

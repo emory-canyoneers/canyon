@@ -21,6 +21,7 @@ public class Issue {
     private LocalDate date; // can just be week number? may need tweaking depending on final model
     private String question;
 
+    // TODO: remove refs
     @DBRef
     private Group group;
     @DBRef
