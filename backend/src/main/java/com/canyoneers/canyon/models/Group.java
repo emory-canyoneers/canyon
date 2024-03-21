@@ -38,4 +38,14 @@ public class Group {
     public boolean removeUser(ObjectId userId) {
         return users.remove(userId);
     }
+
+    public List<ObjectId> getMemberIds() {
+        return users;
+    }
+
+    public void addMemberId(ObjectId memberId) {
+        if (!this.users.contains(memberId)) {
+            this.users.add(memberId);
+        }
+    }
 }
