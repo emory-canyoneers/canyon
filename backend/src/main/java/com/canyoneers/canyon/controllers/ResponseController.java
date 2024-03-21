@@ -2,8 +2,10 @@ package com.canyoneers.canyon.controllers;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import com.canyoneers.canyon.models.Group;
 import com.canyoneers.canyon.models.Issue;
 import com.canyoneers.canyon.models.Response;
+import com.canyoneers.canyon.models.User;
 import com.canyoneers.canyon.repositories.GroupRepository;
 import com.canyoneers.canyon.repositories.IssueRepository;
 import com.canyoneers.canyon.repositories.ResponseRepository;
@@ -42,15 +44,21 @@ public class ResponseController {
         // adds response to user
 
         // response.addGroup(groups.findById(new ObjectId(groupID)).get());
-        Response newResponse = new Response(response, users.findById(new ObjectId(userID)).get());
+        User user = users.findById(new ObjectId(userID)).get();
+        Group group = groups.findById(new ObjectId(groupID)).get();
+        ObjectId issueId = group.currentIssueId();
 
-        newResponse.sendToIssue(groups.findById(new ObjectId(groupID)).get());
-        Issue issue = newResponse.getIssue();
-        if (issue == null) {
+        if (issueId == null)
             return null;
-        } else {
-            issues.save(issue);
-        }
+
+        Issue issue = issues.findById(issueId).get();
+        Response newResponse = new Response(response, user, group);
+
+        user.addResponse(newResponse.getId());
+        issue.addResponse(newResponse);
+
+        users.save(user);
+        issues.save(issue);
 
         return responses.save(newResponse);
     }
