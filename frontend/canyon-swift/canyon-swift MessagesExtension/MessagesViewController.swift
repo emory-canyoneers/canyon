@@ -11,7 +11,7 @@ import Messages
 class MessagesViewController: MSMessagesAppViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     
     var introPicker:UIPickerView = UIPickerView()
-    var dummyArray = ["test", "testing", "lalalala"]
+    var dummyArray = ["yo", "testing", "lalalala"]
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -36,6 +36,14 @@ class MessagesViewController: MSMessagesAppViewController, UIPickerViewDelegate,
         return dummyArray.count
     }
     
+//    func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
+//        if (pickerView == introPicker){
+//            return 50
+//        } else {
+//            return 50
+//        }
+//    }
+    
     func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
         
         let myLabelView = UILabel()
@@ -44,6 +52,13 @@ class MessagesViewController: MSMessagesAppViewController, UIPickerViewDelegate,
         myLabelView.font = UIFont(name: "Arial", size:20)
         myLabelView.textAlignment = .center
         return myLabelView
+        
+        
+//        let imageName:String = dummyArray[row] + ".png"
+//        let myImageView = UIImageView(image: UIImage(named: imageName))
+//        myImageView.frame = CGRect(x:0,y:0,width:50, height: 50)
+//        return myImageView
+        
     }
     
     override func willBecomeActive(with conversation: MSConversation) {
