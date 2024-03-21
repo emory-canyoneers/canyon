@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.Data;
@@ -20,53 +19,54 @@ public class Group {
     // TODO: add group configurations here
     // TODO: issue time and frequency
 
-    @DBRef
-    private User owner;
-    @DBRef
-    private List<User> users; // including owner
-    @DBRef
-    private List<Issue> issues; // issues are stored in time order
+    private ObjectId owner;
+    private List<ObjectId> users; // including owner
+    private List<ObjectId> issues; // issues are stored in time order
 
     public Group() {
         id = new ObjectId();
         name = "Test Group " + id.toString();
         issueCount = 0;
 
-        owner = new User();
+        owner = null;
         users = new ArrayList<>();
         issues = new ArrayList<>();
     }
 
-    public Group(String name, User owner) {
-        id = new ObjectId();
+    public Group(String name) {
+        this();
         this.name = name;
-        issueCount = 0;
-
-        this.owner = owner;
-        users = new ArrayList<>();
-        users.add(owner);
-        issues = new ArrayList<>();
     }
 
-    public boolean addUser(User user) {
-        return users.add(user);
+    public boolean addUser(ObjectId userId) {
+        return users.add(userId);
     }
 
-    public boolean removeUser(User user) {
-        if (user.equals(owner))
+    public boolean removeUser(ObjectId userId) {
+        if (userId.equals(owner))
             return false;
-        return users.remove(user);
+        return users.remove(userId);
     }
 
-    public boolean newIssue(String question) {
-        if (issues.add(new Issue(issueCount, this, question))) {
+    public List<ObjectId> getMemberIds() {
+        return users;
+    }
+
+    public void addMemberId(ObjectId memberId) {
+        if (!this.users.contains(memberId)) {
+            this.users.add(memberId);
+        }
+    }
+
+    public boolean newIssue(Issue issue) {
+        if (issues.add(issue.getId())) {
             issueCount++;
             return true;
         } else
             return false;
     }
 
-    public Issue currentIssue() {
+    public ObjectId currentIssueId() {
         if (issues.size() == 0)
             return null;
         return issues.get(issues.size() - 1);

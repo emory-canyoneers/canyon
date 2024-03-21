@@ -1,46 +1,25 @@
 package com.canyoneers.canyon.controllers;
 
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
-import com.canyoneers.canyon.models.Group;
 import com.canyoneers.canyon.models.User;
-import com.canyoneers.canyon.repositories.GroupRepository;
-import com.canyoneers.canyon.repositories.UserRepository;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import com.canyoneers.canyon.services.UserService;
 
 @RestController
 @RequestMapping("/users")
 public class UserController {
-    @Autowired
-    UserRepository users;
 
     @Autowired
-    GroupRepository groups;
+    private UserService userService;
 
-    // TODO: move business logic to services
-
-    // CREATE
     @PostMapping("/new")
-    public User newUser() {
-        return users.save(new User());
+    public User newUser(@RequestBody String name) {
+        return userService.createUser(name);
     }
 
-    // UPDATE
-    @PutMapping("join/{groupID}")
-    public Group joinGroup(@PathVariable String groupID, @RequestBody String userID) {
-        Group group = groups.findById(new ObjectId(groupID)).orElse(null);
-        User user = users.findById(new ObjectId(userID)).orElse(null);
-        if (group != null && user != null) {
-            user.joinGroup(group);
-            groups.save(group);
-            users.save(user);
-        }
-        return group;
+    @PutMapping("/join/{groupID}")
+    public boolean joinGroup(@PathVariable String groupID, @RequestBody String userID) {
+        return userService.addUserToGroup(userID, groupID);
     }
 }
