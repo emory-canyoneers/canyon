@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
+//import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.Data;
@@ -18,8 +18,7 @@ public class Group {
     private String name;
     // TODO: add group configurations here
 
-    @DBRef
-    private List<User> users;
+    private List<ObjectId> users;
 
     public Group() {
         id = new ObjectId();
@@ -28,16 +27,15 @@ public class Group {
     }
 
     public Group(String name) {
-        id = new ObjectId();
-        this.name = name;
-        users = new ArrayList<>();
+        this();
+        this.name = name; 
     }
 
-    public boolean addUser(User user) {
-        return users.add(user);
+    public boolean addUser(ObjectId userId) {
+        return users.add(userId);
     }
 
-    public boolean removeUser(User user) {
-        return users.remove(user);
+    public boolean removeUser(ObjectId userId) {
+        return users.remove(userId);
     }
 }

@@ -34,8 +34,12 @@ public class UserController {
     // UPDATE
     @PutMapping("join/{groupID}")
     public Group joinGroup(@PathVariable String groupID, @RequestBody String userID) {
-        Group group = groups.findById(new ObjectId(groupID)).orElse(null);
-        User user = users.findById(new ObjectId(userID)).orElse(null);
+        ObjectId groupIdObj = new ObjectId(groupID);
+        ObjectId userIdObj = new ObjectId(userID);
+
+
+        Group group = groups.findById(groupIdObj).orElse(null);
+        User user = users.findById(userIdObj).orElse(null);
         if (group != null && user != null) {
             user.joinGroup(group);
             groups.save(group);
