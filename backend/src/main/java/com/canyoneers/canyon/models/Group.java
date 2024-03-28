@@ -20,7 +20,7 @@ public class Group {
     // TODO: issue time and frequency
 
     private ObjectId owner;
-    private List<ObjectId> users; // including owner
+    private List<ObjectId> members; // including owner
     private List<ObjectId> issues; // issues are stored in time order
 
     public Group() {
@@ -29,33 +29,31 @@ public class Group {
         issueCount = 0;
 
         owner = null;
-        users = new ArrayList<>();
+        members = new ArrayList<>();
         issues = new ArrayList<>();
     }
 
-    public Group(String name) {
+    public Group(User owner) {
         this();
-        this.name = name;
+        this.owner = owner.getId();
+        members.add(this.owner);
     }
 
-    public boolean addUser(ObjectId userId) {
-        return users.add(userId);
-    }
-
-    public boolean removeUser(ObjectId userId) {
-        if (userId.equals(owner))
-            return false;
-        return users.remove(userId);
-    }
-
-    public List<ObjectId> getMemberIds() {
-        return users;
-    }
-
-    public void addMemberId(ObjectId memberId) {
-        if (!this.users.contains(memberId)) {
-            this.users.add(memberId);
+    public boolean addMember(User user) {
+        if (!this.members.contains(user.getId())) {
+            return this.members.add(user.getId());
         }
+        return false;
+    }
+
+    public boolean removeMember(User user) {
+        if (user.getId().equals(owner))
+            return false;
+        return members.remove(user.getId());
+    }
+
+    public List<ObjectId> getMembers() {
+        return members;
     }
 
     public boolean newIssue(Issue issue) {
