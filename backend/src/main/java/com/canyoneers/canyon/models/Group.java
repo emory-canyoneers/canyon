@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.Data;
@@ -21,7 +22,8 @@ public class Group {
 
     private ObjectId owner;
     private List<ObjectId> members; // including owner
-    private List<ObjectId> issues; // issues are stored in time order
+    @DBRef
+    private List<Issue> issues; // issues are stored in time order
 
     public Group() {
         id = new ObjectId();
@@ -56,15 +58,17 @@ public class Group {
         return members;
     }
 
-    public boolean newIssue(Issue issue) {
-        if (issues.add(issue.getId())) {
-            issueCount++;
-            return true;
-        } else
-            return false;
+    public Issue newIssue() {
+        Issue issue = new Issue(issueCount++, this, "How are you doing today? (test)");
+        if (issues.add(issue))
+            return issue;
+        else {
+            issueCount--;
+            return null;
+        }
     }
 
-    public ObjectId currentIssueId() {
+    public Issue currentIssue() {
         if (issues.size() == 0)
             return null;
         return issues.get(issues.size() - 1);

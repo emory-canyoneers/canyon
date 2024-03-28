@@ -21,51 +21,42 @@ public class Issue {
     private LocalDate date; // can just be week number? may need tweaking depending on final model
     private String question;
 
-    // TODO: remove refs
-    @DBRef
-    private Group group;
+    private ObjectId group;
     @DBRef
     private List<Response> responses;
 
-    public Issue() {
+    public Issue() { // boilerplate constructor
         id = new ObjectId();
-        issueNumber = -1;
         date = LocalDate.now();
         question = "Test question " + id.toString();
-
-        group = null;
-        responses = null;
-    }
-
-    public Issue(Group group) {
-        id = new ObjectId();
-        issueNumber = -1;
-        date = LocalDate.now();
-        question = "Test question " + id.toString();
-
-        this.group = group;
-        responses = new ArrayList<>();
     }
 
     public Issue(int issueNumber, Group group, String question) {
-        id = new ObjectId();
+        this();
         this.issueNumber = issueNumber;
-        date = LocalDate.now();
         this.question = question;
-
-        this.group = group;
+        this.group = group.getId();
         responses = new ArrayList<>();
     }
 
-    public boolean addResponse(Response response) {
-        return responses.add(response);
+    public Response addResponse(Response response) {
+        if (responses.add(response))
+            return response;
+        else
+            return null;
     }
 
-    public boolean editResponse(Response response) {
-        return responses.set(responses.indexOf(response), response) != null;
+    public Response editResponse(Response response) {
+        if (responses.set(responses.indexOf(response), response) != null)
+            return response;
+        else
+            return null;
     }
 
-    public boolean removeResponse(Response response) {
-        return responses.remove(response);
+    public Response removeResponse(Response response) {
+        if (responses.remove(response))
+            return response;
+        else
+            return null;
     }
 }
