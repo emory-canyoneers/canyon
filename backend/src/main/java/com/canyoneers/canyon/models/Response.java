@@ -17,42 +17,20 @@ public class Response {
     private ObjectId group;
     private ObjectId issue;
 
-    public Response() {
+    // will be created in service and passed to issue in business layer
+
+    public Response() { // boilerplate constructor
         id = new ObjectId();
         response = "This is test response " + id.toString();
-
-        user = null;
-        issue = null;
-    }
-
-    public Response(String response, User user) {
-        id = new ObjectId();
-        this.response = response;
-
-        this.user = user.getId();
-        this.group = null;
-        this.issue = null;
     }
 
     public Response(String response, User user, Group group) {
-        id = new ObjectId();
+        this();
         this.response = response;
 
         this.user = user.getId();
         this.group = group.getId();
-        this.issue = group.currentIssueId();
+        Issue currIssue = group.currentIssue();
+        this.issue = currIssue != null ? currIssue.getId() : null;
     }
-
-    public void addGroup(Group group) {
-        this.group = group.getId();
-        this.issue = group.currentIssueId();
-    }
-
-    // public boolean sendToIssue(Group group) { // keep group? or remove from class
-    // and pass in service layer
-    // if (group != null) {
-    // return group.currentIssue().addResponse(this);
-    // } else
-    // return false;
-    // }
 }
