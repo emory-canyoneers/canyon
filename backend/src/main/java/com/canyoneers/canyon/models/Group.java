@@ -41,6 +41,19 @@ public class Group {
         members.add(this.owner);
     }
 
+    public Group setName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public Group setOwner(User user) {
+        if (members.contains(user.getId())) {
+            owner = user.getId();
+            return this;
+        }
+        return null;
+    }
+
     public boolean addMember(User user) {
         if (!this.members.contains(user.getId())) {
             return this.members.add(user.getId());

@@ -26,11 +26,14 @@ public class CanyonApplication implements CommandLineRunner {
 		// create a test group and add 5 test users if database empty
 		if (groups.findAll().size() == 0) {
 			Group testGroup = new Group();
-			for (int i = 0; i < 5; i++) {
+			testGroup.setName("Dev group");
+
+			for (int i = 0; i < 2; i++) {
 				User testUser = new User();
 				testUser.joinGroup(testGroup);
 				users.save(testUser);
 			}
+
 			groups.save(testGroup);
 		}
 	}
