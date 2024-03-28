@@ -10,6 +10,7 @@ import com.canyoneers.canyon.repositories.GroupRepository;
 import com.canyoneers.canyon.repositories.UserRepository;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -22,36 +23,43 @@ public class GroupService {
     private UserRepository userRepository;
 
     @Transactional
-    public Group createGroup(Group group) {
-        
-        return groupRepository.save(group);
+    public List<Object> createGroup(Map<String, String> json) {
+        User user = userRepository.findById(new ObjectId(json.get("userID"))).get();
+
+        if (user == null)
+            return null;
+
+        Group group = new Group(user);
+        group.setName(json.get("name"));
+        user.joinGroup(group);
+
+        group = groupRepository.save(group);
+        user = userRepository.save(user);
+        List<Object> response = List.of(group, user);
+        return response;
     }
 
-    
     public List<Group> getAllGroups() {
         return groupRepository.findAll();
     }
 
-    
     @Transactional
     public Group updateGroup(String groupId, Group updatedGroup) {
         Optional<Group> groupOptional = groupRepository.findById(new ObjectId(groupId));
         if (groupOptional.isPresent()) {
             Group existingGroup = groupOptional.get();
             existingGroup.setName(updatedGroup.getName());
-            
+
             return groupRepository.save(existingGroup);
         }
-        return null; 
+        return null;
     }
 
-    
     @Transactional
     public void deleteGroup(String groupId) {
         groupRepository.deleteById(new ObjectId(groupId));
     }
 
-    
     @Transactional
     public Group addUserToGroup(String groupId, String userId) {
         Optional<Group> groupOptional = groupRepository.findById(new ObjectId(groupId));
@@ -59,16 +67,15 @@ public class GroupService {
         if (groupOptional.isPresent() && userOptional.isPresent()) {
             Group group = groupOptional.get();
             User user = userOptional.get();
-            
+
             user.joinGroup(group);
             userRepository.save(user);
-            
+
             return group;
         }
-        return null; 
+        return null;
     }
 
-    
     @Transactional
     public Group removeUserFromGroup(String groupId, String userId) {
         Optional<Group> groupOptional = groupRepository.findById(new ObjectId(groupId));
@@ -76,12 +83,12 @@ public class GroupService {
         if (groupOptional.isPresent() && userOptional.isPresent()) {
             Group group = groupOptional.get();
             User user = userOptional.get();
-            
+
             if (user.leaveGroup(group)) {
                 userRepository.save(user);
                 return group;
             }
         }
-        return null; 
+        return null;
     }
 }

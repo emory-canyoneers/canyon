@@ -72,7 +72,7 @@ public class Group {
     }
 
     public Issue newIssue() {
-        Issue issue = new Issue(issueCount++, this, "How are you doing today? (test)");
+        Issue issue = new Issue(this, "How are you doing today? (test)");
         if (issues.add(issue))
             return issue;
         else {

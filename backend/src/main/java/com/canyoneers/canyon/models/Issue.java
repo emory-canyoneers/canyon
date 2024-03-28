@@ -31,9 +31,9 @@ public class Issue {
         question = "Test question " + id.toString();
     }
 
-    public Issue(int issueNumber, Group group, String question) {
+    public Issue(Group group, String question) {
         this();
-        this.issueNumber = issueNumber;
+        this.issueNumber = group.getIssueCount();
         this.question = question;
         this.group = group.getId();
         responses = new ArrayList<>();
