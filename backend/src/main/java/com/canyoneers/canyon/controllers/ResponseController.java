@@ -12,7 +12,6 @@ import com.canyoneers.canyon.repositories.ResponseRepository;
 import com.canyoneers.canyon.repositories.UserRepository;
 
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Map;
 
