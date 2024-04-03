@@ -15,10 +15,8 @@ import java.util.Optional;
 
 @Service
 public class GroupService {
-
     @Autowired
     private GroupRepository groupRepository;
-
     @Autowired
     private UserRepository userRepository;
 
