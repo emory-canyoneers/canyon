@@ -4,12 +4,14 @@ import java.util.Map;
 
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.canyoneers.canyon.models.Group;
 import com.canyoneers.canyon.models.Issue;
 import com.canyoneers.canyon.repositories.GroupRepository;
 import com.canyoneers.canyon.repositories.IssueRepository;
 
+@Service
 public class IssueService {
     @Autowired
     IssueRepository issues;
