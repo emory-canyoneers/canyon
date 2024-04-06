@@ -23,9 +23,11 @@ public class UserService {
     @Autowired
     private GroupService groupService;
 
+    @Autowired
+    private APIKeys apiKeys;
+
     public final HttpClient client = HttpClient.newHttpClient();
     public static final String loginUrl = "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=";
-    public static final String firebaseAPIKey = APIKeys.firebaseApiKey;
 
     public User createUser(String name) {
         User user = new User(name);
@@ -38,8 +40,7 @@ public class UserService {
 
     public AuthDto login(LoginDto login) {
         try {
-            System.out.println(firebaseAPIKey);
-            HttpRequest request = HttpRequest.newBuilder().uri(URI.create(loginUrl + firebaseAPIKey))
+            HttpRequest request = HttpRequest.newBuilder().uri(URI.create(loginUrl + apiKeys.firebaseApiKey))
                     .header("Content-Type", "application/json")
                     .POST(HttpRequest.BodyPublishers.ofString(login.toJson()))
                     .build();
