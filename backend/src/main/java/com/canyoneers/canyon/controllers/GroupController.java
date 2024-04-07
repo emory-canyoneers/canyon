@@ -10,7 +10,7 @@ import java.util.Map;
 @RequestMapping("/groups")
 public class GroupController {
     @Autowired
-    private GroupService groupService;
+    GroupService groupService;
 
     @PostMapping
     public List<Object> createGroup(@RequestBody Map<String, String> json) {
