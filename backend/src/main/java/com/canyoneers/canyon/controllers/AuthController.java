@@ -1,6 +1,8 @@
 package com.canyoneers.canyon.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +19,11 @@ public class AuthController {
     AuthService authService;
 
     @PostMapping
-    public AuthDto login(@RequestBody LoginDto login) {
-        return authService.login(login);
+    public ResponseEntity<AuthDto> login(@RequestBody LoginDto login) {
+        AuthDto response = authService.login(login);
+        if (response == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
