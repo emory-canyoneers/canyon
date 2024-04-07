@@ -81,6 +81,16 @@ public class Group {
         }
     }
 
+    public Issue newIssue(String question) {
+        Issue issue = new Issue(this, question);
+        if (issues.add(issue))
+            return issue;
+        else {
+            issueCount--;
+            return null;
+        }
+    }
+
     public Issue currentIssue() {
         if (issues.size() == 0)
             return null;

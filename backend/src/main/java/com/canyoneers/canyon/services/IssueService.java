@@ -20,7 +20,8 @@ public class IssueService {
 
     public Issue createIssue(Map<String, String> json) {
         Group group = groups.findById(new ObjectId(json.get("groupID"))).get();
-        Issue issue = group.newIssue();
+        String question = json.get("question");
+        Issue issue = group.newIssue(question);
 
         if (issue == null)
             return null;
