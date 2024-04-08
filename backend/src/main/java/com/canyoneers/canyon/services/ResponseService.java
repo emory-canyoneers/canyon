@@ -2,7 +2,7 @@ package com.canyoneers.canyon.services;
 
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collector;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.bson.types.ObjectId;
@@ -57,5 +57,16 @@ public class ResponseService {
         ObjectId userObjectId = new ObjectId(userId);
         List<Response> responses = responseRepository.findByUser(userObjectId);
         return responses.stream().limit(n).collect(Collectors.toList());
+    }
+
+    public Response editResponse(ObjectId responseId, String newResponse){
+        Optional<Response> responseOpt = responseRepository.findById(responseId);
+        if(responseOpt.isPresent()){
+            Response response = responseOpt.get();
+            response.setResponse(newResponse);
+            return responseRepository.save(response);
+        }else{
+            throw new RuntimeException("Response not found with id:" + responseId);
+        }
     }
 }

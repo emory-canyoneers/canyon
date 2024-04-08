@@ -9,8 +9,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.Map;
 
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
@@ -22,5 +26,12 @@ public class ResponseController {
     @PostMapping
     public Response createResponse(@RequestBody Map<String, String> json) {
         return responseService.createResponse(json);
+    }
+
+    @PutMapping("/{responseId}")
+    public ResponseEntity<Response> editResponse(@PathVariable String responseId, @RequestBody Map<String, String> update) {
+        String newText = update.get("newText");
+        Response updatedResponse = responseService.editResponse(new ObjectId(responseId), newText);
+        return ResponseEntity.ok(updatedResponse);
     }
 }

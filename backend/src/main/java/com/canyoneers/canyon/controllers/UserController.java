@@ -3,6 +3,7 @@ package com.canyoneers.canyon.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.canyoneers.canyon.models.Group;
@@ -44,5 +45,14 @@ public class UserController {
     public List<Response> getUserResponses(@PathVariable String userId, 
                                            @RequestParam(defaultValue = "10") int n) {
         return responseService.findResponsesByUserId(userId, n);
+    }
+
+    @DeleteMapping("/{userId}")
+    public ResponseEntity<?> deleteUser(@PathVariable String userId) {
+        boolean success = userService.deleteUser(userId);
+        if(!success){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok().build();
     }
 }
