@@ -14,14 +14,14 @@ public class WebSecurityConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         System.out.println("Connecting security filter chain");
         http
-                // this was the issue, csrf was blocking the /auth endpoint
-                .csrf(csrf -> csrf.ignoringRequestMatchers("/auth"))
-                .authorizeHttpRequests(
-                        requests -> requests
-                                .requestMatchers("/auth").permitAll()
-                                .anyRequest().authenticated());
+            // this was the issue, csrf was blocking the /auth endpoint
+            .csrf(csrf -> csrf.ignoringRequestMatchers("/auth"))
+            .authorizeHttpRequests(
+                requests -> requests
+                    .requestMatchers("/auth").permitAll()
+                    .anyRequest().authenticated());
         http
-                .oauth2ResourceServer((oauth2) -> oauth2.jwt(Customizer.withDefaults()));
+            .oauth2ResourceServer((oauth2) -> oauth2.jwt(Customizer.withDefaults()));
 
         return http.build();
     }
