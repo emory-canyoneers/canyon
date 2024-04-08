@@ -12,6 +12,7 @@ import com.canyoneers.canyon.repositories.UserRepository;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class GroupService {
@@ -54,8 +55,13 @@ public class GroupService {
     }
 
     @Transactional
-    public void deleteGroup(String groupId) {
+    public boolean deleteGroup(String groupId) {
+        ObjectId id = new ObjectId(groupId);
+        if(!groupRepository.existsById(id)){
+            return false;
+        }
         groupRepository.deleteById(new ObjectId(groupId));
+        return true;
     }
 
     @Transactional
@@ -88,5 +94,11 @@ public class GroupService {
             }
         }
         return null;
+    }
+
+    public List<Group> findGroupsByUserId(String userId, int n){
+        ObjectId userObjectId = new ObjectId(userId);
+        List<Group> groups = groupRepository.findByMembersContains(userObjectId);
+        return groups.stream().limit(n).collect(Collectors.toList());
     }
 }

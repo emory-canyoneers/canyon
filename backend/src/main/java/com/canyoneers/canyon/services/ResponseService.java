@@ -1,6 +1,9 @@
 package com.canyoneers.canyon.services;
 
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +29,9 @@ public class ResponseService {
     @Autowired
     GroupRepository groups;
 
+    @Autowired
+    ResponseRepository responseRepository;
+
     public Response createResponse(Map<String, String> json) {
         User user = users.findById(new ObjectId(json.get("userID"))).get();
         Group group = groups.findById(new ObjectId(json.get("groupID"))).get();
@@ -45,5 +51,11 @@ public class ResponseService {
         groups.save(group);
 
         return responses.save(newResponse);
+    }
+
+    public List<Response> findResponsesByUserId(String userId, int n) {
+        ObjectId userObjectId = new ObjectId(userId);
+        List<Response> responses = responseRepository.findByUser(userObjectId);
+        return responses.stream().limit(n).collect(Collectors.toList());
     }
 }

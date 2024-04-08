@@ -9,4 +9,5 @@ import com.canyoneers.canyon.models.Group;
 
 public interface GroupRepository extends MongoRepository<Group, ObjectId> {
     public List<Group> findGroupsByName(String string);
+    public List<Group> findByMembersContains(Object userId);
 }
