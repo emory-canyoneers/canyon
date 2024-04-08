@@ -4,6 +4,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.canyoneers.canyon.config.APIKeys;
 import com.canyoneers.canyon.dto.AuthDto;
 import com.canyoneers.canyon.dto.LoginDto;
+import com.canyoneers.canyon.dto.SignupDto;
 import com.canyoneers.canyon.repositories.UserRepository;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -29,6 +31,8 @@ public class AuthService {
             false);
     final HttpClient client = HttpClient.newHttpClient();
     static final String loginUrl = "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=";
+    static final String signupUrl = "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=";
+    static final String lookupUrl = "https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=";
 
     public AuthDto login(LoginDto login) {
         try {
@@ -41,7 +45,6 @@ public class AuthService {
             if (response.statusCode() == 200) {
                 AuthResponse authResponse = objectMapper.readValue(response.body(), AuthResponse.class);
                 AuthDto authDto = new AuthDto();
-                authDto.setUserId(userRepository.findFirstByEmail(login.getEmail()).getId().toString());
                 authDto.setToken(authResponse.idToken);
                 authDto.setExpiry(authResponse.expiresIn);
                 return authDto;
@@ -53,10 +56,65 @@ public class AuthService {
             return null;
         }
     }
+
+    public AuthDto signup(SignupDto signup) {
+        try {
+            HttpRequest request = HttpRequest.newBuilder().uri(URI.create(signupUrl + apiKeys.firebaseApiKey))
+                    .header("Content-Type", "application/json")
+                    .POST(HttpRequest.BodyPublishers.ofString(signup.toJson()))
+                    .build();
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            if (response.statusCode() == 200) {
+                AuthResponse authResponse = objectMapper.readValue(response.body(), AuthResponse.class);
+                AuthDto authDto = new AuthDto();
+                authDto.setUserId(authResponse.localId);
+                authDto.setToken(authResponse.idToken);
+                authDto.setExpiry(authResponse.expiresIn);
+                return authDto;
+            }
+
+            return null; // failed
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public String fetchUserId(String token) {
+        try {
+            HttpRequest request = HttpRequest.newBuilder().uri(URI.create(lookupUrl + apiKeys.firebaseApiKey))
+                    .header("Content-Type", "application/json")
+                    .POST(HttpRequest.BodyPublishers.ofString("{\"idToken\":\"" + token + "\"}"))
+                    .build();
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            if (response.statusCode() == 200) {
+                LookupResponse lookupResponse = objectMapper.readValue(response.body(), LookupResponse.class);
+                return lookupResponse.users.get(0).getLocalID();
+            }
+
+            return null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }
 
 @Data
 class AuthResponse {
     String idToken;
+    String localId;
     int expiresIn;
+}
+
+@Data
+class LookupResponse {
+    List<FirebaseUser> users;
+}
+
+@Data
+class FirebaseUser {
+    String localID;
 }

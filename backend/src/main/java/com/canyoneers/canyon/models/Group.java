@@ -20,8 +20,8 @@ public class Group {
     // TODO: add group configurations here
     // TODO: issue time and frequency
 
-    private ObjectId owner;
-    private List<ObjectId> members; // including owner
+    private String owner;
+    private List<String> members; // including owner
     @DBRef
     private List<Issue> issues; // issues are stored in time order
 
@@ -67,7 +67,7 @@ public class Group {
         return members.remove(user.getId());
     }
 
-    public List<ObjectId> getMembers() {
+    public List<String> getMembers() {
         return members;
     }
 

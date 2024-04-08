@@ -2,6 +2,7 @@ package com.canyoneers.canyon.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -15,10 +16,11 @@ public class WebSecurityConfig {
         System.out.println("Connecting security filter chain");
         http
             // this was the issue, csrf was blocking the /auth endpoint
-            .csrf(csrf -> csrf.ignoringRequestMatchers("/auth"))
+            .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(
                 requests -> requests
                     .requestMatchers("/auth").permitAll()
+                    .requestMatchers(HttpMethod.POST, "/users").permitAll()
                     .anyRequest().authenticated());
         http
             .oauth2ResourceServer((oauth2) -> oauth2.jwt(Customizer.withDefaults()));

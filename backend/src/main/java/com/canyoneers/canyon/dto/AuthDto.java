@@ -1,12 +1,13 @@
 package com.canyoneers.canyon.dto;
 
-// import org.bson.types.ObjectId;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
 
 @Data
 public class AuthDto {
-    private String token;
+    @JsonIgnore
     private String userId;
+    private String token;
     private int expiry;
 }

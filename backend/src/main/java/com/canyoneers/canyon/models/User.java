@@ -15,10 +15,10 @@ import lombok.Data;
 @Data
 public class User {
     @Id
-    private ObjectId id;
+    private String id; // instead of ObjectId, uses Firebase localID
     private String name;
     private String email;
-    private String number;
+    // private String number;
     // TODO: add user configurations here
 
     private List<ObjectId> groups;
@@ -30,19 +30,15 @@ public class User {
     // updated respectively
 
     public User() { // boilerplate constructor
-        id = new ObjectId();
-        name = "Test User " + id.toString();
-        email = "test" + id.toString() + "@test.com";
-        number = "1234567890";
-
         groups = new ArrayList<>();
-        // friends = new ArrayList<>();
         responses = new ArrayList<>();
     }
 
-    public User(String name) {
+    public User(String id, String name, String email) {
         this();
+        this.id = id;
         this.name = name;
+        this.email = email;
     }
 
     // public boolean addFriend(ObjectId friendId) {
