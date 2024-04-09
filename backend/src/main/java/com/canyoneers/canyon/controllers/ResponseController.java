@@ -7,7 +7,6 @@ import com.canyoneers.canyon.models.Response;
 import com.canyoneers.canyon.services.ResponseService;
 
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Map;
@@ -35,10 +34,16 @@ public class ResponseController {
         return responseService.createResponse(token, dto);
     }
 
-    @GetMapping("/{userId}")
-    public List<Response> getUserResponses(@PathVariable String userId,
-            @RequestParam(defaultValue = "10") int limit) {
-        return responseService.findResponsesByUserId(userId, limit);
+    // @GetMapping("/{userId}")
+    // public List<Response> getUserResponses(@PathVariable String userId,
+    // @RequestParam(defaultValue = "10") int limit) {
+    // return responseService.findResponsesByUserId(userId, limit);
+    // }
+
+    @GetMapping("/{issueId}")
+    public List<Response> getResponses(@RequestHeader(HttpHeaders.AUTHORIZATION) String token,
+            @PathVariable String issueId) {
+        return responseService.getResponses(token, issueId);
     }
 
     @PutMapping("/{responseId}")

@@ -42,6 +42,10 @@ public class ResponseService {
         ObjectId issueID = group.currentIssue().getId();
 
         Issue issue = issueRepository.findById(issueID).get();
+        issue.getResponses().forEach(response -> {
+            if (response.getUser() == user.getId())
+                throw new RuntimeException("User has already responded to this issue");
+        });
         Response newResponse = new Response(dto.getResponse(), user, group);
 
         user.addResponse(newResponse);
@@ -52,6 +56,16 @@ public class ResponseService {
         groupRepository.save(group);
 
         return responseRepository.save(newResponse);
+    }
+
+    public List<Response> getResponses(String token, String issueIdStr) {
+        User user = firebaseService.fetchUser(token);
+        ObjectId issueId = new ObjectId(issueIdStr);
+        Issue issue = issueRepository.findById(issueId).get();
+        if (!user.inGroup(issue.getGroup())) {
+            throw new RuntimeException("User is not in the group");
+        }
+        return issue.getResponses().stream().collect(Collectors.toList());
     }
 
     public List<Response> findResponsesByUserId(String userId, int n) {
