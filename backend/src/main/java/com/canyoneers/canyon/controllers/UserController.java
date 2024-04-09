@@ -1,46 +1,53 @@
 package com.canyoneers.canyon.controllers;
 
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-import com.canyoneers.canyon.models.Group;
-import com.canyoneers.canyon.models.User;
-import com.canyoneers.canyon.repositories.GroupRepository;
-import com.canyoneers.canyon.repositories.UserRepository;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import com.canyoneers.canyon.dto.AuthDto;
+import com.canyoneers.canyon.dto.SignupDto;
+import com.canyoneers.canyon.services.FirebaseService;
+import com.canyoneers.canyon.services.GroupService;
+import com.canyoneers.canyon.services.ResponseService;
+import com.canyoneers.canyon.services.UserService;
 
 @RestController
 @RequestMapping("/users")
 public class UserController {
     @Autowired
-    UserRepository users;
-
+    UserService userService;
     @Autowired
-    GroupRepository groups;
+    GroupService groupService;
+    @Autowired
+    ResponseService responseService;
+    @Autowired
+    FirebaseService firebaseService;
 
-    // TODO: move business logic to services
-
-    // CREATE
-    @PostMapping("/new")
-    public User newUser(@RequestBody String name) {
-        return users.save(new User(name));
+    /**
+     * Sign up for a new account
+     * 
+     * @param dto body should include name, email, and password
+     * @return AuthDto with user token and expiry
+     */
+    @PostMapping
+    public AuthDto newUser(@RequestBody SignupDto dto) {
+        return userService.createUser(dto);
     }
 
-    // UPDATE
-    @PutMapping("join/{groupID}")
-    public Group joinGroup(@PathVariable String groupID, @RequestBody String userID) {
-        Group group = groups.findById(new ObjectId(groupID)).orElse(null);
-        User user = users.findById(new ObjectId(userID)).orElse(null);
-        if (group != null && user != null) {
-            user.joinGroup(group);
-            groups.save(group);
-            users.save(user);
+    /**
+     * Delete a user
+     * 
+     * @param userId
+     * @return
+     */
+    @DeleteMapping
+    public ResponseEntity<?> deleteUser(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
+        token = token.replaceFirst("Bearer ", "");
+        String fId = firebaseService.fetchUserFId(token);
+        if (firebaseService.deleteUser(token) && userService.deleteUser(fId)) {
+            return ResponseEntity.ok().build();
         }
-        return group;
+        return ResponseEntity.internalServerError().build();
     }
 }
