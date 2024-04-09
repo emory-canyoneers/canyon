@@ -27,16 +27,14 @@ public class Group {
 
     public Group() {
         id = new ObjectId();
-        name = "Test Group " + id.toString();
         issueCount = 0;
-
-        owner = null;
         members = new ArrayList<>();
         issues = new ArrayList<>();
     }
 
-    public Group(User owner) {
+    public Group(String name, User owner) {
         this();
+        this.name = name;
         this.owner = owner.getId();
         members.add(this.owner);
     }

@@ -4,6 +4,8 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.canyoneers.canyon.dto.GroupDto;
 import com.canyoneers.canyon.models.Group;
 import com.canyoneers.canyon.models.User;
 import com.canyoneers.canyon.repositories.GroupRepository;
@@ -24,20 +26,18 @@ public class GroupService {
     FirebaseService firebaseService;
 
     @Transactional
-    public List<Object> createGroup(Map<String, String> json) {
-        User user = userRepository.findById(new ObjectId(json.get("userID"))).get();
-
-        if (user == null)
+    public Group createGroup(String token, GroupDto groupDto) {
+        token = token.replaceFirst("Bearer ", "");
+        String fId = firebaseService.fetchUserFId(token);
+        if (fId == null)
             return null;
-
-        Group group = new Group(user);
-        group.setName(json.get("name"));
+        User user = userRepository.findFirstByfId(fId);
+        Group group = new Group(groupDto.getName(), user);
         user.joinGroup(group);
 
         group = groupRepository.save(group);
         user = userRepository.save(user);
-        List<Object> response = List.of(group, user);
-        return response;
+        return group;
     }
 
     public List<Group> getAllGroups() {

@@ -4,9 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import com.canyoneers.canyon.dto.GroupDto;
+import com.canyoneers.canyon.models.Group;
 import com.canyoneers.canyon.services.GroupService;
-import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/groups")
@@ -15,8 +16,9 @@ public class GroupController {
     GroupService groupService;
 
     @PostMapping
-    public List<Object> createGroup(@RequestBody Map<String, String> json) {
-        return groupService.createGroup(json);
+    public Group createGroup(@RequestHeader(HttpHeaders.AUTHORIZATION) String token,
+            @RequestBody GroupDto groupDto) {
+        return groupService.createGroup(token, groupDto);
     }
 
     @PutMapping("/join/{groupID}")
