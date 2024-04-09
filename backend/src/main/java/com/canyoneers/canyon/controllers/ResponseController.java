@@ -9,12 +9,9 @@ import com.canyoneers.canyon.services.ResponseService;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
-import java.util.Map;
 
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,6 +25,13 @@ public class ResponseController {
     @Autowired
     ResponseService responseService;
 
+    /**
+     * Create a response to a group's current issue
+     * 
+     * @param token User authentication token
+     * @param dto   Response info (groupId and response)
+     * @return
+     */
     @PostMapping
     public Response createResponse(@RequestHeader(HttpHeaders.AUTHORIZATION) String token,
             @RequestBody ResponseDto dto) {
@@ -40,17 +44,29 @@ public class ResponseController {
     // return responseService.findResponsesByUserId(userId, limit);
     // }
 
+    /**
+     * Fetch all responses for the specified issue
+     * 
+     * @param token   User authentication token
+     * @param issueId Issue ID
+     * @return List of responses
+     */
     @GetMapping("/{issueId}")
     public List<Response> getResponses(@RequestHeader(HttpHeaders.AUTHORIZATION) String token,
             @PathVariable String issueId) {
         return responseService.getResponses(token, issueId);
     }
 
-    @PutMapping("/{responseId}")
-    public ResponseEntity<Response> editResponse(@PathVariable String responseId,
-            @RequestBody Map<String, String> update) {
-        String newText = update.get("newText");
-        Response updatedResponse = responseService.editResponse(new ObjectId(responseId), newText);
-        return ResponseEntity.ok(updatedResponse);
+    /**
+     * Edit a response
+     * 
+     * @param token User authentication token
+     * @param dto   New response information (responseId, response)
+     * @return Edited response
+     */
+    @PutMapping
+    public Response editResponse(@RequestHeader(HttpHeaders.AUTHORIZATION) String token,
+            @RequestBody ResponseDto dto) {
+        return responseService.editResponse(token, dto);
     }
 }

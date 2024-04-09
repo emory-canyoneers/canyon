@@ -74,14 +74,24 @@ public class ResponseService {
         return responses.stream().limit(n).collect(Collectors.toList());
     }
 
-    public Response editResponse(ObjectId responseId, String newResponse) {
-        Optional<Response> responseOpt = responseRepository.findById(responseId);
-        if (responseOpt.isPresent()) {
-            Response response = responseOpt.get();
-            response.setResponse(newResponse);
-            return responseRepository.save(response);
-        } else {
-            throw new RuntimeException("Response not found with id:" + responseId);
+    // public Response editResponse(ObjectId responseId, String newResponse) {
+    // Optional<Response> responseOpt = responseRepository.findById(responseId);
+    // if (responseOpt.isPresent()) {
+    // Response response = responseOpt.get();
+    // response.setResponse(newResponse);
+    // return responseRepository.save(response);
+    // } else {
+    // throw new RuntimeException("Response not found with id:" + responseId);
+    // }
+    // }
+
+    public Response editResponse(String token, ResponseDto dto) {
+        User user = firebaseService.fetchUser(token);
+        Response response = responseRepository.findById(new ObjectId(dto.getResponseId())).get();
+        if (!response.getUser().equals(user.getId())) {
+            throw new RuntimeException("Not this user's response!");
         }
+        response.setResponse(dto.getResponse());
+        return responseRepository.save(response);
     }
 }
