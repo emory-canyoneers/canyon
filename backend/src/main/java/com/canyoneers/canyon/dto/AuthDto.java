@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 public class AuthDto {
     @JsonIgnore
-    private String userId;
+    private String fId;
     private String token;
     private int expiry;
 }

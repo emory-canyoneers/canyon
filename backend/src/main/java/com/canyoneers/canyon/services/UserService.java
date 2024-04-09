@@ -24,7 +24,7 @@ public class UserService {
 
     public AuthDto createUser(SignupDto dto) {
         AuthDto auth = authService.signup(dto);
-        User user = new User(auth.getUserId(), dto.getName(), dto.getEmail());
+        User user = new User(new ObjectId(), auth.getFId(), dto.getName(), dto.getEmail());
         userRepository.save(user);
         return auth;
     }
@@ -34,12 +34,11 @@ public class UserService {
     }
 
     @Transactional
-    public boolean deleteUser(String userId) {
-        ObjectId id = new ObjectId(userId);
-        if (!userRepository.existsById(id)) {
+    public boolean deleteUser(String fId) {
+        if (!userRepository.existsByfId(fId)) {
             return false;
         }
-        userRepository.deleteById(new ObjectId(userId));
+        userRepository.deleteByfId(fId);
         return true;
     }
 

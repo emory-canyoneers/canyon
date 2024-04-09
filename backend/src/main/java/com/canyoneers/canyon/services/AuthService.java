@@ -13,7 +13,6 @@ import com.canyoneers.canyon.config.APIKeys;
 import com.canyoneers.canyon.dto.AuthDto;
 import com.canyoneers.canyon.dto.LoginDto;
 import com.canyoneers.canyon.dto.SignupDto;
-import com.canyoneers.canyon.repositories.UserRepository;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -21,9 +20,6 @@ import lombok.Data;
 
 @Service
 public class AuthService {
-    @Autowired
-    UserRepository userRepository;
-
     @Autowired
     APIKeys apiKeys;
 
@@ -68,7 +64,7 @@ public class AuthService {
             if (response.statusCode() == 200) {
                 AuthResponse authResponse = objectMapper.readValue(response.body(), AuthResponse.class);
                 AuthDto authDto = new AuthDto();
-                authDto.setUserId(authResponse.localId);
+                authDto.setFId(authResponse.localId);
                 authDto.setToken(authResponse.idToken);
                 authDto.setExpiry(authResponse.expiresIn);
                 return authDto;
@@ -81,7 +77,7 @@ public class AuthService {
         }
     }
 
-    public String fetchUserId(String token) {
+    public String fetchUserFId(String token) {
         try {
             HttpRequest request = HttpRequest.newBuilder().uri(URI.create(lookupUrl + apiKeys.firebaseApiKey))
                     .header("Content-Type", "application/json")
@@ -91,7 +87,7 @@ public class AuthService {
 
             if (response.statusCode() == 200) {
                 LookupResponse lookupResponse = objectMapper.readValue(response.body(), LookupResponse.class);
-                return lookupResponse.users.get(0).getLocalID();
+                return lookupResponse.users.get(0).getLocalId();
             }
 
             return null;
@@ -116,5 +112,5 @@ class LookupResponse {
 
 @Data
 class FirebaseUser {
-    String localID;
+    String localId;
 }

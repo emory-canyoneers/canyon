@@ -2,6 +2,7 @@ package com.canyoneers.canyon.controllers;
 
 import java.util.List;
 
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +12,7 @@ import com.canyoneers.canyon.dto.AuthDto;
 import com.canyoneers.canyon.dto.SignupDto;
 import com.canyoneers.canyon.models.Group;
 import com.canyoneers.canyon.models.Response;
-import com.canyoneers.canyon.models.User;
+import com.canyoneers.canyon.services.AuthService;
 import com.canyoneers.canyon.services.GroupService;
 import com.canyoneers.canyon.services.ResponseService;
 import com.canyoneers.canyon.services.UserService;
@@ -29,6 +30,9 @@ public class UserController {
     @Autowired
     ResponseService responseService;
 
+    @Autowired
+    AuthService authService;
+
     @PostMapping
     /**
      * Sign up for a new account
@@ -43,7 +47,7 @@ public class UserController {
     @PutMapping("/join/{groupID}")
     public boolean joinGroup(@RequestHeader(HttpHeaders.AUTHORIZATION) String token, @PathVariable String groupID,
             @RequestBody String userID) {
-        System.out.println(token.replace("Bearer ", ""));
+        System.out.println(token.replaceFirst("Bearer ", ""));
         return userService.addUserToGroup(userID, groupID);
     }
 
@@ -58,9 +62,16 @@ public class UserController {
         return responseService.findResponsesByUserId(userId, n);
     }
 
-    @DeleteMapping("/{userId}")
-    public ResponseEntity<?> deleteUser(@PathVariable String userId) {
-        boolean success = userService.deleteUser(userId);
+    /**
+     * Delete a user
+     * 
+     * @param userId
+     * @return
+     */
+    @DeleteMapping()
+    public ResponseEntity<?> deleteUser(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
+        String fId = authService.fetchUserFId(token.replaceFirst("Bearer ", ""));
+        boolean success = userService.deleteUser(fId);
         if (!success) {
             return ResponseEntity.notFound().build();
         }

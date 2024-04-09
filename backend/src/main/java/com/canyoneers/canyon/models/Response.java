@@ -13,7 +13,7 @@ public class Response {
     private ObjectId id;
     private String response;
 
-    private String user;
+    private ObjectId user;
     private ObjectId group;
     private ObjectId issue;
 

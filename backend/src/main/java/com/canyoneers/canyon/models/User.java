@@ -15,7 +15,8 @@ import lombok.Data;
 @Data
 public class User {
     @Id
-    private String id; // instead of ObjectId, uses Firebase localID
+    private ObjectId id;
+    private String fId; // firebase id
     private String name;
     private String email;
     // private String number;
@@ -34,9 +35,10 @@ public class User {
         responses = new ArrayList<>();
     }
 
-    public User(String id, String name, String email) {
+    public User(ObjectId id, String fId, String name, String email) {
         this();
         this.id = id;
+        this.fId = fId;
         this.name = name;
         this.email = email;
     }
