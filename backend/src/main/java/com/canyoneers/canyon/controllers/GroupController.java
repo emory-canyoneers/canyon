@@ -21,17 +21,14 @@ public class GroupController {
         return groupService.createGroup(token, groupDto);
     }
 
-    @PutMapping("/join/{groupID}")
-    public boolean joinGroup(@RequestHeader(HttpHeaders.AUTHORIZATION) String token, @PathVariable String groupID) {
-        return groupService.addUserToGroup(token, groupID) != null;
+    @PutMapping("/{groupId}")
+    public Group joinGroup(@RequestHeader(HttpHeaders.AUTHORIZATION) String token, @PathVariable String groupId) {
+        return groupService.addUserToGroup(token, groupId);
     }
 
     @DeleteMapping("/{groupId}")
-    public ResponseEntity<?> deleteGroup(@PathVariable String groupId) {
-        boolean success = groupService.deleteGroup(groupId);
-        if (!success) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok().build();
+    public ResponseEntity<?> deleteGroup(@RequestHeader(HttpHeaders.AUTHORIZATION) String token,
+            @PathVariable String groupId) {
+        return groupService.deleteGroup(token, groupId);
     }
 }

@@ -2,6 +2,9 @@ package com.canyoneers.canyon.services;
 
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -56,13 +59,21 @@ public class GroupService {
     }
 
     @Transactional
-    public boolean deleteGroup(String groupId) {
+    public ResponseEntity<?> deleteGroup(String token, String groupId) {
+        token = token.replaceFirst("Bearer ", "");
+        String fId = firebaseService.fetchUserFId(token);
+        if (fId == null)
+            return null;
+        User user = userRepository.findFirstByfId(fId);
+
         ObjectId id = new ObjectId(groupId);
-        if (!groupRepository.existsById(id)) {
-            return false;
+        Group group = groupRepository.findById(id).get();
+
+        if (group == null || !group.getOwner().equals(user.getId())) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
-        groupRepository.deleteById(new ObjectId(groupId));
-        return true;
+        groupRepository.deleteById(id);
+        return ResponseEntity.ok().build();
     }
 
     @Transactional
