@@ -6,8 +6,10 @@ import java.util.List;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
-//import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import com.canyoneers.canyon.config.ObjectIdSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import lombok.Data;
 
@@ -15,20 +17,14 @@ import lombok.Data;
 @Data
 public class User {
     @Id
+    @JsonSerialize(using = ObjectIdSerializer.class)
     private ObjectId id;
     private String fId; // firebase id
     private String name;
     private String email;
-    // private String number;
-    // TODO: add user configurations here
-
     private List<ObjectId> groups;
-    // private List<ObjectId> friends;
     @DBRef
     private List<Response> responses;
-
-    // joining/leaving groups dealt with in business layer, just make sure groups is
-    // updated respectively
 
     public User() { // boilerplate constructor
         groups = new ArrayList<>();
@@ -42,14 +38,6 @@ public class User {
         this.name = name;
         this.email = email;
     }
-
-    // public boolean addFriend(ObjectId friendId) {
-    // return friends.add(friendId);
-    // }
-
-    // public boolean removeFriend(ObjectId friendId) {
-    // return friends.remove(friendId);
-    // }
 
     public Response addResponse(Response response) {
         if (responses.add(response)) {

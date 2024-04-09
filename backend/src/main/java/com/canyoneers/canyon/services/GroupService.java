@@ -12,7 +12,6 @@ import com.canyoneers.canyon.repositories.GroupRepository;
 import com.canyoneers.canyon.repositories.UserRepository;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 

@@ -9,18 +9,23 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.canyoneers.canyon.config.ObjectIdSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import lombok.Data;
 
 @Document("issues")
 @Data
 public class Issue {
     @Id
+    @JsonSerialize(using = ObjectIdSerializer.class)
     private ObjectId id;
     private int issueNumber;
     // potentially issue name? or should it just be question?
     private LocalDate date; // can just be week number? may need tweaking depending on final model
     private String question;
 
+    @JsonSerialize(using = ObjectIdSerializer.class)
     private ObjectId group;
     @DBRef
     private List<Response> responses;

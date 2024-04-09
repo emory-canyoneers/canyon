@@ -8,19 +8,26 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.canyoneers.canyon.config.ObjectIdListSerializer;
+import com.canyoneers.canyon.config.ObjectIdSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import lombok.Data;
 
 @Document("groups")
 @Data
 public class Group {
     @Id
+    @JsonSerialize(using = ObjectIdSerializer.class)
     private ObjectId id;
     private String name;
     private int issueCount;
     // TODO: add group configurations here
     // TODO: issue time and frequency
 
+    @JsonSerialize(using = ObjectIdSerializer.class)
     private ObjectId owner;
+    @JsonSerialize(using = ObjectIdListSerializer.class)
     private List<ObjectId> members; // including owner
     @DBRef
     private List<Issue> issues; // issues are stored in time order
