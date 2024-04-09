@@ -37,9 +37,9 @@ public class IssueService {
         return issues.save(issue);
     }
 
-    public List<Issue> getIssues(String token, GroupDto dto, int limit) {
+    public List<Issue> getIssues(String token, String groupIdStr, int limit) {
         User user = firebaseService.fetchUser(token);
-        ObjectId groupId = new ObjectId(dto.getGroupId());
+        ObjectId groupId = new ObjectId(groupIdStr);
         if (!user.inGroup(groupId)) {
             throw new RuntimeException("User is not in the group");
         }
