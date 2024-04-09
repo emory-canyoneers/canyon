@@ -76,21 +76,12 @@ public class Group {
         return members;
     }
 
-    public Issue newIssue() {
-        Issue issue = new Issue(this, "How are you doing today? (test)");
-        if (issues.add(issue))
-            return issue;
-        else {
-            issueCount--;
-            return null;
-        }
-    }
-
     public Issue newIssue(String question) {
+        issueCount++;
         Issue issue = new Issue(this, question);
-        if (issues.add(issue))
+        if (issues.add(issue)) {
             return issue;
-        else {
+        } else {
             issueCount--;
             return null;
         }
