@@ -38,12 +38,6 @@ public class UserController {
         return userService.createUser(dto);
     }
 
-    @GetMapping("/{userId}/responses")
-    public List<Response> getUserResponses(@PathVariable String userId,
-            @RequestParam(defaultValue = "10") int limit) {
-        return responseService.findResponsesByUserId(userId, limit);
-    }
-
     /**
      * Delete a user
      * 

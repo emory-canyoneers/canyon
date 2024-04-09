@@ -13,6 +13,8 @@ import com.canyoneers.canyon.config.APIKeys;
 import com.canyoneers.canyon.dto.AuthDto;
 import com.canyoneers.canyon.dto.LoginDto;
 import com.canyoneers.canyon.dto.SignupDto;
+import com.canyoneers.canyon.models.User;
+import com.canyoneers.canyon.repositories.UserRepository;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -22,6 +24,8 @@ import lombok.Data;
 public class FirebaseService {
     @Autowired
     APIKeys apiKeys;
+    @Autowired
+    UserRepository userRepository;
 
     final ObjectMapper objectMapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,
             false);
@@ -87,6 +91,14 @@ public class FirebaseService {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public User fetchUser(String token) {
+        token = token.replaceFirst("Bearer ", "");
+        String fId = fetchUserFId(token);
+        if (fId == null)
+            return null;
+        return userRepository.findFirstByfId(fId);
     }
 
     public boolean deleteUser(String token) {

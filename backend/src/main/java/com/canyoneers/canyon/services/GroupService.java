@@ -30,11 +30,7 @@ public class GroupService {
 
     @Transactional
     public Group createGroup(String token, GroupDto groupDto) {
-        token = token.replaceFirst("Bearer ", "");
-        String fId = firebaseService.fetchUserFId(token);
-        if (fId == null)
-            return null;
-        User user = userRepository.findFirstByfId(fId);
+        User user = firebaseService.fetchUser(token);
         Group group = new Group(groupDto.getName(), user);
         user.joinGroup(group);
 
@@ -61,11 +57,7 @@ public class GroupService {
 
     @Transactional
     public ResponseEntity<?> deleteGroup(String token, String groupId) {
-        token = token.replaceFirst("Bearer ", "");
-        String fId = firebaseService.fetchUserFId(token);
-        if (fId == null)
-            return null;
-        User user = userRepository.findFirstByfId(fId);
+        User user = firebaseService.fetchUser(token);
 
         ObjectId id = new ObjectId(groupId);
         Group group = groupRepository.findById(id).get();
@@ -79,11 +71,7 @@ public class GroupService {
 
     @Transactional
     public Group addUserToGroup(String token, String groupId) {
-        token = token.replaceFirst("Bearer ", "");
-        String fId = firebaseService.fetchUserFId(token);
-        if (fId == null)
-            return null;
-        User user = userRepository.findFirstByfId(fId);
+        User user = firebaseService.fetchUser(token);
 
         Group group = groupRepository.findById(new ObjectId(groupId)).get();
         if (group == null)
@@ -113,11 +101,7 @@ public class GroupService {
     }
 
     public List<Group> findGroupsByUserId(String token, int limit) {
-        token = token.replaceFirst("Bearer ", "");
-        String fId = firebaseService.fetchUserFId(token);
-        if (fId == null)
-            return null;
-        User user = userRepository.findFirstByfId(fId);
+        User user = firebaseService.fetchUser(token);
 
         List<Group> groups = new ArrayList<>();
         for (ObjectId groupId : user.getGroups()) {

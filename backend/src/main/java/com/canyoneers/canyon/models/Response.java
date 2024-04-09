@@ -28,7 +28,6 @@ public class Response {
 
     public Response() { // boilerplate constructor
         id = new ObjectId();
-        response = "This is test response " + id.toString();
     }
 
     public Response(String response, User user, Group group) {
