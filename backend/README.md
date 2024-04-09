@@ -19,7 +19,7 @@ All fields are strings unless otherwise specified.
   - returns: `{"token", "expiry"}`
 
 - **The return token must be stored securely and passed with each authenticated request as an authentication header!**
-- To include authentication, create the `Authentication`, `Bearer <token>` key, value pair in the header (remove the brackets around token but include `Bearer `)
+- To include authentication, create the `Authorization`, `Bearer <token>` key, value pair in the header (remove the brackets around token but include `Bearer `)
 
 ## User Endpoints
 
