@@ -2,7 +2,6 @@ package com.canyoneers.canyon.controllers;
 
 import java.util.List;
 
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -10,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 
 import com.canyoneers.canyon.dto.AuthDto;
 import com.canyoneers.canyon.dto.SignupDto;
-import com.canyoneers.canyon.models.Group;
 import com.canyoneers.canyon.models.Response;
 import com.canyoneers.canyon.services.FirebaseService;
 import com.canyoneers.canyon.services.GroupService;
@@ -40,15 +38,10 @@ public class UserController {
         return userService.createUser(dto);
     }
 
-    @GetMapping("/{userId}/groups")
-    public List<Group> getUserGroups(@PathVariable String userId, @RequestParam(defaultValue = "10") int n) {
-        return groupService.findGroupsByUserId(userId, n);
-    }
-
     @GetMapping("/{userId}/responses")
     public List<Response> getUserResponses(@PathVariable String userId,
-            @RequestParam(defaultValue = "10") int n) {
-        return responseService.findResponsesByUserId(userId, n);
+            @RequestParam(defaultValue = "10") int limit) {
+        return responseService.findResponsesByUserId(userId, limit);
     }
 
     /**

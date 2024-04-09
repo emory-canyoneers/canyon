@@ -14,6 +14,7 @@ import com.canyoneers.canyon.models.User;
 import com.canyoneers.canyon.repositories.GroupRepository;
 import com.canyoneers.canyon.repositories.UserRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -111,9 +112,21 @@ public class GroupService {
         return null;
     }
 
-    public List<Group> findGroupsByUserId(String userId, int n) {
-        ObjectId userObjectId = new ObjectId(userId);
-        List<Group> groups = groupRepository.findByMembersContains(userObjectId);
-        return groups.stream().limit(n).collect(Collectors.toList());
+    public List<Group> findGroupsByUserId(String token, int limit) {
+        token = token.replaceFirst("Bearer ", "");
+        String fId = firebaseService.fetchUserFId(token);
+        if (fId == null)
+            return null;
+        User user = userRepository.findFirstByfId(fId);
+
+        List<Group> groups = new ArrayList<>();
+        for (ObjectId groupId : user.getGroups()) {
+            Optional<Group> groupOptional = groupRepository.findById(groupId);
+            if (groupOptional.isPresent()) {
+                groups.add(groupOptional.get());
+            }
+        }
+
+        return groups.stream().limit(limit).collect(Collectors.toList());
     }
 }
