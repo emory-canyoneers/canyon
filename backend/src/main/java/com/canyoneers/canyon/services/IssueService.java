@@ -7,7 +7,6 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.canyoneers.canyon.dto.GroupDto;
 import com.canyoneers.canyon.dto.IssueDto;
 import com.canyoneers.canyon.models.Group;
 import com.canyoneers.canyon.models.Issue;
