@@ -1,7 +1,6 @@
 package com.canyoneers.canyon.services;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -9,6 +8,7 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.canyoneers.canyon.dto.ResponseDto;
 import com.canyoneers.canyon.models.Group;
 import com.canyoneers.canyon.models.Issue;
 import com.canyoneers.canyon.models.Response;
@@ -21,36 +21,37 @@ import com.canyoneers.canyon.repositories.UserRepository;
 @Service
 public class ResponseService {
     @Autowired
-    UserRepository users;
+    UserRepository userRepository;
     @Autowired
-    IssueRepository issues;
+    IssueRepository issueRepository;
     @Autowired
-    ResponseRepository responses;
-    @Autowired
-    GroupRepository groups;
-
+    GroupRepository groupRepository;
     @Autowired
     ResponseRepository responseRepository;
 
-    public Response createResponse(Map<String, String> json) {
-        User user = users.findById(new ObjectId(json.get("userID"))).get();
-        Group group = groups.findById(new ObjectId(json.get("groupID"))).get();
+    @Autowired
+    FirebaseService firebaseService;
+
+    public Response createResponse(String token, ResponseDto dto) {
+        User user = firebaseService.fetchUser(token);
+        ObjectId groupId = new ObjectId(dto.getGroupId());
+        if (user.inGroup(groupId)) {
+            throw new RuntimeException("User is not in the group");
+        }
+        Group group = groupRepository.findById(groupId).get();
         ObjectId issueID = group.currentIssue().getId();
 
-        if (issueID == null)
-            return null;
-
-        Issue issue = issues.findById(issueID).get();
-        Response newResponse = new Response(json.get("response"), user, group);
+        Issue issue = issueRepository.findById(issueID).get();
+        Response newResponse = new Response(dto.getResponse(), user, group);
 
         user.addResponse(newResponse);
         issue.addResponse(newResponse);
 
-        users.save(user);
-        issues.save(issue);
-        groups.save(group);
+        userRepository.save(user);
+        issueRepository.save(issue);
+        groupRepository.save(group);
 
-        return responses.save(newResponse);
+        return responseRepository.save(newResponse);
     }
 
     public List<Response> findResponsesByUserId(String userId, int n) {
@@ -59,13 +60,13 @@ public class ResponseService {
         return responses.stream().limit(n).collect(Collectors.toList());
     }
 
-    public Response editResponse(ObjectId responseId, String newResponse){
+    public Response editResponse(ObjectId responseId, String newResponse) {
         Optional<Response> responseOpt = responseRepository.findById(responseId);
-        if(responseOpt.isPresent()){
+        if (responseOpt.isPresent()) {
             Response response = responseOpt.get();
             response.setResponse(newResponse);
             return responseRepository.save(response);
-        }else{
+        } else {
             throw new RuntimeException("Response not found with id:" + responseId);
         }
     }

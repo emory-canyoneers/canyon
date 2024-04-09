@@ -10,17 +10,20 @@ import org.springframework.web.bind.annotation.*;
 import com.canyoneers.canyon.dto.GroupDto;
 import com.canyoneers.canyon.models.Group;
 import com.canyoneers.canyon.services.GroupService;
+import com.canyoneers.canyon.services.ResponseService;
 
 @RestController
 @RequestMapping("/groups")
 public class GroupController {
     @Autowired
     GroupService groupService;
+    @Autowired
+    ResponseService responseService;
 
     @PostMapping
     public Group createGroup(@RequestHeader(HttpHeaders.AUTHORIZATION) String token,
-            @RequestBody GroupDto groupDto) {
-        return groupService.createGroup(token, groupDto);
+            @RequestBody GroupDto dto) {
+        return groupService.createGroup(token, dto);
     }
 
     @GetMapping

@@ -62,6 +62,10 @@ public class User {
             return null;
     }
 
+    public boolean inGroup(ObjectId group) {
+        return groups.contains(group);
+    }
+
     public boolean leaveGroup(Group group) {
         if (groups.remove(group.getId())) {
             group.removeMember(this);

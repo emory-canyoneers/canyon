@@ -2,6 +2,7 @@ package com.canyoneers.canyon.controllers;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import com.canyoneers.canyon.dto.ResponseDto;
 import com.canyoneers.canyon.models.Response;
 import com.canyoneers.canyon.services.ResponseService;
 
@@ -28,7 +29,13 @@ public class ResponseController {
     @Autowired
     ResponseService responseService;
 
-    @GetMapping("/{userId}/responses")
+    @PostMapping
+    public Response createResponse(@RequestHeader(HttpHeaders.AUTHORIZATION) String token,
+            @RequestBody ResponseDto dto) {
+        return responseService.createResponse(token, dto);
+    }
+
+    @GetMapping("/{userId}")
     public List<Response> getUserResponses(@PathVariable String userId,
             @RequestParam(defaultValue = "10") int limit) {
         return responseService.findResponsesByUserId(userId, limit);

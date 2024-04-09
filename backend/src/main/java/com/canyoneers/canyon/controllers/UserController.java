@@ -1,7 +1,5 @@
 package com.canyoneers.canyon.controllers;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -9,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 
 import com.canyoneers.canyon.dto.AuthDto;
 import com.canyoneers.canyon.dto.SignupDto;
-import com.canyoneers.canyon.models.Response;
 import com.canyoneers.canyon.services.FirebaseService;
 import com.canyoneers.canyon.services.GroupService;
 import com.canyoneers.canyon.services.ResponseService;
