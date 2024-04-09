@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class IssueDto {
-    String groupID;
+    String groupId;
     String question;
 }

@@ -35,7 +35,7 @@ public class ResponseService {
     public Response createResponse(String token, ResponseDto dto) {
         User user = firebaseService.fetchUser(token);
         ObjectId groupId = new ObjectId(dto.getGroupId());
-        if (user.inGroup(groupId)) {
+        if (!user.inGroup(groupId)) {
             throw new RuntimeException("User is not in the group");
         }
         Group group = groupRepository.findById(groupId).get();
