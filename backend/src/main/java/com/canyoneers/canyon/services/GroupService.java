@@ -17,9 +17,11 @@ import java.util.stream.Collectors;
 @Service
 public class GroupService {
     @Autowired
-    private GroupRepository groupRepository;
+    GroupRepository groupRepository;
     @Autowired
-    private UserRepository userRepository;
+    UserRepository userRepository;
+    @Autowired
+    FirebaseService firebaseService;
 
     @Transactional
     public List<Object> createGroup(Map<String, String> json) {
@@ -57,7 +59,7 @@ public class GroupService {
     @Transactional
     public boolean deleteGroup(String groupId) {
         ObjectId id = new ObjectId(groupId);
-        if(!groupRepository.existsById(id)){
+        if (!groupRepository.existsById(id)) {
             return false;
         }
         groupRepository.deleteById(new ObjectId(groupId));
@@ -65,19 +67,22 @@ public class GroupService {
     }
 
     @Transactional
-    public Group addUserToGroup(String groupId, String userId) {
-        Optional<Group> groupOptional = groupRepository.findById(new ObjectId(groupId));
-        Optional<User> userOptional = userRepository.findById(new ObjectId(userId));
-        if (groupOptional.isPresent() && userOptional.isPresent()) {
-            Group group = groupOptional.get();
-            User user = userOptional.get();
+    public Group addUserToGroup(String token, String groupId) {
+        token = token.replaceFirst("Bearer ", "");
+        String fId = firebaseService.fetchUserFId(token);
+        if (fId == null)
+            return null;
+        User user = userRepository.findFirstByfId(fId);
 
-            user.joinGroup(group);
-            userRepository.save(user);
+        Group group = groupRepository.findById(new ObjectId(groupId)).get();
+        if (group == null)
+            return null;
 
-            return group;
-        }
-        return null;
+        group = user.joinGroup(group);
+        userRepository.save(user);
+        groupRepository.save(group);
+
+        return group;
     }
 
     @Transactional
@@ -96,7 +101,7 @@ public class GroupService {
         return null;
     }
 
-    public List<Group> findGroupsByUserId(String userId, int n){
+    public List<Group> findGroupsByUserId(String userId, int n) {
         ObjectId userObjectId = new ObjectId(userId);
         List<Group> groups = groupRepository.findByMembersContains(userObjectId);
         return groups.stream().limit(n).collect(Collectors.toList());

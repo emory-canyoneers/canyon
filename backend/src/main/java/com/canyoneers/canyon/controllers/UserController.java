@@ -20,35 +20,24 @@ import com.canyoneers.canyon.services.UserService;
 @RestController
 @RequestMapping("/users")
 public class UserController {
-
     @Autowired
     UserService userService;
-
     @Autowired
     GroupService groupService;
-
     @Autowired
     ResponseService responseService;
-
     @Autowired
     FirebaseService firebaseService;
 
-    @PostMapping
     /**
      * Sign up for a new account
      * 
      * @param dto body should include name, email, and password
      * @return AuthDto with user token and expiry
      */
+    @PostMapping
     public AuthDto newUser(@RequestBody SignupDto dto) {
         return userService.createUser(dto);
-    }
-
-    @PutMapping("/join/{groupID}")
-    public boolean joinGroup(@RequestHeader(HttpHeaders.AUTHORIZATION) String token, @PathVariable String groupID,
-            @RequestBody String userID) {
-        System.out.println(token.replaceFirst("Bearer ", ""));
-        return userService.addUserToGroup(userID, groupID);
     }
 
     @GetMapping("/{userId}/groups")

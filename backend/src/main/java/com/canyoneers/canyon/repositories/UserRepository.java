@@ -14,4 +14,6 @@ public interface UserRepository extends MongoRepository<User, ObjectId> {
     public boolean existsByfId(String fId);
 
     public void deleteByfId(String fId);
+
+    public User findFirstByfId(String fId);
 }

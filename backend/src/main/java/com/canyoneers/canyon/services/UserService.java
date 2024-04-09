@@ -29,10 +29,6 @@ public class UserService {
         return auth;
     }
 
-    public boolean addUserToGroup(String userId, String groupId) {
-        return groupService.addUserToGroup(groupId, userId) != null;
-    }
-
     @Transactional
     public boolean deleteUser(String fId) {
         if (!userRepository.existsByfId(fId)) {
