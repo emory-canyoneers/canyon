@@ -12,7 +12,7 @@ import com.canyoneers.canyon.dto.AuthDto;
 import com.canyoneers.canyon.dto.SignupDto;
 import com.canyoneers.canyon.models.Group;
 import com.canyoneers.canyon.models.Response;
-import com.canyoneers.canyon.services.AuthService;
+import com.canyoneers.canyon.services.FirebaseService;
 import com.canyoneers.canyon.services.GroupService;
 import com.canyoneers.canyon.services.ResponseService;
 import com.canyoneers.canyon.services.UserService;
@@ -31,7 +31,7 @@ public class UserController {
     ResponseService responseService;
 
     @Autowired
-    AuthService authService;
+    FirebaseService firebaseService;
 
     @PostMapping
     /**
@@ -68,13 +68,13 @@ public class UserController {
      * @param userId
      * @return
      */
-    @DeleteMapping()
+    @DeleteMapping
     public ResponseEntity<?> deleteUser(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
-        String fId = authService.fetchUserFId(token.replaceFirst("Bearer ", ""));
-        boolean success = userService.deleteUser(fId);
-        if (!success) {
-            return ResponseEntity.notFound().build();
+        token = token.replaceFirst("Bearer ", "");
+        String fId = firebaseService.fetchUserFId(token);
+        if (firebaseService.deleteUser(token) && userService.deleteUser(fId)) {
+            return ResponseEntity.ok().build();
         }
-        return ResponseEntity.ok().build();
+        return ResponseEntity.internalServerError().build();
     }
 }

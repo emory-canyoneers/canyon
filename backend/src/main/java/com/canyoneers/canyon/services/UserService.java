@@ -20,10 +20,10 @@ public class UserService {
     GroupService groupService;
 
     @Autowired
-    AuthService authService;
+    FirebaseService firebaseService;
 
     public AuthDto createUser(SignupDto dto) {
-        AuthDto auth = authService.signup(dto);
+        AuthDto auth = firebaseService.signup(dto);
         User user = new User(new ObjectId(), auth.getFId(), dto.getName(), dto.getEmail());
         userRepository.save(user);
         return auth;

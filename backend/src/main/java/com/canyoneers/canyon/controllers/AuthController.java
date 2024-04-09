@@ -10,17 +10,17 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.canyoneers.canyon.dto.AuthDto;
 import com.canyoneers.canyon.dto.LoginDto;
-import com.canyoneers.canyon.services.AuthService;
+import com.canyoneers.canyon.services.FirebaseService;
 
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
     @Autowired
-    AuthService authService;
+    FirebaseService firebaseService;
 
     @PostMapping
     public ResponseEntity<AuthDto> login(@RequestBody LoginDto login) {
-        AuthDto response = authService.login(login);
+        AuthDto response = firebaseService.login(login);
         if (response == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
