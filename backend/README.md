@@ -2,6 +2,13 @@
 
 All fields are strings unless otherwise specified.
 
+Example cURL call:
+
+```bash
+curl 'joincanyon.org/users' -X POST -H 'Content-Type: application/json' \
+--data-binary '{"email": "<email here>", "name": "<name here>", "password": "<password here>"}'
+```
+
 ## Auth/User Endpoints
 
 **All Other Endpoints Are Authenticated Unless Otherwise Specified!**
