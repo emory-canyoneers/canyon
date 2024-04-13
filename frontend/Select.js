@@ -18,9 +18,7 @@ const questionsData = require("./Questions.json");
 
 export default Select = () => {
   const [data, setData] = React.useState(questionsData);
-  const [selectedQuestions, setSelectedQuestions] = React.useState([
-    // { id: 1, key: "What is your earliest memory?" },
-  ]);
+  const [selectedQuestions, setSelectedQuestions] = React.useState([]);
 
   useEffect(() => {
     getDataFromBackend();
@@ -133,7 +131,7 @@ export default Select = () => {
       <Text style={[styles.textStyle, { paddingTop: 70 }]}>
         Julia, it's your turn! 🎉 🙌
       </Text>
-      <Text style={styles.subTextStyle}> Pick this week's questions!</Text>
+      <Text style={styles.subTextStyle}> Pick a question for this week!</Text>
       {this.renderQuestions()}
       <Modal questions={selectedQuestions} />
     </ScrollView>

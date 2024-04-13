@@ -26,16 +26,17 @@ export const Modal = ({ questions }) => {
     if (showDate) {
       var listOfQuestions = "";
       let count = 1;
-      Object.keys(questions).map(function (id) {
-        listOfQuestions += "\n" + count + ". " + questions[id].key;
-        count++;
-      });
+      // Object.keys(questions).map(function (id) {
+      //   listOfQuestions += "\n" + count + ". " + questions[id].key;
+      //   count++;
+      // });
+      questions = questions[id].key;
     }
     try {
       const result = await Share.share({
         title: "QOTWs",
         url: "https://reactnative.dev/docs/share?language=javascript",
-        message: `${listOfQuestions}`,
+        message: `${questions}`,
       });
       if (result.action === Share.sharedAction) {
         if (result.activityType) {
@@ -49,6 +50,37 @@ export const Modal = ({ questions }) => {
     } catch (error) {
       Alert.alert(error.message);
     }
+  };
+
+  const createNewIssue = async () => {
+    const url = "http://joincanyon.org/issues";
+    const options = {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json;charset=UTF-8",
+        Authorization:
+          "Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6ImYyOThjZDA3NTlkOGNmN2JjZTZhZWNhODExNmU4ZjYzMDlhNDQwMjAiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vY2FueW9uLTUyZDY2IiwiYXVkIjoiY2FueW9uLTUyZDY2IiwiYXV0aF90aW1lIjoxNzEzMDI4NzQ2LCJ1c2VyX2lkIjoiZzIzS01kZXJHOVVjZ2QySWhYbkhFMTBUeVBVMiIsInN1YiI6ImcyM0tNZGVyRzlVY2dkMkloWG5IRTEwVHlQVTIiLCJpYXQiOjE3MTMwMjg3NDYsImV4cCI6MTcxMzAzMjM0NiwiZW1haWwiOiJhbmRyZXdsdWx1MjAxMkBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsiYW5kcmV3bHVsdTIwMTJAZ21haWwuY29tIl19LCJzaWduX2luX3Byb3ZpZGVyIjoicGFzc3dvcmQifX0.O6MsDbPxzOhNsc0bjurJEysb_7I-8_qDXYqkTFImCF3a_KfXr-r9aT_2xQPgMk1zupaV_bOK0MfEMvVcWKVPuKxz_cBRGVC6jYa9JTpXFiSjEMWsOGkqNhBxOCH6jR0VMe88lmwvakVltt5m8UPu4i8aXKmeSif8E7Qo6XZ1YkXvcAbUEkuhdWZaVgRWntGYiBqlrZqU0ooAmS506qPYInwse3dWeqC99lDYxIIrDIfcu5UYd55SNEhFf6-VH7h1G3tFkW7yWZpw2ZV2GpfUoKCA9gxZxyZHezJaolJyNoFe_oE8tF15VULT7kD6nR21muRDdYXbx6-Tu6LnLdtWyA",
+      },
+      body: JSON.stringify({
+        groupId: "661ac1decbda68552adf9290",
+        question: questions[0].key,
+      }),
+    };
+    fetch(url, options)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("data.question" + data.question);
+        console.log("data.id" + data.id);
+      })
+      .catch((e) => {
+        console.error(e);
+      });
   };
 
   const onChange = (event, selectedDate) => {
@@ -113,6 +145,17 @@ export const Modal = ({ questions }) => {
       </View>
       <Pressable
         style={[
+          styles.sched1,
+          showDate
+            ? { backgroundColor: "#B6D0E2" }
+            : { backgroundColor: "#e8e8e8" },
+        ]}
+        onPress={createNewIssue}
+      >
+        <Text style={{ textAlign: "center" }}>Create New Issue</Text>
+      </Pressable>
+      <Pressable
+        style={[
           styles.sched,
           showDate
             ? { backgroundColor: "#B6D0E2" }
@@ -120,7 +163,7 @@ export const Modal = ({ questions }) => {
         ]}
         onPress={onShare}
       >
-        <Text style={{ textAlign: "center" }}>Schedule</Text>
+        <Text style={{ textAlign: "center" }}>Send Text Reminder </Text>
       </Pressable>
     </SafeAreaView>
   );
@@ -141,6 +184,15 @@ const styles = {
     color: "white",
   },
   sched: {
+    width: 370,
+    padding: 10,
+    color: "black",
+    borderRadius: 8,
+    marginLeft: "auto",
+    marginRight: "auto",
+    marginBottom: 20,
+  },
+  sched1: {
     width: 370,
     padding: 10,
     color: "black",
