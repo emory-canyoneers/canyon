@@ -18,6 +18,7 @@ export default function Submitted({ data, textInputs, onChangeText }) {
               onChangeText={(newText) => onChangeText(item.id, newText)}
               value={textInputs[item.id]}
               placeholder="Enter answer here"
+              placeholderTextColor="#6C6E77"
               editable={!onEdit ? false : true}
             />
           </View>
@@ -43,22 +44,28 @@ const styles = {
     paddingBottom: 10,
     paddingLeft: 10,
     fontSize: 19,
+    color: "#FFFFFF",
   },
   sub: {
     paddingBottom: 10,
     paddingLeft: 10,
     fontSize: 16,
+    color: "#6C6E77",
   },
   options: {
     marginRight: 10,
     marginTop: 10,
     marginLeft: 10,
     fontSize: 15,
+    color: "#FFFFFF",
   },
   input: {
     height: 35,
     margin: 12,
     borderRadius: 4,
+    // backgroundColor: "#1E2029",
+    color: "#FFFFFF",
+    // padding: 10,
   },
   sched: {
     padding: 10,
@@ -76,12 +83,14 @@ const styles = {
     paddingBottom: 20,
     paddingLeft: 10,
     fontSize: 18,
+    color: "white",
   },
   editable: {
     height: 35,
     margin: 12,
     padding: 10,
     borderRadius: 4,
-    backgroundColor: "#E5E4E2",
+    backgroundColor: "#1E2029",
+    color: "#FFFFFF",
   },
 };

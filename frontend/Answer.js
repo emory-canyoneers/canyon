@@ -31,7 +31,7 @@ export default Answer = () => {
   };
 
   return (
-    <View>
+    <View style={styles.container}>
       {submitClicked ? (
         <Submitted
           data={data}
@@ -51,6 +51,7 @@ export default Answer = () => {
                   onChangeText={(newText) => onChangeText(item.id, newText)}
                   value={textInputs[item.id]}
                   placeholder="Enter answer here"
+                  placeholderTextColor="#6C6E77" 
                 />
               </View>
             ))}
@@ -64,30 +65,38 @@ export default Answer = () => {
 };
 
 const styles = {
+  container: {
+    backgroundColor: "#121418",
+    flex: 1,
+  },
   textStyle: {
     fontWeight: "bold",
     paddingTop: 70,
     paddingBottom: 10,
     paddingLeft: 10,
     fontSize: 19,
+    color: "#FFFFFF",
   },
   sub: {
     paddingBottom: 10,
     paddingLeft: 10,
     fontSize: 16,
+    color: "#6C6E77",
   },
   options: {
     marginRight: 10,
     marginTop: 10,
     marginLeft: 10,
     fontSize: 15,
+    color: "#FFFFFF",
   },
   input: {
     height: 35,
     margin: 12,
     padding: 10,
     borderRadius: 4,
-    backgroundColor: "#E5E4E2",
+    backgroundColor: "#1E2029",
+    color: "#FFFFFF",
   },
   sched: {
     padding: 10,
@@ -105,5 +114,6 @@ const styles = {
     paddingBottom: 20,
     paddingLeft: 10,
     fontSize: 18,
+    color: "white",
   },
 };

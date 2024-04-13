@@ -22,7 +22,7 @@ export default function App() {
     );
   }
   return (
-    <NavigationContainer>
+    <NavigationContainer style={styles.appContainer}>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Home" component={Home} />
         {/* <Stack.Screen name="Submitted" component={Submitted} /> */}
@@ -34,8 +34,8 @@ export default function App() {
 const styles = StyleSheet.create({
   appContainer: {
     // flex: 1,
-    backgroundColor: "#fff",
     alignItems: "center",
+    backgroundColor: "#1E2029",
     // justifyContent: 'center',
   },
 });

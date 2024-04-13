@@ -84,7 +84,7 @@ export const Modal = ({ questions }) => {
       <View style={{ flexDirection: "row" }}>
         <Pressable
           onPress={showDatepicker}
-          style={[styles.date, { marginLeft: 35 }]}
+          style={[styles.date, { marginLeft: 10 }]}
         >
           <Text style={{ textAlign: "center" }}>Select Date</Text>
         </Pressable>
@@ -96,7 +96,9 @@ export const Modal = ({ questions }) => {
         style={{ flexDirection: "row", alignItems: "center", marginTop: 20 }}
       >
         {showDate && (
-          <Text style={styles.selectedDate}>{date.toLocaleString()}</Text>
+          <Text style={styles.selectedDate}>
+            {date.toLocaleString("en-US")}
+          </Text>
         )}
         {show && (
           <DateTimePicker
@@ -126,25 +128,27 @@ export const Modal = ({ questions }) => {
 
 const styles = {
   date: {
-    backgroundColor: "#C9DBC9",
+    backgroundColor: "#3CB776",
     padding: 10,
-    color: "black",
+    color: "white",
     borderRadius: 8,
     marginLeft: 10,
     marginTop: 10,
   },
   selectedDate: {
-    marginLeft: 35,
+    marginLeft: 15,
     fontSize: 16,
+    color: "white",
   },
   sched: {
-    width: 350,
+    width: 370,
     padding: 10,
     color: "black",
     borderRadius: 8,
     marginLeft: "auto",
     marginRight: "auto",
     marginTop: 20,
+    marginBottom: 20,
   },
   schedule: {
     marginTop: 10,
