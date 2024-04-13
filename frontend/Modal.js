@@ -115,7 +115,7 @@ export const Modal = ({ questions }) => {
 
   return (
     <SafeAreaView>
-      {!issueCreated && (
+      {!issueCreated ? (
         <Pressable
           style={[
             styles.sched1,
@@ -127,9 +127,25 @@ export const Modal = ({ questions }) => {
         >
           <Text style={{ textAlign: "center" }}>Create New Issue</Text>
         </Pressable>
+      ) : (
+        <View>
+          <Text style={styles.text}>
+            Awesome. Issue created successfully! Send a reminder?
+          </Text>
+          <Pressable
+            style={[
+              styles.sched,
+              showDate
+                ? { backgroundColor: "#B6D0E2" }
+                : { backgroundColor: "#e8e8e8" },
+            ]}
+            onPress={onShare}
+          >
+            <Text style={{ textAlign: "center" }}>Send Text Now</Text>
+          </Pressable>
+        </View>
       )}
-
-      {issueCreated && (
+      {/* {issueCreated && (
         <>
           <View style={{ flexDirection: "row" }}>
             <Pressable
@@ -172,17 +188,21 @@ export const Modal = ({ questions }) => {
                 ? { backgroundColor: "#B6D0E2" }
                 : { backgroundColor: "#e8e8e8" },
             ]}
-            onPress={onShare}
           >
-            <Text style={{ textAlign: "center" }}>Send Text Reminder </Text>
+            <Text style={{ textAlign: "center" }}>Schedule Notification </Text>
           </Pressable>
         </>
-      )}
+      )} */}
     </SafeAreaView>
   );
 };
 
 const styles = {
+  text:{
+    margin: 15,
+    fontSize: 16,
+    color: "white",
+  },
   date: {
     backgroundColor: "#B6D0E2",
     padding: 10,
