@@ -7,6 +7,7 @@ import Responses from "./Responses";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import Issues from "./screens/Issues";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -18,6 +19,7 @@ export default function App() {
         <Tab.Screen name="Select" component={Select} />
         <Tab.Screen name="Answer" component={Answer} />
         <Tab.Screen name="Responses" component={Responses} />
+        <Tab.Screen name="Issues" component={Issues} />
       </Tab.Navigator>
     );
   }
