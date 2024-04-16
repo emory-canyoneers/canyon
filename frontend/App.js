@@ -1,5 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
+import LandingPage from './LandingPage';
 import Select from "./Select";
 import Answer from "./Answer";
 import Submitted from "./Submitted";
@@ -15,6 +16,7 @@ export default function App() {
   function Home() {
     return (
       <Tab.Navigator screenOptions={{ headerShown: false }}>
+        <Tab.Screen name="Your Groups" component={LandingPage} />
         <Tab.Screen name="Select" component={Select} />
         <Tab.Screen name="Answer" component={Answer} />
         <Tab.Screen name="Responses" component={Responses} />
