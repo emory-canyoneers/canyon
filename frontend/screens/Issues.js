@@ -2,6 +2,30 @@ import React, { useEffect } from "react";
 import { Text, ScrollView, Button } from "react-native";
 
 const issuesUrl = "http://joincanyon.org/issues"
+const creds = require("./secret.json")
+
+
+const login = () => {
+    const url = "http://joincanyon.org/auth";
+    const options = {
+        method: "POST",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json;charset=UTF-8",
+        },
+        body: JSON.stringify(creds)
+    };
+    fetch(url, options)
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        }).then((data) => {
+            console.log(data.token);
+            return data.token;
+        });
+    };
 
 const getIssues = () => {
     const url = issuesUrl + "/6614b5ea364d756b23e35f9b"
@@ -32,7 +56,7 @@ export default function Issues() {
             <Text style={styles.title}>Issues</Text>
             <Button title="Get Issues" onPress={async () => {
                 // since getIssues is an async function, we need to await it or else will loop
-                const issues = await getIssues()
+                const issues = await login()
                 setIssues(issues)
             }} />
         </ScrollView>
