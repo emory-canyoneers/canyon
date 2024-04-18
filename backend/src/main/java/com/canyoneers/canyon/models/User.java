@@ -13,7 +13,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import lombok.Data;
 
-@Document("users")
+@Document("users-v1")
 @Data
 public class User {
     @Id

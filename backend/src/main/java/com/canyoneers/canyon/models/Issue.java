@@ -14,7 +14,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import lombok.Data;
 
-@Document("issues")
+@Document("issues-v1")
 @Data
 public class Issue {
     @Id

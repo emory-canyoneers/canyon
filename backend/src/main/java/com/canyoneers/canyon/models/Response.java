@@ -9,7 +9,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import lombok.Data;
 
-@Document("responses")
+@Document("responses-v1")
 @Data
 public class Response {
     @Id
