@@ -7,6 +7,8 @@ import Responses from "./Responses";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import AuthProvider from "./AuthProvider";
+import Login from "./Login";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -14,11 +16,18 @@ const Tab = createBottomTabNavigator();
 export default function App() {
   function Home() {
     return (
-      <Tab.Navigator screenOptions={{ headerShown: false }}>
+    <AuthProvider>
+       <Tab.Navigator screenOptions={{ headerShown: false }}>
         <Tab.Screen name="Select" component={Select} />
         <Tab.Screen name="Answer" component={Answer} />
         <Tab.Screen name="Responses" component={Responses} />
+
+        
+        {/* need to create Login component in Login.js, refer to Responses.js */}
+        <Tab.Screen name="Login" component={Login} />
+
       </Tab.Navigator>
+    </AuthProvider>
     );
   }
   return (
