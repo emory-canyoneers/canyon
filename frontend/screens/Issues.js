@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import AuthContext from '../AuthContext';
 import { Text, ScrollView, Button, Pressable } from "react-native";
+import Issue from "../components/Issue";
 
 const issuesUrl = "http://joincanyon.org/issues"
 
@@ -42,7 +43,7 @@ export default function Issues() {
             </Pressable>
 
             {issues.map((issue) => (
-                <Text style={styles.sub} key={issue.id}>{issue.question}</Text>
+                <Issue issue={issue} key={issue.id} />
             ))}
         </ScrollView>
     );
