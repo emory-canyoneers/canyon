@@ -1,8 +1,7 @@
-import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
+import { useContext } from "react";
 import Select from "./Select";
 import Answer from "./Answer";
-import Submitted from "./Submitted";
 import Responses from "./Responses";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -10,43 +9,43 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Issues from "./screens/Issues";
 import AuthProvider from "./AuthProvider";
 import Login from "./screens/Login";
+import AuthContext from "./AuthContext";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 export default function App() {
   function Home() {
+    const tokenContext = useContext(AuthContext);
+
     return (
-    <AuthProvider>
+      tokenContext[0] === null ? (
+        <Login /> 
+      ) : (
        <Tab.Navigator screenOptions={{ headerShown: false }}>
         <Tab.Screen name="Select" component={Select} />
         <Tab.Screen name="Answer" component={Answer} />
         <Tab.Screen name="Responses" component={Responses} />
         <Tab.Screen name="Issues" component={Issues} />
-
-        
-        {/* need to create Login component in Login.js, refer to Responses.js */}
-        <Tab.Screen name="Login" component={Login} />
-
       </Tab.Navigator>
-    </AuthProvider>
+      )
     );
   }
+
   return (
-    <NavigationContainer style={styles.appContainer}>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="Home" component={Home} />
-        {/* <Stack.Screen name="Submitted" component={Submitted} /> */}
-      </Stack.Navigator>
-    </NavigationContainer>
+    <AuthProvider>
+      <NavigationContainer style={styles.appContainer}>
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="Home" component={Home} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </AuthProvider>
   );
 }
 
 const styles = StyleSheet.create({
   appContainer: {
-    // flex: 1,
     alignItems: "center",
     backgroundColor: "#1E2029",
-    // justifyContent: 'center',
   },
 });
