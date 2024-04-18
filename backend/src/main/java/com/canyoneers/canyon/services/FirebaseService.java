@@ -34,6 +34,7 @@ public class FirebaseService {
     static final String signupUrl = "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=";
     static final String lookupUrl = "https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=";
     static final String deleteUrl = "https://identitytoolkit.googleapis.com/v1/accounts:delete?key=";
+    static final String changePasswordUrl = "https://identitytoolkit.googleapis.com/v1/accounts:update?key=";
 
     public AuthDto login(LoginDto login) {
         try {
@@ -117,6 +118,23 @@ public class FirebaseService {
                 .header("Content-Type", "application/json")
                 .POST(HttpRequest.BodyPublishers.ofString(body))
                 .build();
+    }
+
+    public boolean changePassword(String token, String newPassword) {
+        try {
+            HttpRequest request = buildRequest(changePasswordUrl, "{\"idToken\":\"" + token + "\",\"password\":\"" + newPassword + "\",\"returnSecureToken\":true}");
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            if (response.statusCode() == 200) {
+                System.out.println("Password changed successfully" + newPassword);
+                return true;
+            }else{
+                System.err.println("Failed to change password: " + response.body());
+                return false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }
 
