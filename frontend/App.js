@@ -1,6 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
-import LandingPage from './LandingPage';
+import LandingPage from './screens/LandingPage';
 import Select from "./Select";
 import Answer from "./Answer";
 import Submitted from "./Submitted";
