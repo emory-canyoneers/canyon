@@ -14,7 +14,7 @@ import com.canyoneers.canyon.services.FirebaseService;
 
 @RestController
 @RequestMapping("/auth")
-public class AuthControllerBeta {
+public class AuthController {
     @Autowired
     FirebaseService firebaseService;
 

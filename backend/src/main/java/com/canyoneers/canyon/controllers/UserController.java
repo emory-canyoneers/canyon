@@ -14,7 +14,7 @@ import com.canyoneers.canyon.services.UserService;
 
 @RestController
 @RequestMapping("/users")
-public class UserControllerBeta {
+public class UserController {
     @Autowired
     UserService userService;
     @Autowired
