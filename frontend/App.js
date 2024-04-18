@@ -8,7 +8,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Issues from "./screens/Issues";
 import AuthProvider from "./AuthProvider";
-import Login from "./screens/Login";
+import AuthPage from "./screens/AuthPage";
 import AuthContext from "./AuthContext";
 
 const Stack = createNativeStackNavigator();
@@ -20,7 +20,7 @@ export default function App() {
 
     return (
       tokenContext[0] === null ? (
-        <Login /> 
+        <AuthPage /> 
       ) : (
        <Tab.Navigator screenOptions={{ headerShown: false }}>
         <Tab.Screen name="Select" component={Select} />
