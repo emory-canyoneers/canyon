@@ -2,6 +2,7 @@ package com.canyoneers.canyon.models;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.canyoneers.canyon.config.ObjectIdSerializer;
@@ -17,8 +18,8 @@ public class Response {
     private ObjectId id;
     private String response;
 
-    @JsonSerialize(using = ObjectIdSerializer.class)
-    private ObjectId user;
+    @DBRef
+    private User user;
     @JsonSerialize(using = ObjectIdSerializer.class)
     private ObjectId group;
     @JsonSerialize(using = ObjectIdSerializer.class)
@@ -34,7 +35,7 @@ public class Response {
         this();
         this.response = response;
 
-        this.user = user.getId();
+        this.user = user;
         this.group = group.getId();
         Issue currIssue = group.currentIssue();
         this.issue = currIssue != null ? currIssue.getId() : null;

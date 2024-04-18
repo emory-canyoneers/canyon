@@ -42,12 +42,11 @@ public class ResponseService {
 
         Issue issue = issueRepository.findById(issueID).get();
         issue.getResponses().forEach(response -> {
-            if (response.getUser() == user.getId())
+            if (response.getUser() == user)
                 throw new RuntimeException("User has already responded to this issue");
         });
         Response newResponse = new Response(dto.getResponse(), user, group);
 
-        user.addResponse(newResponse);
         issue.addResponse(newResponse);
 
         userRepository.save(user);

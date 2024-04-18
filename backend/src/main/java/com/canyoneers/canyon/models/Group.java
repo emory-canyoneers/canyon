@@ -8,7 +8,6 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.canyoneers.canyon.config.ObjectIdListSerializer;
 import com.canyoneers.canyon.config.ObjectIdSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
@@ -22,13 +21,11 @@ public class Group {
     private ObjectId id;
     private String name;
     private int issueCount;
-    // TODO: add group configurations here
-    // TODO: issue time and frequency
 
-    @JsonSerialize(using = ObjectIdSerializer.class)
-    private ObjectId owner;
-    @JsonSerialize(using = ObjectIdListSerializer.class)
-    private List<ObjectId> members; // including owner
+    @DBRef
+    private User owner;
+    @DBRef
+    private List<User> members; // including owner
     @DBRef
     private List<Issue> issues; // issues are stored in time order
 
@@ -42,7 +39,7 @@ public class Group {
     public Group(String name, User owner) {
         this();
         this.name = name;
-        this.owner = owner.getId();
+        this.owner = owner;
         members.add(this.owner);
     }
 
@@ -52,27 +49,27 @@ public class Group {
     }
 
     public Group setOwner(User user) {
-        if (members.contains(user.getId())) {
-            owner = user.getId();
+        if (members.contains(user)) {
+            owner = user;
             return this;
         }
         return null;
     }
 
     public boolean addMember(User user) {
-        if (!this.members.contains(user.getId())) {
-            return this.members.add(user.getId());
+        if (!this.members.contains(user)) {
+            return this.members.add(user);
         }
         return false;
     }
 
     public boolean removeMember(User user) {
-        if (user.getId().equals(owner))
+        if (user.equals(owner))
             return false;
-        return members.remove(user.getId());
+        return members.remove(user);
     }
 
-    public List<ObjectId> getMembers() {
+    public List<User> getMembers() {
         return members;
     }
 
