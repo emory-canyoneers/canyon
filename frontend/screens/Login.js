@@ -6,15 +6,12 @@
 // Token is stored in AuthContext, which is used in AuthProvider and wraps the entire application
 // 
 
-
 import React, { useContext } from 'react';
-import AuthContext from './AuthContext';
+import AuthContext from '../AuthContext';
 import { Text, View, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 
 
 const Login = () => {
-    
-
     const [username, setUsername] = React.useState('');
     const [password, setPassword] = React.useState('');
     const tokenContext = useContext(AuthContext); // useContext provides AuthProvider's value -> array of [token, setToken] which are React states
@@ -47,12 +44,6 @@ const Login = () => {
         tokenContext[1](response.token)
         return;
     };
-
-    // const login = async () => {
-    //     return fetch('https://jsonplaceholder.typicode.com/todos/1')
-    //         .then(response => response.json())
-    //         .then(json => {return json})
-    // }
 
     return (
         <View style={styles.container}>
@@ -109,7 +100,6 @@ const styles = StyleSheet.create({
     },
     textContainer: {
       flex: 1,
-      marginTop: 250,
       justifyContent: 'center',
       alignItems: 'center',
     },

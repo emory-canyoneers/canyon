@@ -9,7 +9,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Issues from "./screens/Issues";
 import AuthProvider from "./AuthProvider";
-import Login from "./Login";
+import Login from "./screens/Login";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
