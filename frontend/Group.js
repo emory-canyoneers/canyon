@@ -4,37 +4,39 @@ import { View, Text, Button, StyleSheet, ScrollView } from 'react-native';
 
 export default function Group({group}) {
     return (
-        <View style={styles.groupContainer}>
-            <Text style={styles.groupName}>{group.name}</Text>
+        <View style={styles.container}>
+            <Text style={styles.name}>{group.name}</Text>
             {group.users.map((user, index) => (
-                <Text key={index} style={styles.userName}>{user.name}</Text>
+                <Text key={index} style={styles.text}>{user.name}</Text>
             ))}
         </View>
     );
 }
 
-const styles = StyleSheet.create({
-    groupContainer: {
-        backgroundColor: "#1E2029",
-        borderRadius: 5,
-        padding: 15,
-        marginVertical: 8,
-        marginHorizontal: 16,
-        flexDirection: 'column',  
+const styles = {
+    container: {
+      flexDirection: "column", // Align children in a 
+      margin: 12,
+      borderRadius: 4,
+      backgroundColor: "#1E2029",
+      padding: 15,
+      alignItems: "center", // Align items in the center vertically
     },
-    groupName: {
-        color: "#FFFFFF",
-        marginBottom: 10,  
-        fontWeight: 'bold',
-        fontSize: 18,
+    textContainer: {
+      marginLeft: 10, // Add some space between the image and text
     },
-    userContainer: {
-        flexDirection: 'row',  
+    name: {
+      color: "#6C6E77",
+      marginBottom: 5,
     },
-    userName: {
-        color: "#CCCCCC",
-        marginRight: 20,  
-        fontSize: 16,
+    text: {
+      color: "#FFFFFF",
+      paddingRight: 40,
     },
-});
+    image: {
+      width: 40,
+      height: 40,
+      borderRadius: 20, // This makes it a circle
+    },
+  };
   

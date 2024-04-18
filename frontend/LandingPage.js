@@ -30,13 +30,13 @@ export default Page = () => {
       
       try{
         setLoading(true);
-        const url = `http://joincanyon.org/groups`;
+        const url = `https://joincanyon.org/groups`;
         const options = {
           method: 'GET',
           headers: {
             Accept: "application/json",
             "Content-Type": "application/json;charset=UTF-8",
-            Authorization: "Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6IjJkOWI0ZTY5ZTMyYjc2MTVkNGNkN2NhZmI4ZmM5YjNmODFhNDFhYzAiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vY2FueW9uLTUyZDY2IiwiYXVkIjoiY2FueW9uLTUyZDY2IiwiYXV0aF90aW1lIjoxNzEzMzc1NTQxLCJ1c2VyX2lkIjoiZzIzS01kZXJHOVVjZ2QySWhYbkhFMTBUeVBVMiIsInN1YiI6ImcyM0tNZGVyRzlVY2dkMkloWG5IRTEwVHlQVTIiLCJpYXQiOjE3MTMzNzU1NDEsImV4cCI6MTcxMzM3OTE0MSwiZW1haWwiOiJhbmRyZXdsdWx1MjAxMkBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsiYW5kcmV3bHVsdTIwMTJAZ21haWwuY29tIl19LCJzaWduX2luX3Byb3ZpZGVyIjoicGFzc3dvcmQifX0.Jvq1JtihVs7W6rb6XG98O0wsaCguqaRVn9kKNXvDF9qEThPIZLPAkm1LpPeERrRQriIAugXYlQAVxMFtT7EQycsrvxT0gyi0YIq8thahq-JlVnw7dGPEHYo9FDmMPWbWDTu6oZvqX4Xa8y-iUTfL5eM3sgzeO5zgPIZB9r3RzdE7PbHg47iQv7gmugBD0Luv5HcFMaop2PtDbQj3i9Kh9FwURbc4id8XHQvypDnKL8mq6h-cpBdpsriIl8iYxFKLbQdOcGbUhe4rsX9nJUvf4bEmv46mPjm88dNaIedV8LnksHl-IC2RYaSlrKiRO9aWYWDvVFaFoFauCHB-ByfVBA"
+            Authorization: "Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6IjJkOWI0ZTY5ZTMyYjc2MTVkNGNkN2NhZmI4ZmM5YjNmODFhNDFhYzAiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vY2FueW9uLTUyZDY2IiwiYXVkIjoiY2FueW9uLTUyZDY2IiwiYXV0aF90aW1lIjoxNzEzNDEzMTQ4LCJ1c2VyX2lkIjoiZzIzS01kZXJHOVVjZ2QySWhYbkhFMTBUeVBVMiIsInN1YiI6ImcyM0tNZGVyRzlVY2dkMkloWG5IRTEwVHlQVTIiLCJpYXQiOjE3MTM0MTMxNDgsImV4cCI6MTcxMzQxNjc0OCwiZW1haWwiOiJhbmRyZXdsdWx1MjAxMkBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsiYW5kcmV3bHVsdTIwMTJAZ21haWwuY29tIl19LCJzaWduX2luX3Byb3ZpZGVyIjoicGFzc3dvcmQifX0.NBSbOEwbJ4Jpk3I7LqgqneoXtAnkogNdH5Iu2--mvGUZ0kUum8HrCuWxejOjlC8Ljn3oXOTsQRiArT2J-CY3fefHCV4b6dhEsowwUIQ-rNpQxzkMdA0EfvoIWJoL87emV1A-92gNt-49iir_7U5uWL8wK6NGgU2Hahjaguk4NMkIR2fex8S7SLaD3A-K8nqzAcO3e6BDvgrqApDvG99ZhH28QUhTW8rmG44Al81ptWGXipc2HZmI3HltCvJw-jnFiOKzxj2yDXPJk8R5GF_k_U71OFrEv00Q6cwWhK2S1NbbrLw94krztVdfZTRFtO682dHWKdCvHhkdPZBpYfa1Fw"
           }
         };
 
@@ -74,31 +74,24 @@ export default Page = () => {
     return <ActivityIndicator size="large" color="#00ff00" />;
   }
 
-  if (groups && groups.length > 0) {
+  if (groups) {
     return (
-      <div>
-        {groups.map((group) => (
-          <div key={group.id}>
-            <h1>{group.name}</h1>
-            <p>Members</p>
-            {group.members.map((member) => (
-              <p key={member}>{member}</p>
-            ))}
-          </div>
+      <ScrollView style={styles.container}>
+        <Text style={styles.textStyle}>Your Groups</Text>
+        {groups.map((group, index) => (
+          <Group key={index} group={group} />
         ))}
-      </div>
+        </ScrollView>
     );
   } else {
-    return <div>No groups found, loading?</div>
+    return (
+      <View style={styles.container}>
+        <Text style={styles.textStyle}>No groups found</Text>
+      </View>
+    );
+  
   }
-  // return (
-  //   <ScrollView style={styles.container}>
-  //     <Text style={styles.textStyle}>Your Groups</Text>
-  //     {groups.map((group, index) => (
-  //       <Group key={group.id || index} group={group}/>
-  //     ))}
-  //     </ScrollView>
-  // );
+  
 }
 
 const styles = StyleSheet.create({
