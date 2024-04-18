@@ -19,7 +19,7 @@ import com.canyoneers.canyon.services.IssueService;
 
 @RestController
 @RequestMapping("/issues")
-public class IssueController {
+public class IssueControllerBeta {
     @Autowired
     IssueService issueService;
 

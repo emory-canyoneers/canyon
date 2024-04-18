@@ -14,7 +14,7 @@ import com.canyoneers.canyon.services.ResponseService;
 
 @RestController
 @RequestMapping("/groups")
-public class GroupController {
+public class GroupControllerBeta {
     @Autowired
     GroupService groupService;
     @Autowired

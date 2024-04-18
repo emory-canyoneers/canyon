@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 
 @RestController
 @RequestMapping("/responses")
-public class ResponseController {
+public class ResponseControllerBeta {
     @Autowired
     ResponseService responseService;
 
