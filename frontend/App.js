@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from "react-native";
 import { useContext } from "react";
 import Select from "./src/screens/Select";
-import Answer from "./old/Answer";
+import Answer from "./src/screens/Answer";
 import Responses from "./old/Responses";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
