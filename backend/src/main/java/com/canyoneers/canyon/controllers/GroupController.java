@@ -41,9 +41,8 @@ public class GroupController {
      * @return List of groups a user is in
      */
     @GetMapping
-    public List<Group> getUserGroups(@RequestHeader(HttpHeaders.AUTHORIZATION) String token,
-            @RequestParam(defaultValue = "10") int limit) {
-        return groupService.findGroupsByUserId(token, limit);
+    public List<Group> getUserGroups(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
+        return groupService.findGroupsByUserId(token);
     }
 
     /**

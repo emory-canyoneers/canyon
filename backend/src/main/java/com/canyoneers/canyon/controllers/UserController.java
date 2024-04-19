@@ -44,7 +44,6 @@ public class UserController {
     /**
      * Delete a user
      * 
-     * @param userId
      * @return
      */
     @DeleteMapping

@@ -1,6 +1,8 @@
 package com.canyoneers.canyon.services;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.bson.types.ObjectId;
@@ -40,7 +42,7 @@ public class IssueService {
         return issues.save(issue);
     }
 
-    public List<Issue> getIssues(String token, String groupIdStr, int limit) {
+    public List<Issue> getIssues(String token, String groupIdStr) {
         User user = firebaseService.fetchUser(token);
         ObjectId groupId = new ObjectId(groupIdStr);
         if (!user.inGroup(groupId)) {
@@ -49,7 +51,8 @@ public class IssueService {
         Group group = groups.findById(groupId).get();
         List<Issue> issues = group.getIssues();
         List<Issue> chronologicalIssues = new ArrayList<>();
-        for (int i = issues.size() - 1; i >= issues.size() - limit && i >= 0; i--) {
+
+        for (int i = issues.size() - 1; i >= 0; i--) {
             chronologicalIssues.add(issues.get(i));
         }
         return chronologicalIssues;
