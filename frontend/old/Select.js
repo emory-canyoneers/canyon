@@ -18,9 +18,7 @@ const questionsData = require("./Questions.json");
 
 export default Select = () => {
   const [data, setData] = React.useState(questionsData);
-  const [selectedQuestions, setSelectedQuestions] = React.useState([
-    // { id: 1, key: "What is your earliest memory?" },
-  ]);
+  const [selectedQuestions, setSelectedQuestions] = React.useState([]);
 
   useEffect(() => {
     getDataFromBackend();
@@ -45,7 +43,7 @@ export default Select = () => {
         Accept: "application/json",
         "Content-Type": "application/json;charset=UTF-8",
         Authorization:
-          "Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6ImYyOThjZDA3NTlkOGNmN2JjZTZhZWNhODExNmU4ZjYzMDlhNDQwMjAiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vY2FueW9uLTUyZDY2IiwiYXVkIjoiY2FueW9uLTUyZDY2IiwiYXV0aF90aW1lIjoxNzEzMDI4NzQ2LCJ1c2VyX2lkIjoiZzIzS01kZXJHOVVjZ2QySWhYbkhFMTBUeVBVMiIsInN1YiI6ImcyM0tNZGVyRzlVY2dkMkloWG5IRTEwVHlQVTIiLCJpYXQiOjE3MTMwMjg3NDYsImV4cCI6MTcxMzAzMjM0NiwiZW1haWwiOiJhbmRyZXdsdWx1MjAxMkBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsiYW5kcmV3bHVsdTIwMTJAZ21haWwuY29tIl19LCJzaWduX2luX3Byb3ZpZGVyIjoicGFzc3dvcmQifX0.O6MsDbPxzOhNsc0bjurJEysb_7I-8_qDXYqkTFImCF3a_KfXr-r9aT_2xQPgMk1zupaV_bOK0MfEMvVcWKVPuKxz_cBRGVC6jYa9JTpXFiSjEMWsOGkqNhBxOCH6jR0VMe88lmwvakVltt5m8UPu4i8aXKmeSif8E7Qo6XZ1YkXvcAbUEkuhdWZaVgRWntGYiBqlrZqU0ooAmS506qPYInwse3dWeqC99lDYxIIrDIfcu5UYd55SNEhFf6-VH7h1G3tFkW7yWZpw2ZV2GpfUoKCA9gxZxyZHezJaolJyNoFe_oE8tF15VULT7kD6nR21muRDdYXbx6-Tu6LnLdtWyA",
+          "Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6ImYyOThjZDA3NTlkOGNmN2JjZTZhZWNhODExNmU4ZjYzMDlhNDQwMjAiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vY2FueW9uLTUyZDY2IiwiYXVkIjoiY2FueW9uLTUyZDY2IiwiYXV0aF90aW1lIjoxNzEzMDMyNjIyLCJ1c2VyX2lkIjoiZzIzS01kZXJHOVVjZ2QySWhYbkhFMTBUeVBVMiIsInN1YiI6ImcyM0tNZGVyRzlVY2dkMkloWG5IRTEwVHlQVTIiLCJpYXQiOjE3MTMwMzI2MjIsImV4cCI6MTcxMzAzNjIyMiwiZW1haWwiOiJhbmRyZXdsdWx1MjAxMkBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsiYW5kcmV3bHVsdTIwMTJAZ21haWwuY29tIl19LCJzaWduX2luX3Byb3ZpZGVyIjoicGFzc3dvcmQifX0.Wbi-7yfu994HN7Yl6_U6-xeutO0ivOG5YSZbF14FOX4ECCpGhWFu1Mhk7nMFujtsJ5IAANFsMYBiDRC0mlJ_bQ5P38_hmVvxf2iZmHl2wvwjoLVoieD0iHX-7vad4cjxzS46GSOVK4O30Njje4gt26JcnVs9GMZF0BGUpoabl-Bjii07NzGEKINrV77c1BL2PrTu5As9fb0ESy299VgSQ6Rt09tdQf25tdPuUJ9k4haBTfzqcjZWJuQAZ_XPM85pKAy25_8Kf0xVSTFdYQygDuy8xoy3z_MpY9mjTQhPUbxssuoMVucmJDH2n2gwcKhknFSQPJmpOiY1m7ENG_uY_Q",
       },
     };
     fetch(url, options)
@@ -66,30 +64,33 @@ export default Select = () => {
   }
 
   const onchecked = (id) => {
+    // Update data with new checked states
     const newData = data.map((item) => {
       if (item.id === id) {
+        // Toggle the checked state of the selected item
         const updatedItem = { ...item, checked: !item.checked };
-        setData((prevData) =>
-          prevData.map((dataItem) =>
-            dataItem.id === id ? updatedItem : dataItem
-          )
-        );
-
-        if (updatedItem.checked) {
-          setSelectedQuestions((prevSelected) => [
-            ...prevSelected,
-            updatedItem,
-          ]);
-        } else {
-          setSelectedQuestions((prevSelected) =>
-            prevSelected.filter((question) => question.id !== id)
-          );
-        }
         return updatedItem;
+      } else {
+        // Ensure all other items are not checked
+        return { ...item, checked: false };
       }
-      return item;
     });
+  
+    // Set the new data state
+    setData(newData);
+  
+    // Find the newly checked item, if any
+    const checkedItem = newData.find((item) => item.id === id && item.checked);
+  
+    if (checkedItem) {
+      // If an item is checked, set it as the only selected question
+      setSelectedQuestions([checkedItem]);
+    } else {
+      // If no item is checked, clear the selected questions
+      setSelectedQuestions([]);
+    }
   };
+  
 
   renderQuestions = () => {
     return data.map((item, key) => {
@@ -133,7 +134,7 @@ export default Select = () => {
       <Text style={[styles.textStyle, { paddingTop: 70 }]}>
         Julia, it's your turn! 🎉 🙌
       </Text>
-      <Text style={styles.subTextStyle}> Pick this week's questions!</Text>
+      <Text style={styles.subTextStyle}> Pick a question for this week!</Text>
       {this.renderQuestions()}
       <Modal questions={selectedQuestions} />
     </ScrollView>
