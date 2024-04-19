@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import AuthContext from '../AuthContext';
+import AuthContext from '../store/AuthContext';
 import { Text, ScrollView, Button, Pressable } from "react-native";
 import Issue from "../components/Issue";
 

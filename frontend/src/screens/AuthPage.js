@@ -1,6 +1,6 @@
 import { useState, useContext } from 'react';
 import { Text, View, TextInput, TouchableOpacity, } from 'react-native';
-import AuthContext from '../AuthContext';
+import AuthContext from '../store/AuthContext';
 import { colors } from '../styles/colors';
 import { styles } from '../styles/standard';
 
@@ -88,14 +88,14 @@ export default AuthPage = () => {
                                 <TextInput
                                     style={styles.name}
                                     placeholder="First"
-                                    placeholderTextColor={colors.inputPlaceholder}
+                                    placeholderTextColor={colors.textSecondary}
                                     onChangeText={setFirstName}
                                     value={firstName}
                                 />
                                 <TextInput
                                     style={styles.name}
                                     placeholder="Last"
-                                    placeholderTextColor={colors.inputPlaceholder}
+                                    placeholderTextColor={colors.textSecondary}
                                     onChangeText={setLastName}
                                     value={lastName}
                                 />
@@ -108,14 +108,14 @@ export default AuthPage = () => {
                     <TextInput
                         style={styles.credentials}
                         placeholder="Username"
-                        placeholderTextColor={colors.inputPlaceholder}
+                        placeholderTextColor={colors.textSecondary}
                         onChangeText={setUsername}
                         value={username}
                     />
                     <TextInput
                         style={styles.credentials}
                         placeholder="Password"
-                        placeholderTextColor={colors.inputPlaceholder}
+                        placeholderTextColor={colors.textSecondary}
                         onChangeText={setPassword}
                         value={password}
                         secureTextEntry={true}

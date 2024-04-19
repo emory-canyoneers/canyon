@@ -1,15 +1,15 @@
 import { StyleSheet, Text, View } from "react-native";
 import { useContext } from "react";
-import Select from "./Select";
-import Answer from "./Answer";
-import Responses from "./Responses";
+import Select from "./old/Select";
+import Answer from "./old/Answer";
+import Responses from "./old/Responses";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import Issues from "./screens/Issues";
-import AuthProvider from "./AuthProvider";
-import AuthPage from "./screens/AuthPage";
-import AuthContext from "./AuthContext";
+import Issues from "./src/screens/Issues";
+import AuthProvider from "./src/store/AuthProvider";
+import AuthPage from "./src/screens/AuthPage";
+import AuthContext from "./src/store/AuthContext";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
