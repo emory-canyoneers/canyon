@@ -7,7 +7,9 @@ import { styles } from '../styles/Home';
 
 export default function Home() {
     const groupsContext = useContext(InfoContext);
-    const tokenContext = useContext(AuthContext);
+    const groups = groupsContext[0];
+    const setGroups = groupsContext[1];
+    const token = useContext(AuthContext)[0];
 
     // load groups on login
     useEffect(() => {
@@ -18,7 +20,7 @@ export default function Home() {
                 headers: {
                     Accept: "application/json",
                     "Content-Type": "application/json;charset=UTF-8",
-                    Authorization: "Bearer " + tokenContext[0],
+                    Authorization: "Bearer " + token,
                 }
             };
     
@@ -30,11 +32,10 @@ export default function Home() {
                     return response.json()
                 })
                 .then(data => {
-                    console.log(data);
                     return data;
                 });
     
-            groupsContext[1](response);
+            setGroups(response);
         };
 
         fetchGroups();
@@ -46,7 +47,7 @@ export default function Home() {
                 <Text style={styles.title}>Welcome back!</Text>
                 <Text style={styles.heading}>Check in on your groups:</Text>
                 <View style={styles.content}>
-                    {groupsContext[0].map((group) => (
+                    {groups.map((group) => (
                         <Group key={group.id} group={group} />
                     ))}
                 </View>

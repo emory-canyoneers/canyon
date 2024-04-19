@@ -24,8 +24,15 @@ Brand colors?
 
 ## Todo List
 
-1. UI
-2. Msg to link to this week's questions
-3. Send notif when it's your turn to pick/answer questions.
-4. Smaller components
-5. Rich Embed
+1. Self Provider
+2. Fake data for groups, issues, self
+3. Update Auth to also fetch self
+4. Refactor Answers and Submit
+5. Skeleton pages with styling
+6. Send message about taking a skeleton page and doing it
+
+## Notes to Self
+
+1. Since groups are being stored now, when clicking on groups inside the landing page pass group info and use ID in calls for issues, etc
+2. For sending questions, use buttons to fill in response box and have input box
+3. For submitting answers, looking at group

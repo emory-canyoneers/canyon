@@ -11,7 +11,7 @@ export default AuthPage = () => {
         const [firstName, setFirstName] = useState('');
         const [lastName, setLastName] = useState('');
         const [signup, setSignup] = useState(false);
-        const tokenContext = useContext(AuthContext);
+        const setToken = useContext(AuthContext)[1];
 
 
         const login = async () => {
@@ -38,7 +38,7 @@ export default AuthPage = () => {
                     return data;
                 })
             
-            tokenContext[1](response.token)
+            setToken(response.token)
             return;
         };
 
@@ -67,7 +67,7 @@ export default AuthPage = () => {
                     return data;
                 })
             
-            tokenContext[1](response.token)
+            setToken(response.token)
             return;
         };
 

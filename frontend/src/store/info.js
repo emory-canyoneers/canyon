@@ -53,10 +53,6 @@ export const InfoProvider = ({ children }) => {
 };
 
 // helper functions to operate on data
-export function getGroups(groups) {
-    return groups;
-}
-
 export function getGroup(groups, id) {
     return groups.find(group => group.id === id);
 }
@@ -67,4 +63,18 @@ export function getGroupQuestions(groups, groupId) {
 
 export function getGroupMembers(groups, groupId) {
     return getGroup(groups, groupId).members;
+}
+
+export function getAllQuestions(groups) {
+    answered = []
+    unanswered = [];
+    groups.forEach(group => {
+        questions = group.issues
+        if (group.issues.length > 0) {
+            question = questions[questions.length - 1]
+            questions.concat()
+        }
+    });
+
+    return questions
 }
