@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Text, View, Pressable, TextInput } from "react-native";
-import { Modal } from "./Modal";
-import questionsData from "./Questions.json";
+import { Modal } from "../src/components/Modal.js";
+import questionsData from "../src/components/Questions.json";
 import { Link } from "@react-navigation/native";
 import Submitted from "./Submitted.js";
 

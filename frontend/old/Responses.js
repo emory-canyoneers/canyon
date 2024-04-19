@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Text, View, ScrollView, Pressable, TextInput } from "react-native";
-import questionsData from "./Questions.json";
+import questionsData from "../src/components/Questions.json";
 import Submitted from "./Submitted.js";
 import Response from "./Response.js";
 

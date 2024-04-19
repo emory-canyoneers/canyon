@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from "react-native";
 import { useContext } from "react";
-import Select from "./old/Select";
+import Select from "./src/screens/Select";
 import Answer from "./old/Answer";
 import Responses from "./old/Responses";
 import { NavigationContainer } from "@react-navigation/native";

@@ -1,20 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { StatusBar } from "expo-status-bar";
-import {
-  Text,
-  StyleSheet,
-  View,
-  ScrollView,
-  FlatList,
-  TouchableOpacity,
-  CheckBox,
-  Button,
-  Image,
-  Pressable,
-} from "react-native";
-import { Modal } from "./Modal";
+import { Text, ScrollView, TouchableOpacity } from "react-native";
+import { Modal } from "../components/Modal";
 
-const questionsData = require("./Questions.json");
+const questionsData = require("../components/Questions.json");
 
 export default Select = () => {
   const [data, setData] = React.useState(questionsData);
@@ -24,16 +12,6 @@ export default Select = () => {
     getDataFromBackend();
     setData(questionsData);
   }, []);
-
-  // useEffect(() => {
-  //   fetch('54.210.61.111/auth')
-  //     .then(response => response.json())
-  //     // set variables to the response from the server
-  //     .then((data) => {
-  //       setData(questionsData);
-  //       console.log(data.token)
-  //     })
-  // }, [])
 
   async function getDataFromBackend() {
     const url = "http://joincanyon.org/groups";
