@@ -3,6 +3,12 @@ import { colors } from "./colors";
 
 // import in other stylesheets that will need these styles with `...shared,` as the first item in the StyleSheet.create object
 export const shared = StyleSheet.create({
+    title: {
+        color: colors.textPrimary,
+        fontSize: 36,
+        fontWeight: 'bold',
+        marginBottom: 25,
+    },
     heading: { // main text
         color: colors.textPrimary,
         fontSize: 24,
@@ -30,7 +36,7 @@ export const shared = StyleSheet.create({
         backgroundColor: colors.background,
     },
     body: { // contains all content on the page
-        width: '80%',
+        width: '90%',
         justifyContent: 'center',
         alignItems: 'left',
     },

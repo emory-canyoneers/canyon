@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Text, StyleSheet, ScrollView, View } from 'react-native';
+import { Text, ScrollView, View } from 'react-native';
 import AuthContext from '../store/AuthContext';
 import Group from '../components/Group';
 import { styles } from '../styles/Home';
@@ -42,7 +42,8 @@ export default function Home() {
     return (
         <ScrollView style={styles.scrollView} contentContainerStyle={styles.container}>
             <View style={styles.body}>
-                <Text style={styles.heading}>Your Groups</Text>
+                <Text style={styles.title}>Welcome back!</Text>
+                <Text style={styles.heading}>Check in on your groups:</Text>
                 <View style={styles.content}>
                     {groups.map((group) => (
                         <Group key={group.id} group={group} />
