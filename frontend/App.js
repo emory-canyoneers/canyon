@@ -8,9 +8,8 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Home from './src/screens/Home';
 import Issues from "./src/screens/Issues";
-import AuthProvider from "./src/store/AuthProvider";
+import { AuthProvider, AuthContext } from "./src/store/auth";
 import AuthPage from "./src/screens/AuthPage";
-import AuthContext from "./src/store/AuthContext";
 import { HomeIcon, AnswerIcon, ProfileIcon } from "./src/components/Svg";
 import { colors } from "./src/styles/colors";
 

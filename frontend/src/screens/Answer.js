@@ -1,7 +1,7 @@
 import React, { useEffect, useContext } from "react";
 import { Text, View, Pressable, TextInput } from "react-native";
 import questionsData from "../components/Questions.json";
-import AuthContext from "../store/AuthContext";
+import { AuthContext } from "../store/auth";
 
 export default Answer = () => {
   const [textInput, setTextInput] = React.useState("");

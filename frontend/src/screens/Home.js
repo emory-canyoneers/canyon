@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Text, ScrollView, View } from 'react-native';
-import AuthContext from '../store/AuthContext';
+import { AuthContext } from "../store/auth";
 import Group from '../components/Group';
 import { styles } from '../styles/Home';
 

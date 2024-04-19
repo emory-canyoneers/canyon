@@ -1,6 +1,6 @@
 import { useState, useContext } from 'react';
 import { Text, View, TextInput, TouchableOpacity, } from 'react-native';
-import AuthContext from '../store/AuthContext';
+import { AuthContext } from "../store/auth";
 import { colors } from '../styles/colors';
 import { styles } from '../styles/AuthPage';
 
