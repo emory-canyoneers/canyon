@@ -6,7 +6,7 @@ import Responses from "./old/Responses";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import LandingPage from './src/screens/LandingPage';
+import Home from './src/screens/Home';
 import Issues from "./src/screens/Issues";
 import AuthProvider from "./src/store/AuthProvider";
 import AuthPage from "./src/screens/AuthPage";
@@ -18,7 +18,7 @@ const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 export default function App() {
-    function Home() {
+    function Content() {
         const tokenContext = useContext(AuthContext);
         const refactor = true; // remove once refactoring is done and skeleton pages are set up
 
@@ -39,8 +39,8 @@ export default function App() {
                             }}}
                     >
                         <Tab.Screen 
-                            name="Your Groups"
-                            component={LandingPage} 
+                            name="Home"
+                            component={Home} 
                             options={{
                                 tabBarIcon: ({ color }) => (
                                     <HomeIcon />
@@ -63,7 +63,7 @@ export default function App() {
                     </Tab.Navigator>
                 ) : (
                     <Tab.Navigator screenOptions={{ headerShown: false }}>
-                        <Tab.Screen name="Home" component={LandingPage} />
+                        <Tab.Screen name="Home" component={Home} />
                         <Tab.Screen name="Answer" component={Answer} />
                         <Tab.Screen name="Profile" component={Responses} /> {/* need to set up profile page */}
                     </Tab.Navigator>
@@ -76,7 +76,7 @@ export default function App() {
         <AuthProvider>
             <NavigationContainer style={styles.appContainer}>
                 <Stack.Navigator screenOptions={{ headerShown: false }}>
-                    <Stack.Screen name="Home" component={Home} />
+                    <Stack.Screen name="Content" component={Content} />
                 </Stack.Navigator>
             </NavigationContainer>
         </AuthProvider>

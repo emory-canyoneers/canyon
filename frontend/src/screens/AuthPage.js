@@ -2,7 +2,7 @@ import { useState, useContext } from 'react';
 import { Text, View, TextInput, TouchableOpacity, } from 'react-native';
 import AuthContext from '../store/AuthContext';
 import { colors } from '../styles/colors';
-import { styles } from '../styles/standard';
+import { styles } from '../styles/AuthPage';
 
 
 export default AuthPage = () => {
@@ -72,8 +72,8 @@ export default AuthPage = () => {
         }
 
         return (
-            <View style={styles.body}>
-                <View style={styles.content}> 
+            <View style={styles.container}>
+                <View style={styles.loginContent}> 
                     {
                         signup ? (
                             <Text style={styles.heading}>Join the Conversation!</Text>

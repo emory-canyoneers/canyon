@@ -1,18 +1,14 @@
 import { StyleSheet } from "react-native";
 import { colors } from "./colors";
+import { shared } from "./shared";
 
 export const styles = StyleSheet.create({
-    body: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: colors.background,
-    },
-    content: {
+    ...shared,
+    loginContent: {
         display: 'flex',
         gap: 15,
         alignItems: 'center',
-        justifyContent: 'center',
+        paddingTop: 80,
         width: '80%',
         height: '50%',
     },
@@ -22,11 +18,6 @@ export const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
         gap: 15,
-    },
-    heading: {
-        color: colors.textPrimary,
-        fontSize: 24,
-        fontWeight: 'bold',
     },
     name: {
         flex: 1,
@@ -44,17 +35,5 @@ export const styles = StyleSheet.create({
         color: colors.textPrimary,
         borderRadius: 5,
         paddingHorizontal: 10,
-    },
-    button: {
-        backgroundColor: colors.element,
-        width: '100%',
-        paddingVertical: 10,
-        borderRadius: 5,
-        alignItems: 'center',
-    },
-    link: {
-        color: colors.textSecondary,
-        textDecorationStyle: 'solid',
-        textDecorationLine: 'underline',
     }
 });
