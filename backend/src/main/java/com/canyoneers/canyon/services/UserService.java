@@ -40,6 +40,7 @@ public class UserService {
 
     /**
      * Get user by firebase id
+     * 
      * @param fId the firebase id
      * @return the user
      */

@@ -120,20 +120,25 @@ public class FirebaseService {
                 .build();
     }
 
-    public boolean changePassword(String token, String newPassword) {
+    public AuthDto changePassword(String token, String newPassword) {
         try {
-            HttpRequest request = buildRequest(changePasswordUrl, "{\"idToken\":\"" + token + "\",\"password\":\"" + newPassword + "\",\"returnSecureToken\":true}");
+            HttpRequest request = buildRequest(changePasswordUrl,
+                    "{\"idToken\":\"" + token + "\",\"password\":\"" + newPassword + "\",\"returnSecureToken\":true}");
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
             if (response.statusCode() == 200) {
-                System.out.println("Password changed successfully" + newPassword);
-                return true;
-            }else{
-                System.err.println("Failed to change password: " + response.body());
-                return false;
+                AuthResponse authResponse = objectMapper.readValue(response.body(), AuthResponse.class);
+                AuthDto authDto = new AuthDto();
+                authDto.setFId(authResponse.localId);
+                authDto.setToken(authResponse.idToken);
+                authDto.setExpiry(authResponse.expiresIn);
+                return authDto;
             }
+
+            return null; // failed
         } catch (Exception e) {
             e.printStackTrace();
-            return false;
+            return null;
         }
     }
 }

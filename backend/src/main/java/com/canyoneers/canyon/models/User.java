@@ -8,6 +8,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.canyoneers.canyon.config.ObjectIdSerializer;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import lombok.Data;
@@ -18,6 +19,7 @@ public class User {
     @Id
     @JsonSerialize(using = ObjectIdSerializer.class)
     private ObjectId id;
+    @JsonIgnore
     private String fId; // firebase id
     private String name;
     private String email;
