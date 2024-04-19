@@ -24,8 +24,8 @@ Brand colors?
 
 ## Todo List
 
-1. Self Provider
-2. Fake data for groups, issues, self
+1. **DONE** Self Provider
+2. **NOT NEEDED** Fake data for groups, issues, self
 3. Update Auth to also fetch self
 4. Refactor Answers and Submit
 5. Skeleton pages with styling

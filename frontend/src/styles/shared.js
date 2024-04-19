@@ -22,6 +22,13 @@ export const shared = StyleSheet.create({
         borderRadius: 5,
         alignItems: 'center',
     },
+    flexButton: { // flex buttons
+        backgroundColor: colors.element,
+        flex: 1,
+        paddingVertical: 10,
+        borderRadius: 5,
+        alignItems: 'center',
+    },
     link: { // links
         color: colors.textSecondary,
         textDecorationStyle: 'solid',
@@ -49,4 +56,20 @@ export const shared = StyleSheet.create({
         justifyContent: 'center',
         width: '100%',
     },
+    horizontalWrapper: {
+        width: '100%',
+        height: 40,
+        display: 'flex',
+        flexDirection: 'row',
+        gap: 15,
+    },
+    input: {
+        width: '100%',
+        height: 40,
+        borderWidth: 1,
+        borderColor: colors.inputBorder,
+        color: colors.textPrimary,
+        borderRadius: 5,
+        paddingHorizontal: 10,
+    }
 });

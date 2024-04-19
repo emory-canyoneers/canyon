@@ -7,7 +7,7 @@ export default function Group({group}) {
         <View style={styles.container}>
             <Text style={styles.name}>{group.name}</Text>
             {group.members.map((member) => (
-                <Text key={member} style={styles.text}>{member}</Text>
+                <Text key={member.id} style={styles.text}>{member.id}</Text>
             ))}
         </View>
     );

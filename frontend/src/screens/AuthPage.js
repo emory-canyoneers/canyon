@@ -6,7 +6,7 @@ import { styles } from '../styles/AuthPage';
 
 
 export default AuthPage = () => {
-        const [username, setUsername] = useState('');
+        const [email, setEmail] = useState('');
         const [password, setPassword] = useState('');
         const [firstName, setFirstName] = useState('');
         const [lastName, setLastName] = useState('');
@@ -23,7 +23,7 @@ export default AuthPage = () => {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    "email": username,
+                    "email": email,
                     "password": password
                 })
             };
@@ -51,8 +51,8 @@ export default AuthPage = () => {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    "name": `{firstName} {lastName}`,
-                    "email": username,
+                    "name": `${firstName} ${lastName}`,
+                    "email": email,
                     "password": password
                 })
             };
@@ -107,10 +107,10 @@ export default AuthPage = () => {
 
                     <TextInput
                         style={styles.credentials}
-                        placeholder="Username"
+                        placeholder="Email"
                         placeholderTextColor={colors.textSecondary}
-                        onChangeText={setUsername}
-                        value={username}
+                        onChangeText={setEmail}
+                        value={email}
                     />
                     <TextInput
                         style={styles.credentials}
