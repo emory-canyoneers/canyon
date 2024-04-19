@@ -5,7 +5,8 @@ import { colors } from "./colors";
 export const shared = StyleSheet.create({
     title: {
         color: colors.textPrimary,
-        fontSize: 36,
+        alignSelf: 'center',
+        fontSize: 32,
         fontWeight: 'bold',
         marginBottom: 25,
     },

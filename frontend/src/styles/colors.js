@@ -5,4 +5,5 @@ export const colors = {
     textContrastPrimary: "black",
     element: "white",
     inputBorder: "gray",
+    primary: "#FF9800",
 };

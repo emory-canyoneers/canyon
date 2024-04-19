@@ -32,7 +32,7 @@ export default function App() {
                             headerShown: false,
                             tabBarShowLabel: false,
                             tabBarActiveTintColor: colors.primary,
-                            tabBarInactiveTintColor: colors.text, // todo: fix tinting
+                            tabBarInactiveTintColor: colors.text,
                             tabBarStyle: { 
                                 backgroundColor: colors.background,
                                 borderTopWidth: 0,
@@ -43,29 +43,44 @@ export default function App() {
                             component={Home} 
                             options={{
                                 tabBarIcon: ({ color }) => (
-                                    <HomeIcon />
+                                    <HomeIcon color={color}/>
                                 )
                             }}/>
                         <Tab.Screen name="Select" component={Select} />
                         <Tab.Screen name="Answer" component={Answer} 
                             options={{
                                 tabBarIcon: ({ color }) => (
-                                    <AnswerIcon />
-                                )
-                            }}/>
-                        <Tab.Screen name="Responses" component={Responses} 
-                            options={{
-                                tabBarIcon: ({ color }) => (
-                                    <ProfileIcon />
+                                    <AnswerIcon color={color}/>
                                 )
                             }}/>
                         <Tab.Screen name="Issues" component={Issues} />
+                        <Tab.Screen name="Responses" component={Responses} 
+                            options={{
+                                tabBarIcon: ({ color }) => (
+                                    <ProfileIcon color={color}/>
+                                )
+                            }}/>
                     </Tab.Navigator>
                 ) : (
                     <Tab.Navigator screenOptions={{ headerShown: false }}>
-                        <Tab.Screen name="Home" component={Home} />
-                        <Tab.Screen name="Answer" component={Answer} />
-                        <Tab.Screen name="Profile" component={Responses} /> {/* need to set up profile page */}
+                        <Tab.Screen name="Home" component={Home} 
+                            options={{
+                                tabBarIcon: ({ color }) => (
+                                    <HomeIcon color={color}/>
+                                )
+                            }}/>
+                        <Tab.Screen name="Answer" component={Answer} 
+                            options={{
+                                tabBarIcon: ({ color }) => (
+                                    <AnswerIcon color={color}/>
+                                )
+                            }}/>
+                        <Tab.Screen name="Profile" component={Responses} 
+                            options={{
+                                tabBarIcon: ({ color }) => (
+                                    <ProfileIcon color={color}/>
+                                )
+                            }}/> {/* need to set up profile page */}
                     </Tab.Navigator>
                 )
             )
