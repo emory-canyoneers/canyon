@@ -99,7 +99,7 @@ public class GroupService {
         return null;
     }
 
-    public List<Group> findGroupsByUserId(String token, int limit) {
+    public List<Group> findGroupsByUserId(String token) {
         User user = firebaseService.fetchUser(token);
 
         List<Group> groups = new ArrayList<>();
@@ -110,6 +110,6 @@ public class GroupService {
             }
         }
 
-        return groups.stream().limit(limit).collect(Collectors.toList());
+        return groups.stream().collect(Collectors.toList());
     }
 }

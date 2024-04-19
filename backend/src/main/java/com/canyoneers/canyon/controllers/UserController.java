@@ -2,11 +2,15 @@ package com.canyoneers.canyon.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.canyoneers.canyon.dto.AuthDto;
 import com.canyoneers.canyon.dto.SignupDto;
+import com.canyoneers.canyon.dto.UserUpdateDto;
+import com.canyoneers.canyon.models.User;
+import com.canyoneers.canyon.repositories.UserRepository;
 import com.canyoneers.canyon.services.FirebaseService;
 import com.canyoneers.canyon.services.GroupService;
 import com.canyoneers.canyon.services.ResponseService;
@@ -23,6 +27,8 @@ public class UserController {
     ResponseService responseService;
     @Autowired
     FirebaseService firebaseService;
+    @Autowired
+    UserRepository userRepository;
 
     /**
      * Sign up for a new account
@@ -38,7 +44,6 @@ public class UserController {
     /**
      * Delete a user
      * 
-     * @param userId
      * @return
      */
     @DeleteMapping
@@ -49,5 +54,48 @@ public class UserController {
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.internalServerError().build();
+    }
+
+    /**
+     * Get user info
+     * 
+     * @param userId
+     * @return all the user info
+     */
+    @GetMapping
+    public ResponseEntity<?> getCurrentUser(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
+        token = token.replaceFirst("Bearer ", "");
+        String fId = firebaseService.fetchUserFId(token);
+        User user = userService.getUserByFId(fId);
+        if (user != null) {
+            return ResponseEntity.ok(user);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PutMapping("/edit")
+    // I want a json object with the new password to be sent to this endpoint
+    public ResponseEntity<AuthDto> editInfo(@RequestHeader(HttpHeaders.AUTHORIZATION) String token,
+            @RequestBody UserUpdateDto dto) {
+        token = token.replaceFirst("Bearer ", "");
+        String fId = firebaseService.fetchUserFId(token);
+        User user = userService.getUserByFId(fId);
+
+        System.out.println(dto);
+        AuthDto response = new AuthDto();
+
+        if (user == null)
+            return ResponseEntity.notFound().build();
+        if (dto.getName() != null)
+            user.setName(dto.getName());
+        if (dto.getEmail() != null)
+            user.setEmail(dto.getEmail());
+        if (dto.getNewPassword() != null) {
+            response = firebaseService.changePassword(token, dto.getNewPassword());
+        }
+
+        userRepository.save(user);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

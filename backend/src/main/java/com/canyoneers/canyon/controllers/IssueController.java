@@ -45,8 +45,7 @@ public class IssueController {
      * @return List of issues
      */
     @GetMapping("/{groupId}")
-    public List<Issue> getIssues(@RequestHeader(HttpHeaders.AUTHORIZATION) String token, @PathVariable String groupId,
-            @RequestParam(defaultValue = "10") int limit) {
-        return issueService.getIssues(token, groupId, limit);
+    public List<Issue> getIssues(@RequestHeader(HttpHeaders.AUTHORIZATION) String token, @PathVariable String groupId) {
+        return issueService.getIssues(token, groupId);
     }
 }

@@ -34,6 +34,7 @@ public class FirebaseService {
     static final String signupUrl = "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=";
     static final String lookupUrl = "https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=";
     static final String deleteUrl = "https://identitytoolkit.googleapis.com/v1/accounts:delete?key=";
+    static final String changePasswordUrl = "https://identitytoolkit.googleapis.com/v1/accounts:update?key=";
 
     public AuthDto login(LoginDto login) {
         try {
@@ -117,6 +118,28 @@ public class FirebaseService {
                 .header("Content-Type", "application/json")
                 .POST(HttpRequest.BodyPublishers.ofString(body))
                 .build();
+    }
+
+    public AuthDto changePassword(String token, String newPassword) {
+        try {
+            HttpRequest request = buildRequest(changePasswordUrl,
+                    "{\"idToken\":\"" + token + "\",\"password\":\"" + newPassword + "\",\"returnSecureToken\":true}");
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            if (response.statusCode() == 200) {
+                AuthResponse authResponse = objectMapper.readValue(response.body(), AuthResponse.class);
+                AuthDto authDto = new AuthDto();
+                authDto.setFId(authResponse.localId);
+                authDto.setToken(authResponse.idToken);
+                authDto.setExpiry(authResponse.expiresIn);
+                return authDto;
+            }
+
+            return null; // failed
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }
 

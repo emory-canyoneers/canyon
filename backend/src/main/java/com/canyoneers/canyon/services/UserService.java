@@ -38,4 +38,13 @@ public class UserService {
         return true;
     }
 
+    /**
+     * Get user by firebase id
+     * 
+     * @param fId the firebase id
+     * @return the user
+     */
+    public User getUserByFId(String fId) {
+        return userRepository.findFirstByfId(fId);
+    }
 }

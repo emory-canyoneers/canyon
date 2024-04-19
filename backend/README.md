@@ -15,7 +15,7 @@ curl 'joincanyon.org/users' -X POST -H 'Content-Type: application/json' \
 
 - Log in:
 
-  - **GET** /auth
+  - **POST** /auth
   - body: `{"email", "password"}`
   - returns: `{"token", "expiry"}`
 
@@ -33,8 +33,18 @@ curl 'joincanyon.org/users' -X POST -H 'Content-Type: application/json' \
 - Delete user:
 
   - **DELETE** /users
-  - body: `{"userId"}`
   - returns: Success code of operation
+
+- Get self information:
+
+  - **GET** /users
+  - returns: `{"id", "name", "email", "groups" [string]}`
+
+- Update self information:
+  - **POST** /users/edit
+  - body: `{"name", "email", "newPassword"}`
+  - returns: `{"token", "expiry"}`
+  - note: regenerates authentication so need to reload authentication token
 
 ## Group Endpoints
 
@@ -42,12 +52,12 @@ curl 'joincanyon.org/users' -X POST -H 'Content-Type: application/json' \
 
   - **POST** /groups
   - body: `{"name"}`
-  - returns: Created group `{"id", "name", "issueCount" integer, "owner", "members" [string], "issues" [issue]}`
+  - returns: Created group `{"id", "name", "issueCount" integer, "issueFrequency" integer, "owner" user, "members" [user], "issues" [issue]}`
 
 - Fetch groups user is in
 
-  - **GET** /groups`?limit=n, default 10 if not included`
-  - returns: First n groups `[group]`
+  - **GET** /groups
+  - returns: List of groups `[group]`
 
 - Join a group
 
@@ -69,7 +79,7 @@ curl 'joincanyon.org/users' -X POST -H 'Content-Type: application/json' \
 
 - Get issues from specified group:
 
-  - **GET** /issues/`groupId` `?limit=n, default 10 if not included`
+  - **GET** /issues
   - returns: List of issues `[issue]`
 
 ## Response Endpoints
