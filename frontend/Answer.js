@@ -1,28 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import { Text, View, Pressable, TextInput } from "react-native";
-import { Modal } from "./Modal";
 import questionsData from "./Questions.json";
-import { Link } from "@react-navigation/native";
-import Submitted from "./Submitted.js";
+import AuthContext from "./AuthContext";
 
 export default Answer = () => {
-  const [data, setData] = React.useState(null);
-  const [textInputs, setTextInputs] = React.useState({});
+  const [textInput, setTextInput] = React.useState("");
   const [submitClicked, setSubmitClicked] = React.useState(false);
+  const [editClicked, setEditClicked] = React.useState(false);
+  const [groupId, setGroupId] = React.useState("");
+  const [question, setQuestion] = React.useState("");
+  const tokenContext = useContext(AuthContext);
 
-  useEffect(() => {
-    setData(questionsData);
-    const initialTextInputs = {};
-    questionsData.forEach((question) => {
-      initialTextInputs[question.id] = "";
-    });
-    setTextInputs(initialTextInputs);
-  }, []);
-
-  const onChangeText = (id, newText) => {
-    setTextInputs((prevTextInputs) => ({
-      ...prevTextInputs,
-      [id]: newText,
+  const onChangeText = (newText) => {
+    setTextInput((prevTextInput) => ({
+      ...prevTextInput,
+      newText,
     }));
   };
 
@@ -30,31 +22,115 @@ export default Answer = () => {
     setSubmitClicked(true);
   };
 
+  const handleEditClicked = () => {
+    setEditClicked(true);
+  };
+
+
+  const getGroupId = async (token) => {
+    console.log("Running get group id with token: " + token)
+    const url = "http://joincanyon.org/groups"
+    const options = {
+        method: "GET",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json;charset=UTF-8",
+            Authorization: "Bearer "+token
+        }
+      };
+
+      const response = await fetch(url, options)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+      }
+        return response.json()
+      })
+      .then((data) => {
+        return data[0].id
+      })
+
+      return response;
+  };
+
+  // const groupId = getGroupId(tokenContext[0]);
+
+  const getQuestion = async (param, token) => {
+    const url = "http://joincanyon.org/issues/" + param;//+"?limit=1";
+    const options = {
+        method: "GET",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: "Bearer "+token,
+        }
+      }
+    return await fetch(url, options)
+      .then((response) => {
+        //console.log(url);
+        //console.log(param);
+        if (!response.ok) {
+          throw new Error("HTTP error status: " + response.status)
+        }
+        return response.json()
+      })
+      .then((data) => {
+        return data[0].question;
+      })
+  };
+
+  useEffect(() => {
+    const initialTextInput = {};
+    questionsData.forEach((question) => {
+      initialTextInput[question.id] = "";
+    });
+    setTextInput(initialTextInput);
+  }, []);
+  
   return (
     <View style={styles.container}>
       {submitClicked ? (
-        <Submitted
-          data={data}
-          textInputs={textInputs}
-          onChangeText={onChangeText}
-        />
+        <View>
+        <Text style={styles.textStyle}>Thank you for submitting this week's answer!</Text>
+        <Pressable style={styles.sched} onPress={async () => {
+          const id = await getGroupId(tokenContext[0]);
+          setGroupId(groupId);
+          const ques = await getQuestion(id, tokenContext[0])
+          setQuestion(ques);
+        }}>
+          <Text style={{ textAlign: "center" }}>Get Questions</Text>
+        </Pressable>
+        <Text style={styles.options}>{question}</Text>
+        <TextInput
+                style={styles.input}
+                onChangeText={(newText) => onChangeText(newText)}
+                value={textInput}
+                placeholder="Enter answer here"
+                placeholderTextColor="#6C6E77" 
+              />
+        <Pressable style={styles.sched} onPress={handleEditClicked}>
+          <Text style={{ textAlign: "center" }}>Edit</Text>
+        </Pressable>
+      </View>
       ) : (
         <View>
           <Text style={styles.textStyle}>Answer this week’s questions.</Text>
-          <Text style={styles.sub}>Thanks, Julia for picking these!</Text>
-          {Array.isArray(data) &&
-            data.slice(0, 3).map((item) => (
-              <View key={item.id}>
-                <Text style={styles.options}>{item.key}</Text>
-                <TextInput
+          <Pressable style={styles.sched} onPress={async () => {
+            const id = await getGroupId(tokenContext[0]);
+            setGroupId(groupId);
+            const ques = await getQuestion(id, tokenContext[0])
+            setQuestion(ques);
+          }}>
+            <Text style={{ textAlign: "center" }}>Get Questions</Text>
+          </Pressable>
+          <Text style={styles.options}>{question}</Text>
+          <TextInput
                   style={styles.input}
-                  onChangeText={(newText) => onChangeText(item.id, newText)}
-                  value={textInputs[item.id]}
+                  onChangeText={(newText) => onChangeText(newText)}
+                  value={textInput}
                   placeholder="Enter answer here"
                   placeholderTextColor="#6C6E77" 
                 />
-              </View>
-            ))}
           <Pressable style={styles.sched} onPress={handleSubmitClicked}>
             <Text style={{ textAlign: "center" }}>Submit</Text>
           </Pressable>
