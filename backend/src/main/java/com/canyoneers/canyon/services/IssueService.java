@@ -32,6 +32,10 @@ public class IssueService {
         Group group = groups.findById(groupId).get();
         Issue issue = group.newIssue(dto.getQuestion());
 
+        if (issue == null) {
+            throw new RuntimeException("Group is not ready for a new issue");
+        }
+
         groups.save(group);
         return issues.save(issue);
     }

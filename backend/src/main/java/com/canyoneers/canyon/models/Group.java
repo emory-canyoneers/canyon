@@ -1,5 +1,6 @@
 package com.canyoneers.canyon.models;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +22,7 @@ public class Group {
     private ObjectId id;
     private String name;
     private int issueCount;
+    private int issueFrequency; // need to manually change, in seconds
 
     @DBRef
     private User owner;
@@ -32,6 +34,7 @@ public class Group {
     public Group() {
         id = new ObjectId();
         issueCount = 0;
+        issueFrequency = 180; // default 3 minutes
         members = new ArrayList<>();
         issues = new ArrayList<>();
     }
@@ -74,14 +77,17 @@ public class Group {
     }
 
     public Issue newIssue(String question) {
-        issueCount++;
-        Issue issue = new Issue(this, question);
-        if (issues.add(issue)) {
-            return issue;
-        } else {
-            issueCount--;
-            return null;
+        if (!currentIssue().getTime().isAfter(LocalTime.now().minusSeconds(issueFrequency))) {
+            issueCount++;
+            Issue issue = new Issue(this, question);
+            if (issues.add(issue)) {
+                return issue;
+            } else {
+                issueCount--;
+                return null;
+            }
         }
+        return null;
     }
 
     public Issue currentIssue() {
