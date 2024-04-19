@@ -6,6 +6,7 @@ import Responses from "./old/Responses";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import LandingPage from './src/screens/LandingPage';
 import Issues from "./src/screens/Issues";
 import AuthProvider from "./src/store/AuthProvider";
 import AuthPage from "./src/screens/AuthPage";
@@ -23,6 +24,7 @@ export default function App() {
         <AuthPage /> 
       ) : (
        <Tab.Navigator screenOptions={{ headerShown: false }}>
+        <Tab.Screen name="Your Groups" component={LandingPage} />
         <Tab.Screen name="Select" component={Select} />
         <Tab.Screen name="Answer" component={Answer} />
         <Tab.Screen name="Responses" component={Responses} />
