@@ -2,6 +2,13 @@
 
 All fields are strings unless otherwise specified.
 
+Example cURL call:
+
+```bash
+curl 'joincanyon.org/users' -X POST -H 'Content-Type: application/json' \
+--data-binary '{"email": "<email here>", "name": "<name here>", "password": "<password here>"}'
+```
+
 ## Auth/User Endpoints
 
 **All Other Endpoints Are Authenticated Unless Otherwise Specified!**
@@ -19,7 +26,7 @@ All fields are strings unless otherwise specified.
   - returns: `{"token", "expiry"}`
 
 - **The return token must be stored securely and passed with each authenticated request as an authentication header!**
-- To include authentication, create the `Authentication`, `Bearer <token>` key, value pair in the header (remove the brackets around token but include `Bearer `)
+- To include authentication, create the `Authorization`, `Bearer <token>` key, value pair in the header (remove the brackets around token but include `Bearer `)
 
 ## User Endpoints
 

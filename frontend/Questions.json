@@ -1,0 +1,29 @@
+[
+  { "id": 0, "key": "What is your earliest memory?" },
+  {
+    "id": 1,
+    "key": "What area in your life are you looking to improve?"
+  },
+  {
+    "id": 2,
+    "key": "What is something that is important to you that you never really talk about?"
+  },
+  {
+    "id": 3,
+    "key": "What motivates you?"
+  },
+  { "id": 4, "key": "What's the best advice you've ever received?" },
+  {
+    "id": 5,
+    "key": "What's a deep or difficult question you've been pondering lately?"
+  },
+  {
+    "id": 6,
+    "key": "How would you describe your approach to your career so far?"
+  },
+  {
+    "id": 7,
+    "key": "What's something you're absolutely convinced is going to happen in the future?"
+  },
+  { "id": 8, "key": "What's something you recently learned?" }
+]

@@ -1,0 +1,6 @@
+Todo:
+1. UI
+2. Msg to link to this week's questions 
+3. Send notif when it's your turn to pick/answer questions.
+4. Smaller components
+5. Rich Embed
