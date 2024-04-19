@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Text, ScrollView, View } from 'react-native';
 import { AuthContext } from "../store/auth";
+import { InfoContext } from "../store/info";
 import Group from '../components/Group';
 import { styles } from '../styles/Home';
 
 export default function Home() {
-    const [groups, setGroups] = useState([]);
+    const groupsContext = useContext(InfoContext);
     const tokenContext = useContext(AuthContext);
 
     // load groups on login
@@ -33,7 +34,7 @@ export default function Home() {
                     return data;
                 });
     
-            setGroups(response);
+            groupsContext[1](response);
         };
 
         fetchGroups();
@@ -45,7 +46,7 @@ export default function Home() {
                 <Text style={styles.title}>Welcome back!</Text>
                 <Text style={styles.heading}>Check in on your groups:</Text>
                 <View style={styles.content}>
-                    {groups.map((group) => (
+                    {groupsContext[0].map((group) => (
                         <Group key={group.id} group={group} />
                     ))}
                 </View>

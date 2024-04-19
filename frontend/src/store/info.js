@@ -40,15 +40,31 @@ import { createContext, useState } from 'react';
  * - issue (ID string)
 */
 
-export const InfoContext = createContext([null, () => null]);
+export const InfoContext = createContext();
+
 export const InfoProvider = ({ children }) => {
-    const [info, setInfo] = useState(null);
+    const [groups, setGroups] = useState([]);
   
     return (
-      <InfoContext.Provider value={[info, setInfo]}>
+      <InfoContext.Provider value={[groups, setGroups]}>
         {children}
       </InfoContext.Provider>
     );
 };
 
 // helper functions to operate on data
+export function getGroups(groups) {
+    return groups;
+}
+
+export function getGroup(groups, id) {
+    return groups.find(group => group.id === id);
+}
+
+export function getGroupQuestions(groups, groupId) {
+    return getGroup(groups, groupId).issues;
+}
+
+export function getGroupMembers(groups, groupId) {
+    return getGroup(groups, groupId).members;
+}

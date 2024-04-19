@@ -12,6 +12,7 @@ import { AuthProvider, AuthContext } from "./src/store/auth";
 import AuthPage from "./src/screens/AuthPage";
 import { HomeIcon, AnswerIcon, ProfileIcon } from "./src/components/Svg";
 import { colors } from "./src/styles/colors";
+import { InfoProvider } from "./src/store/info";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -88,11 +89,13 @@ export default function App() {
 
     return (
         <AuthProvider>
-            <NavigationContainer style={styles.appContainer}>
-                <Stack.Navigator screenOptions={{ headerShown: false }}>
-                    <Stack.Screen name="Content" component={Content} />
-                </Stack.Navigator>
-            </NavigationContainer>
+            <InfoProvider>
+                <NavigationContainer style={styles.appContainer}>
+                    <Stack.Navigator screenOptions={{ headerShown: false }}>
+                        <Stack.Screen name="Content" component={Content} />
+                    </Stack.Navigator>
+                </NavigationContainer>
+            </InfoProvider>
         </AuthProvider>
     );
 }

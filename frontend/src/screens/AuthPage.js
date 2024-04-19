@@ -69,7 +69,7 @@ export default AuthPage = () => {
             
             tokenContext[1](response.token)
             return;
-        }
+        };
 
         return (
             <View style={styles.container}>
