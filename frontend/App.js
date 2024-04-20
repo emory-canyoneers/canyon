@@ -14,6 +14,7 @@ import { HomeIcon, AnswerIcon, ProfileIcon } from "./src/components/Svg";
 import { colors } from "./src/styles/colors";
 import { InfoProvider } from "./src/store/info";
 import { SelfProvider } from "./src/store/self";
+import Profile from "./src/screens/ProfilePage";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -21,7 +22,7 @@ const Tab = createBottomTabNavigator();
 export default function App() {
     function Content() {
         const tokenContext = useContext(AuthContext);
-        const refactor = true; // remove once refactoring is done and skeleton pages are set up
+        const refactor = false; // remove once refactoring is done and skeleton pages are set up
 
         return (
             tokenContext[0] === null ? (
@@ -37,8 +38,7 @@ export default function App() {
                             tabBarStyle: { 
                                 backgroundColor: colors.background,
                                 borderTopWidth: 0,
-                            }}}
-                    >
+                            }}}>
                         <Tab.Screen 
                             name="Home"
                             component={Home} 
@@ -63,7 +63,16 @@ export default function App() {
                             }}/>
                     </Tab.Navigator>
                 ) : (
-                    <Tab.Navigator screenOptions={{ headerShown: false }}>
+                    <Tab.Navigator
+                        screenOptions={{
+                            headerShown: false,
+                            tabBarShowLabel: false,
+                            tabBarActiveTintColor: colors.primary,
+                            tabBarInactiveTintColor: colors.text,
+                            tabBarStyle: { 
+                                backgroundColor: colors.background,
+                                borderTopWidth: 0,
+                        }}}>
                         <Tab.Screen name="Home" component={Home} 
                             options={{
                                 tabBarIcon: ({ color }) => (
@@ -76,12 +85,12 @@ export default function App() {
                                     <AnswerIcon color={color}/>
                                 )
                             }}/>
-                        <Tab.Screen name="Profile" component={Responses} 
+                        <Tab.Screen name="Profile" component={ProfilePage} 
                             options={{
                                 tabBarIcon: ({ color }) => (
                                     <ProfileIcon color={color}/>
                                 )
-                            }}/> {/* need to set up profile page */}
+                            }}/>
                     </Tab.Navigator>
                 )
             )
