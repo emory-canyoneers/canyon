@@ -7,5 +7,5 @@ export const colors = {
     elementDark: "#46464d",
     inputBorder: "gray",
     primary: "#FF9800",
-    highlight: "#FFD54F",
+    secondary: "#FFD54F",
 };

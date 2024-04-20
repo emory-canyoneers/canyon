@@ -26,10 +26,12 @@ Brand colors?
 
 1. **DONE** Self Provider
 2. **NOT NEEDED** Fake data for groups, issues, self
-3. Update Auth to also fetch self
-4. Refactor Answers and Submit
-5. Skeleton pages with styling
-6. Send message about taking a skeleton page and doing it
+3. **DONE** Update Auth to also fetch self
+4. **Done** Skeleton pages with styling
+5. Refactor Answers and Submit
+6. Create answer/edit component with modal for answers page (copy groups modal)
+7. Link answer/edit component to groups page
+8. Clean up error handling
 
 ## Notes to Self
 

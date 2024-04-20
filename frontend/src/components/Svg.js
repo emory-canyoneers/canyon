@@ -1,4 +1,4 @@
-import { Svg, Path, Polyline, Circle } from "react-native-svg"
+import { Svg, Path, Polyline, Circle, Line } from "react-native-svg"
 
 export function HomeIcon({ color }) {
     return (
@@ -22,6 +22,15 @@ export function ProfileIcon({ color }) {
         <Svg className="feather feather-user" height="24" width="24" viewBox="0 0 24 24">
             <Path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" fill="none" stroke={color} strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" />
             <Circle cx="12" cy="7" r="4" fill="none" stroke={color} strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" />
+        </Svg>
+    )
+}
+
+export function Exit({ color, scale = 1 }) {
+    const size = 24 * scale;
+    return (
+        <Svg className="feather feather-x" fill="none" height={size} stroke={color} strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" width={size} xmlns="http://www.w3.org/2000/svg">
+            <Line x1="18" x2="6" y1="6" y2="18"/><Line x1="6" x2="18" y1="6" y2="18"/>
         </Svg>
     )
 }
