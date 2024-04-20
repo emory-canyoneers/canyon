@@ -1,13 +1,13 @@
 import { StyleSheet, Text, View } from "react-native";
 import { useContext } from "react";
-import Select from "./src/screens/Select";
+import Select from "./old/Select";
 import AnswerPage from "./src/screens/AnswerPage";
 import Responses from "./old/Responses";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Home from './src/screens/Home';
-import Issues from "./src/screens/Issues";
+import Issues from "./old/Issues";
 import { AuthProvider, AuthContext } from "./src/store/auth";
 import AuthPage from "./src/screens/AuthPage";
 import { HomeIcon, AnswerIcon, ProfileIcon } from "./src/components/Svg";

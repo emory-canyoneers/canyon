@@ -65,17 +65,31 @@ export function getGroupMembers(groups, groupId) {
     return getGroup(groups, groupId).members;
 }
 
-export function getAllQuestions(groups) {
+// fetch all answered and unanswered questions from all of the user's groups
+export function getAllQuestions(groups, id) {
     let answered = [];
     let unanswered = [];
 
-    // groups.forEach(group => {
-    //     questions = group.issues
-    //     if (group.issues.length > 0) {
-    //         question = questions[questions.length - 1]
-    //         if (question.)
-    //     }
-    // });
-    
+    groups.forEach(group => {
+        let questions = group.issues
+        let answered = false;
+        questions.forEach(question => {
+            question.responses.forEach(response => {
+                if (response.user.id === id) {
+                    answered = true;
+                    answered.push(question);
+                    return; // break out of loop
+                }
+            });
+
+            if (!answered) {
+                unanswered.push(question);
+            }
+        });
+    });
+
+    console.log(`Answered: ${answered}`);
+    console.log(`Unanswered: ${unanswered}`);
+
     return { answered, unanswered };
 }

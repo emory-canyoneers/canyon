@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
-import { AuthContext } from "../store/auth";
+import { AuthContext } from "../src/store/auth";
 import { Text, ScrollView, Button, Pressable } from "react-native";
-import Issue from "../components/Issue";
+import Issue from "../src/components/Issue";
 
 const issuesUrl = "http://joincanyon.org/issues"
 

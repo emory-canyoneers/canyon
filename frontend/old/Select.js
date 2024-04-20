@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Text, ScrollView, TouchableOpacity } from "react-native";
-import { Modal } from "../components/Modal";
+import { Modal } from "../src/components/Modal";
 
-const questionsData = require("../components/Questions.json");
+const questionsData = require("../src/components/Questions.json");
 
 export default Select = () => {
   const [data, setData] = React.useState(questionsData);

@@ -1,17 +1,23 @@
-import React, { useEffect, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Text, View, Pressable, TextInput, ScrollView } from "react-native";
-import questionsData from "../components/Questions.json";
-import { AuthContext } from "../store/auth";
 import { styles } from "../styles/Answer"
 import { colors } from "../styles/colors";
+import { AuthContext } from "../store/auth";
+import { InfoContext } from "../store/info";
+import { SelfContext } from "../store/self";
+import { getAllQuestions } from "../store/info"
 
 export default AnswerPage = () => {
-    const tokenContext = useContext(AuthContext);
+    const token = useContext(AuthContext)[0];
+    const groups = useContext(InfoContext)[0];
+    const selfId = useContext(SelfContext)[0].id;
     const [unanswered, setUnanswered] = useState([]);
     const [answered, setAnswered] = useState([]);
 
     useEffect(() => {
-
+        const questions = getAllQuestions(groups, selfId);
+        setAnswered(questions.answered);
+        setUnanswered(questions.unanswered);
     }, []);
     
     return (
@@ -21,16 +27,18 @@ export default AnswerPage = () => {
                 <Text style={styles.title}>Your groups are waiting to hear back!</Text>
                 <Text style={styles.heading}>Unanswered questions:</Text>
                 <View style={styles.content}>
-                    {[1, 4, 9].map((question) => (
-                        <Text key={question} style={styles.note}>TODO: fetch unanswered from groups, map</Text>
+                    {unanswered.map((question) => (
+                        // TODO: add components, popup to answer question
+                        <Text key={question.id} style={styles.note}>{question.question}</Text>
                     ))}
                 </View>
                 
                 {/* Edit open questions */}
                 <Text style={styles.heading}>Want to revisit open questions?</Text>
                 <View style={styles.content}>
-                    {[1, 4, 9].map((question) => (
-                        <Text key={question} style={styles.note}>TODO: fetch answered from groups, map</Text>
+                    {answered.map((question) => (
+                        // TODO: reuse unanswered question component, change to edit button
+                        <Text key={question.id} style={styles.note}>{question.question}</Text>
                     ))}
                 </View>
 
