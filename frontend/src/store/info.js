@@ -88,8 +88,5 @@ export function getAllQuestions(groups, id) {
         });
     });
 
-    console.log(`Answered: ${answered}`);
-    console.log(`Unanswered: ${unanswered}`);
-
     return { answered, unanswered };
 }

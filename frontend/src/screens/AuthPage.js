@@ -36,9 +36,9 @@ export default AuthPage = () => {
                 })
                 .then((data) => {
                     return data;
-                })
+                });
             
-            setToken(response.token)
+            setToken(response.token);
             return;
         };
 
@@ -65,9 +65,9 @@ export default AuthPage = () => {
                 })
                 .then((data) => {
                     return data;
-                })
+                });
             
-            setToken(response.token)
+            setToken(response.token);
             return;
         };
 
@@ -111,6 +111,7 @@ export default AuthPage = () => {
                         placeholderTextColor={colors.textSecondary}
                         onChangeText={setEmail}
                         value={email}
+                        autoCapitalize='none'
                     />
                     <TextInput
                         style={styles.credentials}
@@ -119,6 +120,7 @@ export default AuthPage = () => {
                         onChangeText={setPassword}
                         value={password}
                         secureTextEntry={true}
+                        autoCapitalize='none'
                     />
                     <TouchableOpacity style={styles.button} onPress={() => {
                         signup ? signUp() : login()
