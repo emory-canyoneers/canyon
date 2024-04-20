@@ -90,3 +90,8 @@ export function getAllQuestions(groups, id) {
 
     return { answered, unanswered };
 }
+
+export function getCurrentQuestion(group) {
+    questions = group.issues;
+    return questions[questions.length - 1];
+}

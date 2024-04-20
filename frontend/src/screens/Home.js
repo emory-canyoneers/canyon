@@ -12,6 +12,7 @@ export default function Home() {
     const groups = groupsContext[0];
     const setGroups = groupsContext[1];
     const token = useContext(AuthContext)[0];
+    const self = useContext(SelfContext)[0];
     const setSelf = useContext(SelfContext)[1];
     const [creating, setCreating] = useState(false);
     const [joining, setJoining] = useState(false);
@@ -141,7 +142,10 @@ export default function Home() {
     return (
         <ScrollView style={styles.scrollView} contentContainerStyle={styles.container}>
             <View style={styles.body}>
-                <Text style={styles.title}>Welcome back!</Text>
+                {/* self ? is to prevent crash while fetchSelf is getting self */}
+                <Text style={styles.title}>
+                    Welcome back <Text style={{color: colors.primary}}>{self ? self.name.split(" ")[0] : null}</Text>!
+                </Text>
                 <Text style={styles.heading}>Check in on your groups:</Text>
                 <View style={styles.content}>
                     {groups.map((group) => (
@@ -167,7 +171,7 @@ export default function Home() {
                     </View>
                     {
                         creating ? (
-                            <View style={styles.content}>
+                            <View style={styles.subcontent}>
                                 <TextInput
                                     style={styles.input}
                                     placeholder="New Group Name"
@@ -184,7 +188,7 @@ export default function Home() {
                     }
                     {
                         joining ? (
-                            <View style={styles.content}>
+                            <View style={styles.subcontent}>
                                 <TextInput
                                     style={styles.input}
                                     placeholder="Group Code"

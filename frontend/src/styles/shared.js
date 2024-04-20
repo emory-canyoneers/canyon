@@ -7,7 +7,7 @@ export const shared = StyleSheet.create({
         color: colors.textPrimary,
         alignSelf: 'center',
         textAlign: 'center',
-        fontSize: 32,
+        fontSize: 28,
         fontWeight: 'bold',
         marginBottom: 25,
     },
@@ -15,6 +15,11 @@ export const shared = StyleSheet.create({
         color: colors.textPrimary,
         fontSize: 24,
         marginTop: 15,
+        fontWeight: 'bold',
+    },
+    subheading: { // subheading text
+        color: colors.textPrimary,
+        fontSize: 20,
         fontWeight: 'bold',
     },
     paragraph: { // body text
