@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="./styles/AboutUs.css">
+    <link rel="stylesheet" href="./styles/nav.css">
+    <title>Canyon</title>
+</head>
+
+<script>
+    //includes the nav.html file
+    function includeNAV() {
+        const elements = document.querySelectorAll('[nav]');
+
+        elements.forEach(element => {
+            const file = element.getAttribute('nav');
+            const xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4) {
+                    if (this.status == 200) { element.innerHTML = this.responseText; }
+                    if (this.status == 404) { element.innerHTML = 'Page not found.'; }
+                    element.removeAttribute('nav');
+                    includeHTML();
+                }
+            }
+            xhttp.open('GET', file, true);
+            xhttp.send();
+        });
+    }
+</script>
+
+<body>
+
+    <div nav="nav.html"></div>
+
+    <script>
+        includeNAV();
+    </script>
+
+    <div class="about-section">
+        <h1>Contact Us</h1>
+    </div>
+
+    <div class="row">
+        <div class="column">
+            <div class="card">
+                <img src="./HeadShots/Penelope Gallardo.jfif" alt="Penelope Gallardo" style="width:100%">
+                <div class="container">
+                <h2>Penelope Gallardo</h2>
+                <p>Junior Majoring in CS and Business</p>
+                <p>penelope.gallardo@emory.edu</p>
+                <!-- <p><button class="button">Contact</button></p> -->
+                </div>
+            </div>
+        </div>
+    
+        <div class="column">
+            <div class="card">
+                <img src="./HeadShots/Andrew Lu.jfif" alt="Andrew Lu" style="width:100%">
+                <div class="container">
+                <h2>Andrew Lu</h2>
+                <p>Sophmore Majoring in CS</p>
+                <p>andrew.lu@emory.edu</p>
+                <!-- <p><button class="button">Contact</button></p> -->
+                </div>
+            </div>
+        </div>
+    
+        <div class="column">
+            <div class="card">
+                <img src="./HeadShots/Lindsay Esterman.jfif" alt="Lindsay Esterman" style="width:100%">
+                <div class="container">
+                <h2>Lindsay Esterman</h2>
+                <p>Sophmore Majoring in CS</p>
+                <p>lindsay.esterman@emory.edu</p>
+                <!-- <p><button class="button">Contact</button></p> -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="column">
+            <div class="card">
+                <img src="./HeadShots/Thalia Papageorgiou.jfif" alt="Thalia Papageorgiou" style="width:100%">
+                <div class="container">
+                <h2>Thalia Papageorgiou</h2>
+                <p>Sophmore Majoring in CS</p>
+                <p>thalia.papageorgiou@emory.edu</p>
+                <!-- <p><button class="button">Contact</button></p> -->
+                </div>
+            </div>
+        </div>
+    
+        <div class="column">
+            <div class="card">
+                <img src="./HeadShots/James Yoon.png" alt="James Yoon" style="width:100%">
+                <div class="container">
+                <h2>James Yoon</h2>
+                <p>Junior Majoring in CS</p>
+                <p>james.yoon@emory.edu</p>
+                <!-- <p><button class="button">Contact</button></p> -->
+                </div>
+            </div>
+        </div>
+    
+        <div class="column">
+            <div class="card">
+                <img src="./HeadShots/Riyan Shah.png" alt="Riyan Shah" style="width:100%">
+                <div class="container">
+                <h2>Riyan Shah</h2>
+                <p>Sophmore Majoring in CS and QSS</p>
+                <p>riyan.shah@emory.edu</p>
+                <!-- <p><button class="button">Contact</button></p> -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

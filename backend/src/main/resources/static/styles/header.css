@@ -1,0 +1,76 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+body {
+    margin: 0;
+    padding: 0;
+    background-image: url('Vector.svg'); /* Default background image */
+    background-size: cover;
+    background-color: #F3EEE7;
+    font-family: 'Roboto', sans-serif;
+}
+
+/* Split the screen in half */
+.split {
+    height: 85%;
+    width: 50%;
+    position: fixed;
+    z-index: 1;
+    top: 10%;
+    overflow-x: hidden;
+    padding-top: 20px;
+}
+  
+  /* Control the left side */
+.left {
+    left: -3%;
+}
+  
+  /* Control the right side */
+.right {
+    right: 0;
+    
+}
+
+.logo {
+    float: left;
+    width: 4%;
+    border-radius: 3rem;
+    margin-left: .3%;
+    margin-top: .3%;
+}
+  
+/* If you want the content centered horizontally and vertically */
+.centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+  
+/* Style the image inside the centered container, if needed */
+.centered img {
+    width: 100%;
+    margin-left: 3%; 
+    padding: 10%;
+}
+
+.centered h2 {
+    font-size: 220%;
+    width: 130%; 
+}
+
+.paragraph {
+    width: 130%;
+}
+
+button {
+    background-color: rgba(0, 122, 255, 0.8);
+    color: white; 
+    border: 0; 
+    width: 25%;
+    height: 50%;
+    border-radius: .5rem;
+    font-size: 90%;
+    padding: 3% 2%;
+    font-family: 'Roboto', sans-serif;
+}

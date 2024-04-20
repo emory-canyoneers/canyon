@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="./styles/header.css">
+    <link rel="stylesheet" href="./styles/nav.css">
+    <title>Canyon</title>
+</head>
+
+<script>
+    //includes the nav.html file
+    function includeNAV() {
+        const elements = document.querySelectorAll('[nav]');
+
+        elements.forEach(element => {
+            const file = element.getAttribute('nav');
+            const xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4) {
+                    if (this.status == 200) { element.innerHTML = this.responseText; }
+                    if (this.status == 404) { element.innerHTML = 'Page not found.'; }
+                    element.removeAttribute('nav');
+                    includeHTML();
+                }
+            }
+            xhttp.open('GET', file, true);
+            xhttp.send();
+        });
+    }
+</script>
+
+<body>
+
+    <div nav="nav.html"></div>
+
+    <script>
+        includeNAV();
+    </script>
+
+    <div class="about-section">
+    
+        <div class="split left">
+            <div class="centered">
+            <h2>Stay conected to those who matter most.</h2>
+            <p class="paragraph">Canyon makes it easy for you to keep in touch with old friends, family, and the people you care about. Stay up-to-date on each other’s lives through our simple messaging widget</p>
+            <div class="button-container">
+                <a href="#"><button>Learn More</button></a>
+            </div>
+            </div>
+        </div>
+
+    </div>
+      
+    <div class="split right">
+        <div class="centered">
+          <img src="Group 9.svg" alt="iPhones">
+          
+        </div>
+    </div>
+
+</body>
+</html>
