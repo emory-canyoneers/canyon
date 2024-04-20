@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
 import { colors } from "./colors";
 
 // import in other stylesheets that will need these styles with `...shared,` as the first item in the StyleSheet.create object
@@ -86,5 +86,35 @@ export const shared = StyleSheet.create({
         color: colors.textPrimary,
         borderRadius: 5,
         paddingHorizontal: 10,
-    }
+    },
+    answer_input: {
+        height: 40, 
+        margin: 12, 
+        borderWidth: 1,
+        padding: 10,
+        width: Dimensions.get('window').width * 0.8,
+        color: colors.textPrimary
+    },
+    centeredView:{
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: 22, 
+        backgroundColor: 'rgba(0,0,0,0.5)', //makes the background semi-transparent 
+    },
+    modalView:{
+        margin: 20,
+        width: Dimensions.get('window').width * 0.9,
+        backgroundColor: colors.background,
+        padding: 15,
+        alignItems: "center",
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5
+    },
 });
