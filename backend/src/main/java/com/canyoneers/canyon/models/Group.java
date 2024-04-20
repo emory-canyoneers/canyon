@@ -77,7 +77,9 @@ public class Group {
     }
 
     public Issue newIssue(String question) {
-        if (!currentIssue().getTime().isAfter(LocalTime.now().minusSeconds(issueFrequency))) {
+        // short circuit, create a new issue if there are no issues or current is older
+        // than time to wait
+        if (currentIssue() == null || !currentIssue().getTime().isAfter(LocalTime.now().minusSeconds(issueFrequency))) {
             issueCount++;
             Issue issue = new Issue(this, question);
             if (issues.add(issue)) {
