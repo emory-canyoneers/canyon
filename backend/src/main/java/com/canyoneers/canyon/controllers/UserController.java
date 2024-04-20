@@ -74,15 +74,13 @@ public class UserController {
         }
     }
 
-    @PutMapping("/edit")
+    @PutMapping
     // I want a json object with the new password to be sent to this endpoint
     public ResponseEntity<AuthDto> editInfo(@RequestHeader(HttpHeaders.AUTHORIZATION) String token,
             @RequestBody UserUpdateDto dto) {
         token = token.replaceFirst("Bearer ", "");
         String fId = firebaseService.fetchUserFId(token);
         User user = userService.getUserByFId(fId);
-
-        System.out.println(dto);
         AuthDto response = new AuthDto();
 
         if (user == null)
@@ -91,8 +89,10 @@ public class UserController {
             user.setName(dto.getName());
         if (dto.getEmail() != null)
             user.setEmail(dto.getEmail());
-        if (dto.getNewPassword() != null) {
-            response = firebaseService.changePassword(token, dto.getNewPassword());
+        if (dto.getPassword() != null) {
+            response = firebaseService.changePassword(token, dto.getPassword());
+        } else {
+            response.setToken(token);
         }
 
         userRepository.save(user);

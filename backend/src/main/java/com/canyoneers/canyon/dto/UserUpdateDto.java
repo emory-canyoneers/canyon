@@ -5,6 +5,6 @@ import lombok.Data;
 @Data
 public class UserUpdateDto {
     String name;
-    String newPassword;
+    String password; // new password
     String email;
 }

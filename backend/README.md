@@ -41,10 +41,10 @@ curl 'joincanyon.org/users' -X POST -H 'Content-Type: application/json' \
   - returns: `{"id", "name", "email", "groups" [string]}`
 
 - Update self information:
-  - **POST** /users/edit
-  - body: `{"name", "email", "newPassword"}`
+  - **PUT** /users
+  - body: `{"name", "email", "password"}`
   - returns: `{"token", "expiry"}`
-  - note: regenerates authentication so need to reload authentication token
+  - note: returns new auth token if password changed, expiry is 0 if password not changed
 
 ## Group Endpoints
 
