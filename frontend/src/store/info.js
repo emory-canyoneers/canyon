@@ -66,15 +66,16 @@ export function getGroupMembers(groups, groupId) {
 }
 
 export function getAllQuestions(groups) {
-    answered = []
-    unanswered = [];
-    groups.forEach(group => {
-        questions = group.issues
-        if (group.issues.length > 0) {
-            question = questions[questions.length - 1]
-            questions.concat()
-        }
-    });
+    let answered = [];
+    let unanswered = [];
 
-    return questions
+    // groups.forEach(group => {
+    //     questions = group.issues
+    //     if (group.issues.length > 0) {
+    //         question = questions[questions.length - 1]
+    //         if (question.)
+    //     }
+    // });
+    
+    return { answered, unanswered };
 }

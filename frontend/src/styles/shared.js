@@ -6,6 +6,7 @@ export const shared = StyleSheet.create({
     title: {
         color: colors.textPrimary,
         alignSelf: 'center',
+        textAlign: 'center',
         fontSize: 32,
         fontWeight: 'bold',
         marginBottom: 25,
@@ -13,7 +14,16 @@ export const shared = StyleSheet.create({
     heading: { // main text
         color: colors.textPrimary,
         fontSize: 24,
+        marginTop: 15,
         fontWeight: 'bold',
+    },
+    paragraph: { // body text
+        color: colors.textPrimary,
+        fontSize: 18,
+    },
+    note: { // note text
+        color: colors.textSecondary,
+        fontSize: 14,
     },
     button: { // buttons
         backgroundColor: colors.element,

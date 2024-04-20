@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from "react-native";
 import { useContext } from "react";
 import Select from "./src/screens/Select";
-import Answer from "./src/screens/Answer";
+import AnswerPage from "./src/screens/AnswerPage";
 import Responses from "./old/Responses";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -48,7 +48,7 @@ export default function App() {
                                 )
                             }}/>
                         <Tab.Screen name="Select" component={Select} />
-                        <Tab.Screen name="Answer" component={Answer} 
+                        <Tab.Screen name="Answer" component={AnswerPage} 
                             options={{
                                 tabBarIcon: ({ color }) => (
                                     <AnswerIcon color={color}/>
@@ -70,7 +70,7 @@ export default function App() {
                                     <HomeIcon color={color}/>
                                 )
                             }}/>
-                        <Tab.Screen name="Answer" component={Answer} 
+                        <Tab.Screen name="Answer" component={AnswerPage} 
                             options={{
                                 tabBarIcon: ({ color }) => (
                                     <AnswerIcon color={color}/>

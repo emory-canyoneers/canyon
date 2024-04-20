@@ -6,4 +6,5 @@ export const colors = {
     element: "white",
     inputBorder: "gray",
     primary: "#FF9800",
+    highlight: "#FFD54F",
 };
