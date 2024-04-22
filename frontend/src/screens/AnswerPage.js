@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { Modal, Pressable, ScrollView, Text, TextInput, View } from "react-native";
 import { AuthContext } from "../store/auth";
-import { InfoContext, getAllQuestions } from "../store/info";
+import { InfoContext, getAllQuestions, getResponseId } from "../store/info";
 import { SelfContext } from "../store/self";
 import { styles } from "../styles/Answer";
 import { colors } from "../styles/colors";
@@ -40,7 +40,7 @@ export default AnswerPage = () => {
         const url = `http://joincanyon.org/responses`;
         const data = {
             response: answer,
-            groupId: currentQuestion.id
+            groupId: currentQuestion.groupId
         };
         const options = {
             method: "POST",
@@ -78,10 +78,14 @@ export default AnswerPage = () => {
     };
 
     const editAnswer = async () => {
+        if (!currentQuestion.id) {
+            console.error("No response ID found for question: ", currentQuestion);
+            return;
+        }
         const url = `http://joincanyon.org/responses`;
         const data = {
-            response: answer,
-            groupId: currentQuestion.id
+            responseId: getResponseId(answered, selfId, currentQuestion.id),
+            response: answer
         };
         const options = {
             method: "PUT",
@@ -92,7 +96,7 @@ export default AnswerPage = () => {
             },
             body: JSON.stringify(data)
         };
-
+        console.log(currentQuestion.id)
         console.log(data)
 
         try{
