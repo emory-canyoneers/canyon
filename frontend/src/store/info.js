@@ -72,20 +72,23 @@ export function getAllQuestions(groups, id) {
 
     groups.forEach(group => {
         let questions = group.issues
-        let answered = false;
-        questions.forEach(question => {
-            question.responses.forEach(response => {
-                if (response.user.id === id) {
-                    answered = true;
-                    answered.push(question);
-                    return; // break out of loop
-                }
-            });
+        let exists = false;
 
-            if (!answered) {
-                unanswered.push(question);
+        if (questions.length === 0) {return;}
+
+        question = questions[questions.length - 1];
+        
+        for (let i = 0; i < question.responses.length; i++) {
+            if (question.responses[i].user.id === id) {
+                exists = true;
+                answered.push(question);
+                break;
             }
-        });
+        }
+
+        if (!exists) {
+            unanswered.push(question);
+        }
     });
 
     return { answered, unanswered };

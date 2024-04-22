@@ -1,10 +1,10 @@
-import { View, Text, TextInput, TouchableOpacity } from 'react-native';
-import { useState, useContext, useEffect } from 'react';
-import { styles } from '../styles/ProfilePage';
-import { colors } from '../styles/colors';
-import { SelfContext } from '../store/self';
+import { useContext, useEffect, useState } from 'react';
+import { Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { AuthContext } from '../store/auth';
 import { InfoContext } from '../store/info';
+import { SelfContext } from '../store/self';
+import { styles } from '../styles/ProfilePage';
+import { colors } from '../styles/colors';
 
 export default ProfilePage = () => {
     const [name, setName] = useState('')

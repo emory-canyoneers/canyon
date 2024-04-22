@@ -17,6 +17,7 @@ export default AnswerPage = () => {
     const [answer, setAnswer] = useState("");
 
 
+
     useEffect(() => {
         const questions = getAllQuestions(groups, selfId);
         setAnswered(questions.answered);
@@ -29,32 +30,89 @@ export default AnswerPage = () => {
         setModalVisible(true);
     };
 
+    const editQuestion = (question) => {
+        setCurrentQuestion(question);
+        setAnswer(question.answer || "");
+        setModalVisible(true);
+    };
+
     const submitAnswer = async () => {
-        const url = `http://joincanyon.org/responses/${currentQuestion.id}/`;
+        const url = `http://joincanyon.org/responses`;
         const data = {
             response: answer,
-            groupId: currentQuestion.groupId
+            groupId: currentQuestion.id
         };
+        const options = {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + token,
+            },
+            body: JSON.stringify(data)
+        };
+
+        console.log(data)
+
         try{
-            const response = await fetch(url, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(data)
+            const response = await fetch(url, options)
+            
+            .then(response => {
+                if(!response.ok){
+                    throw new Error(`HTTP error! ${response.status}`);
+                } else {
+                    currentQuestion.isAnswered = true;
+                    console.log("Successfully submitted/ edited answer!");
+                
+                return response.json()
+                }
+            })
+            .then(data => {
+                return data;
             });
-            console.log(response.status, await response.text());
-            if (!response.ok) {
-                console.error("Failed to submit answer: !!!");
-            } else {
-                console.log("Successfully submitted answer!");
-                const questions = getAllQuestions(groups, selfId);
-                setAnswered(questions.answered);
-                setUnanswered(questions.unanswered);
-                console.log("Submitting answer: ");
-            }
         } catch (error) {
-            console.error("Failed to submit answer: ");
+            console.error("Failed to submit answer: ", error);
+        } finally {
+            setModalVisible(false);
+        }
+    };
+
+    const editAnswer = async () => {
+        const url = `http://joincanyon.org/responses`;
+        const data = {
+            response: answer,
+            groupId: currentQuestion.id
+        };
+        const options = {
+            method: "PUT",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + token,
+            },
+            body: JSON.stringify(data)
+        };
+
+        console.log(data)
+
+        try{
+            const response = await fetch(url, options)
+            
+            .then(response => {
+                if(!response.ok){
+                    throw new Error(`HTTP error! ${response.status}`);
+                } else {
+                    currentQuestion.isAnswered = true;
+                    console.log("Successfully submitted/ edited answer!");
+                
+                return response.json()
+                }
+            })
+            .then(data => {
+                return data;
+            });
+        } catch (error) {
+            console.error("Failed to submit answer: ", error);
         } finally {
             setModalVisible(false);
         }
@@ -68,8 +126,12 @@ export default AnswerPage = () => {
                 visible={modalVisible}
                 onRequestClose={() => setModalVisible(false)}
                 >
+                <Pressable 
+                    style = {styles.centeredView}
+                    onPress = {() => setModalVisible(false)}
+                >
                 <View style={styles.centeredView}>
-                    <View style={styles.modalView}>
+                    <View style={styles.modalView} onStartShouldSetResponder={() => true}>
                         <Text style={styles.modalText}>{currentQuestion.question}</Text>
                         <TextInput
                             style={styles.answer_input}
@@ -80,12 +142,15 @@ export default AnswerPage = () => {
                         />
                         <Pressable
                             style={[styles.button, styles.buttonClose]}
-                            onPress={submitAnswer}
+                            onPress={currentQuestion.isAnswered ? submitAnswer : editAnswer}
                         >
-                            <Text style={styles.textStyle}>Submit</Text>
+                            <Text style={styles.textStyle}>
+                                {currentQuestion.isAnswered ? "Submit" : "Edit"}
+                            </Text>
                         </Pressable>
                     </View>
                 </View>
+                </Pressable>
             </Modal>
             
             <View style={styles.body}>
@@ -107,7 +172,7 @@ export default AnswerPage = () => {
                 <View style={styles.content}>
                     {answered.map((question) => (
                         // TODO: reuse unanswered question component, change to edit button
-                        <Pressable key={question.id} onPress={() => answerQuestion(question)} style={styles.noteContainer}>
+                        <Pressable key={question.id} onPress={() => editQuestion(question)} style={styles.noteContainer}>
                             <Text style={styles.note}>{question.question}</Text>
                         </Pressable>
                     ))}
