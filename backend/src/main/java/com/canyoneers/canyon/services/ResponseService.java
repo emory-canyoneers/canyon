@@ -86,7 +86,7 @@ public class ResponseService {
     public Response editResponse(String token, ResponseDto dto) {
         User user = firebaseService.fetchUser(token);
         Response response = responseRepository.findById(new ObjectId(dto.getResponseId())).get();
-        if (!response.getUser().equals(user.getId())) {
+        if (!response.getUser().equals(user)) {
             throw new RuntimeException("Not this user's response!");
         }
         response.setResponse(dto.getResponse());
