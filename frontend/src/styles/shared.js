@@ -117,4 +117,9 @@ export const shared = StyleSheet.create({
         shadowRadius: 4,
         elevation: 5
     },
+    questionInModal: {
+        color: 'white',
+        fontWeight: 'bold'
+    },
+    
 });

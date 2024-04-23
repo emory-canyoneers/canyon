@@ -36,6 +36,10 @@ export default AnswerPage = () => {
         setModalVisible(true);
     };
 
+    const getResponse = (question) => {
+        return question.responses.find(response => response.user.id === selfId);
+    }
+
     const submitAnswer = async () => {
         const url = `http://joincanyon.org/responses`;
         const data = {
@@ -136,7 +140,7 @@ export default AnswerPage = () => {
                 >
                 <View style={styles.centeredView}>
                     <View style={styles.modalView} onStartShouldSetResponder={() => true}>
-                        <Text style={styles.modalText}>{currentQuestion.question}</Text>
+                        <Text style={styles.questionInModal}>{currentQuestion.question}</Text>
                         <TextInput
                             style={styles.answer_input}
                             onChangeText={setAnswer}
@@ -178,6 +182,7 @@ export default AnswerPage = () => {
                         // TODO: reuse unanswered question component, change to edit button
                         <Pressable key={question.id} onPress={() => editQuestion(question)} style={styles.noteContainer}>
                             <Text style={styles.note}>{question.question}</Text>
+                            <Text style={styles.note}>Your answer: {getResponse(question).response}</Text>
                         </Pressable>
                     ))}
                 </View>

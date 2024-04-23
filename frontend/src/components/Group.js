@@ -1,10 +1,10 @@
-import { useState, useContext, useEffect, useRef } from 'react';
-import { View, Text, Button, StyleSheet, ScrollView, TouchableOpacity, Modal } from 'react-native';
-import { styles } from '../styles/Group';
+import { useEffect, useRef, useState } from 'react';
+import { Modal, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { getCurrentQuestion } from '../store/info';
+import { styles } from '../styles/Group';
 import { colors } from '../styles/colors';
+import Question from './Question';
 import { Exit } from './Svg';
-
 
 export default function Group({group}) {
     const [open, setOpen] = useState(false);
@@ -31,6 +31,8 @@ export default function Group({group}) {
         return () => clearInterval(interval);
     }, []);
     
+    
+
     return (
         <View style={{width: "100%"}}>
             <TouchableOpacity style={[styles.subcontainer, timer === 0 ? {backgroundColor: colors.primary} : {}]} onPress={() => {setOpen(true)}}>
@@ -88,9 +90,7 @@ export default function Group({group}) {
                             {
                                 [...group.issues].reverse().slice(1).map((q) => (
                                     // TODO: take answers component from AnswerPage and put here, minus the editing - instead, opening should display the responses for that issue
-                                    <View key={q.id} style={styles.subcontent}>
-                                        <Text style={styles.paragraph}>{q.question}</Text>
-                                    </View>
+                                    <Question key={q.id} question={q} />
                                 ))
                             }
                         </View>
