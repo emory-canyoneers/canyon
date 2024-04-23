@@ -11,6 +11,20 @@ export default function Group({group}) {
     const [timer, setTimer] = useState(group.issueFrequency); // time until next question
     const timerRef = useRef(timer);
     const [question, setQuestion] = useState();
+    const [randomQuestion, setRandomQuestion] = useState();
+
+
+    const questions = [
+        { id: 0, key: "What is your earliest memory?" },
+        { id: 1, key: "What area in your life are you looking to improve?" },
+        { id: 2, key: "What is something that is important to you that you never really talk about?" },
+        { id: 3, key: "What motivates you?" },
+        { id: 4, key: "What's the best advice you've ever received?" },
+        { id: 5, key: "What's a deep or difficult question you've been pondering lately?" },
+        { id: 6, key: "How would you describe your approach to your career so far?" },
+        { id: 7, key: "What's something you're absolutely convinced is going to happen in the future?" },
+        { id: 8, key: "What's something you recently learned?" },
+    ];
 
     // updates timerRef with the current timer value
     useEffect(() => {
@@ -31,7 +45,41 @@ export default function Group({group}) {
         return () => clearInterval(interval);
     }, []);
     
-    
+    const handleNewQuestion = () => {
+        const randomIndex = Math.floor(Math.random() * questions.length);
+        const newQ = questions[randomIndex];
+        setRandomQuestion(newQ);
+        createIssue(newQ);
+        console.log("RANDOM", newQ.key);
+    }
+
+    const createIssue = async (question) => {
+        const url = `http://joincanyon.org/issues`;
+        const options = {
+            method: 'POST',
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json;charset=UTF-8",
+                'Authorization': 'Bearer ' + token,
+            },
+            body: JSON.stringify({
+                question: question.key,
+                groupId: group.id,
+            })
+        }
+        try {
+            const response = await fetch(url, options)
+            if(!response.ok){
+                throw new Error(`HTTP error! ${q.status}`);
+            }
+            const data = await response.json();
+            console.log("NEW QUESTION", data);
+            setQuestion(data);
+
+        }catch (error) {
+            console.error('Error:', error);
+        }
+    }
 
     return (
         <View style={{width: "100%"}}>
@@ -64,8 +112,18 @@ export default function Group({group}) {
 
                         <View style={styles.content}>
                             {/* new question button, grayed if unavailable, highlighted if available */}
-                            <TouchableOpacity style={[styles.button, timer === 0 ? {backgroundColor: colors.primary} : {}]}>
-                                <Text style={{color: colors.textContrastPrimary}}>New Question</Text>
+                            <Text style={styles.heading}>
+                                New Question: {randomQuestion ? randomQuestion.key : ""}
+                            </Text>
+                            <TouchableOpacity
+                                style={[
+                                    styles.button, 
+                                    timer === 0 ? { backgroundColor: colors.primary } : { backgroundColor: 'gray' }
+                                ]}
+                                onPress={handleNewQuestion}
+                                disabled={timer !== 0}
+                            >
+                                <Text style={{ color: 'white' }}>New Question</Text>
                             </TouchableOpacity>
 
                             {/* timer to next available */}
@@ -83,6 +141,7 @@ export default function Group({group}) {
 
                             {/* current question */}
                             <Text style={[styles.heading, {alignSelf: "flex-start"}]}>Current Question</Text>
+                                <Text style={styles.heading}>{question ? question.question : "No questions yet, start a conversation!"}</Text>
                             <Text style={styles.paragraph}>TODO: add answer/edit modal here as well: {question ? question.question : "No questions yet, start a conversation!"}</Text>
 
                             {/* previous questions */}
