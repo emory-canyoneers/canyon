@@ -43,8 +43,8 @@ export default AnswerPage = () => {
     const submitAnswer = async () => {
         const url = `http://joincanyon.org/responses`;
         const data = {
-            response: answer,
-            groupId: currentQuestion.groupId
+            groupId: currentQuestion.groupId,
+            response: answer
         };
         const options = {
             method: "POST",
