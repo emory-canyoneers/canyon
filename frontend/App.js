@@ -1,20 +1,20 @@
-import { StyleSheet, Text, View } from "react-native";
-import { useContext } from "react";
-import Select from "./old/Select";
-import AnswerPage from "./src/screens/AnswerPage";
-import Responses from "./old/Responses";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import Home from './src/screens/Home';
+import { useContext } from "react";
+import { StyleSheet } from "react-native";
 import Issues from "./old/Issues";
-import { AuthProvider, AuthContext } from "./src/store/auth";
+import Select from "./old/Select";
+import { AnswerIcon, HomeIcon, ProfileIcon } from "./src/components/Svg";
+import AnswerPage from "./src/screens/AnswerPage";
 import AuthPage from "./src/screens/AuthPage";
-import { HomeIcon, AnswerIcon, ProfileIcon } from "./src/components/Svg";
-import { colors } from "./src/styles/colors";
+import Home from './src/screens/Home';
+import ProfilePage from "./src/screens/ProfilePage";
+import ResponsesPage from "./src/screens/ResponsesPage";
+import { AuthContext, AuthProvider } from "./src/store/auth";
 import { InfoProvider } from "./src/store/info";
 import { SelfProvider } from "./src/store/self";
-import Profile from "./src/screens/ProfilePage";
+import { colors } from "./src/styles/colors";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -55,12 +55,18 @@ export default function App() {
                                 )
                             }}/>
                         <Tab.Screen name="Issues" component={Issues} />
-                        <Tab.Screen name="Responses" component={Responses} 
+                        <Tab.Screen name="Responses" component={ResponsesPage} 
                             options={{
                                 tabBarIcon: ({ color }) => (
                                     <ProfileIcon color={color}/>
                                 )
                             }}/>
+                        {/* <Tab.Screen name="Responses" component={Responses} 
+                            options={{
+                                tabBarIcon: ({ color }) => (
+                                    <ProfileIcon color={color}/>
+                                )
+                            }}/> */}
                     </Tab.Navigator>
                 ) : (
                     <Tab.Navigator
@@ -80,6 +86,12 @@ export default function App() {
                                 )
                             }}/>
                         <Tab.Screen name="Answer" component={AnswerPage} 
+                            options={{
+                                tabBarIcon: ({ color }) => (
+                                    <AnswerIcon color={color}/>
+                                )
+                            }}/>
+                        <Tab.Screen name="Responses" component={ResponsesPage}
                             options={{
                                 tabBarIcon: ({ color }) => (
                                     <AnswerIcon color={color}/>
