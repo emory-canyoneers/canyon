@@ -102,3 +102,34 @@ button {
     padding: 3% 2%;
     font-family: 'Roboto', sans-serif;
 }
+
+@media (max-width: 800px) {
+    body {
+        background-size: 100% 100%;
+    }
+
+    .split {
+        width: 100%;
+        position: relative;
+    }
+
+    .left, .right {
+        position: relative;
+        width: 100%;
+        left: 0;
+        right: 0;
+    }
+
+    nav {
+        font: 100%;
+    }
+
+    .centered {
+        transform: translate(-50%, -50%);
+        width: 90%;
+    }
+
+    button {
+        width: 50%;
+    }
+}
