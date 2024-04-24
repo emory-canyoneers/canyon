@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import {
   Modal,
   ScrollView,
@@ -15,6 +15,8 @@ import { colors } from "../styles/colors";
 import Question from "./Question";
 import { Exit } from "./Svg";
 import { OurModal } from "./Modal";
+import { AuthContext } from "../store/auth";
+
 
 export default function Group({ group }) {
   const [open, setOpen] = useState(false);
@@ -27,28 +29,19 @@ export default function Group({ group }) {
   const questions = [
     { id: 0, key: "What is your earliest memory?" },
     { id: 1, key: "What area in your life are you looking to improve?" },
-    {
-      id: 2,
-      key: "What is something that is important to you that you never really talk about?",
-    },
+    { id: 2, key: "What is something that is important to you that you never really talk about?" },
     { id: 3, key: "What motivates you?" },
     { id: 4, key: "What's the best advice you've ever received?" },
-    {
-      id: 5,
-      key: "What's a deep or difficult question you've been pondering lately?",
-    },
-    {
-      id: 6,
-      key: "How would you describe your approach to your career so far?",
-    },
-    {
-      id: 7,
-      key: "What's something you're absolutely convinced is going to happen in the future?",
-    },
+    { id: 5, key: "What's a deep or difficult question you've been pondering lately?" },
+    { id: 6, key: "How would you describe your approach to your career so far?" },
+    { id: 7, key: "What's something you're absolutely convinced is going to happen in the future?" },
     { id: 8, key: "What's something you recently learned?" },
   ];
 
   const [data, setData] = useState(questions);
+  const token = useContext(AuthContext)[0];
+  const [selectedQuestion, setSelectedQuestion] = useState();
+
 
   // updates timerRef with the current timer value
   // useEffect(() => {
@@ -71,8 +64,8 @@ export default function Group({ group }) {
   }, []);
 
   const handleNewQuestion = () => {
-    const randomIndex = Math.floor(Math.random() * questions.length);
-    const newQ = questions[randomIndex];
+    //const randomIndex = Math.floor(Math.random() * questions.length);
+    const newQ = questions[selectedQuestion];
     setRandomQuestion(newQ);
     createIssue(newQ);
     setQuestion(newQ);
@@ -90,8 +83,8 @@ export default function Group({ group }) {
         Authorization: "Bearer " + token,
       },
       body: JSON.stringify({
-        question: question.key,
         groupId: group.id,
+        question: question.key,
       }),
     };
     try {
@@ -109,6 +102,7 @@ export default function Group({ group }) {
 
   const onchecked = (id) => {
     // Update data with new checked states
+    setSelectedQuestion(id);
     const newData = data.map((item) => {
       if (item.id === id) {
         // Toggle the checked state of the selected item
@@ -243,8 +237,8 @@ export default function Group({ group }) {
             {group.name}
           </Text>
           <Text style={styles.paragraph} numberOfLines={1} ellipsizeMode="tail">
-            {question
-              ? question.question
+            {group.issues[0]
+              ? group.issues[group.issues.length-1].question
               : "No questions yet, start a conversation!"}
           </Text>
         </View>
