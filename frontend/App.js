@@ -9,10 +9,12 @@ import { AnswerIcon, HomeIcon, ProfileIcon } from "./src/components/Svg";
 import AnswerPage from "./src/screens/AnswerPage";
 import AuthPage from "./src/screens/AuthPage";
 import Home from './src/screens/Home';
+import PickPage from "./src/screens/PickPage";
 import ProfilePage from "./src/screens/ProfilePage";
 import ResponsesPage from "./src/screens/ResponsesPage";
 import { AuthContext, AuthProvider } from "./src/store/auth";
 import { InfoProvider } from "./src/store/info";
+import { GroupContext } from "./src/store/pick";
 import { SelfProvider } from "./src/store/self";
 import { colors } from "./src/styles/colors";
 
@@ -23,10 +25,14 @@ export default function App() {
     function Content() {
         const tokenContext = useContext(AuthContext);
         const refactor = false; // remove once refactoring is done and skeleton pages are set up
+        const groupContext = useContext(GroupContext);
 
         return (
             tokenContext[0] === null ? (
                 <AuthPage />
+            ) : 
+                groupContext === null ? (
+                <PickPage />
             ) : (
                 refactor ? (
                     <Tab.Navigator
