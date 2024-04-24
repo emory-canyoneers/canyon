@@ -6,6 +6,8 @@ import {
   TouchableOpacity,
   View,
   Pressable,
+  Alert,
+  Share,
 } from "react-native";
 import { getCurrentQuestion } from "../store/info";
 import { styles } from "../styles/Group";
@@ -49,23 +51,23 @@ export default function Group({ group }) {
   const [data, setData] = useState(questions);
 
   // updates timerRef with the current timer value
-  useEffect(() => {
-    setData(questions);
-    timerRef.current = timer;
-  }, [timer]); // runs whenever timer changes
+  // useEffect(() => {
+  //   timerRef.current = timer;
+  // }, [timer]); // runs whenever timer changes
 
   useEffect(() => {
     // setQuestion(getCurrentQuestion(group));
+    setData(questions);
 
-    const interval = setInterval(() => {
-      if (timerRef.current > 0) {
-        setTimer((timer) => timer - 1);
-      } else {
-        clearInterval(interval);
-      }
-    }, 1000);
+    // const interval = setInterval(() => {
+    //   if (timerRef.current > 0) {
+    //     setTimer((timer) => timer - 1);
+    //   } else {
+    //     clearInterval(interval);
+    //   }
+    // }, 1000);
 
-    return () => clearInterval(interval);
+    // return () => clearInterval(interval);
   }, []);
 
   const handleNewQuestion = () => {
@@ -202,15 +204,9 @@ export default function Group({ group }) {
   };
 
   const onShare = async () => {
-    if (showDate) {
-      var listOfQuestions = "";
-      let count = 1;
-      // Object.keys(questions).map(function (id) {
-      //   listOfQuestions += "\n" + count + ". " + questions[id].key;
-      //   count++;
-      // });
-      qs = questions ? questions.key : "";
-    }
+    var listOfQuestions = "";
+    let count = 1;
+    qs = question ? question.key : "";
     try {
       const result = await Share.share({
         title: "QOTWs",
@@ -312,16 +308,19 @@ export default function Group({ group }) {
               {!clicked ? (
                 <View>
                   <Text style={groupStyles.textStyle}>
-                    It's your turn! 🎉 🙌
+                    Pick a question for this week! 🎉 🙌
                   </Text>
-                  <Text style={groupStyles.subTextStyle}>
+                  {/* <Text style={groupStyles.subTextStyle}>
                     Pick a question for this week!
-                  </Text>
+                  </Text> */}
                 </View>
               ) : null}
               {this.renderQuestions()}
-              {!clicked ? (
-                <View style={groupStyles.row}>
+              {question && clicked ? (
+                <Text style={styles.paragraph}>{question.key}</Text>
+              ) : null}
+              <View style={groupStyles.row}>
+                {!clicked ? (
                   <Pressable
                     style={[
                       groupStyles.sched,
@@ -333,6 +332,7 @@ export default function Group({ group }) {
                   >
                     <Text style={{ textAlign: "center" }}>Select Question</Text>
                   </Pressable>
+                ) : (
                   <Pressable
                     style={[
                       groupStyles.sched,
@@ -344,8 +344,8 @@ export default function Group({ group }) {
                   >
                     <Text style={{ textAlign: "center" }}>Send Text Now</Text>
                   </Pressable>
-                </View>
-              ) : null}
+                )}
+              </View>
               {/* <OurModal
                 questions={
                   question
@@ -357,11 +357,6 @@ export default function Group({ group }) {
               {/* <Text style={[styles.heading, { alignSelf: "flex-start" }]}>
                 Current Question
               </Text> */}
-              <Text style={styles.paragraph}>
-                {question && clicked
-                  ? question.key
-                  : "No questions yet, start a conversation!"}
-              </Text>
               {/* <Text style={styles.paragraph}>
                 TODO: add answer/edit modal here as well:{" "}
                 {question
@@ -394,7 +389,7 @@ const groupStyles = {
     flex: 1,
   },
   row: {
-    flexDirection: "row",
+    flexDirection: "column",
   },
   box: {
     flexDirection: "row",
