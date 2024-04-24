@@ -29,6 +29,7 @@ export const shared = StyleSheet.create({
     note: { // note text
         color: colors.textSecondary,
         fontSize: 14,
+        textAlign: "left",
     },
     button: { // buttons
         backgroundColor: colors.element,
@@ -67,7 +68,7 @@ export const shared = StyleSheet.create({
         display: 'flex',
         gap: 15,
         marginVertical: 15,
-        alignItems: 'center',
+        alignItems: 'left',
         justifyContent: 'center',
         width: '100%',
     },

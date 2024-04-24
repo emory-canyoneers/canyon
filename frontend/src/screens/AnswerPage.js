@@ -187,7 +187,7 @@ export default AnswerPage = () => {
                     ))}
                 </View>
 
-                <Text style={[styles.note, {marginTop: 15, textAlign: 'center'}]}>Want to create a new question? A <Text style={{color: colors.primary, fontWeight: "bold"}}>highlighted group</Text> is ready for a new question!</Text>
+                <Text style={[styles.note, {marginTop: 15}]}>Want to create a new question? A <Text style={{color: colors.primary, fontWeight: "bold"}}>highlighted group</Text> is ready for a new question!</Text>
             </View>
         </ScrollView>
     );
