@@ -147,6 +147,7 @@ export default AnswerPage = () => {
                             value={answer}
                             multiline={true}
                             placeholder="Your answer here..."
+                            placeholderTextColor="white"
                         />
                         <Pressable
                             style={[styles.button, styles.buttonClose]}
