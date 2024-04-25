@@ -1,9 +1,10 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { ScrollView, Text, View } from 'react-native';
 import { AuthContext } from "../store/auth";
 import { InfoContext } from "../store/info";
 import { SelfContext } from '../store/self';
-import { styles } from '../styles/Group';
+import { styles } from '../styles/Home';
+import { colors } from '../styles/colors';
 
 
 export default function ResponsesPage() {
@@ -16,143 +17,141 @@ export default function ResponsesPage() {
     const [creating, setCreating] = useState(false);
     const [joining, setJoining] = useState(false);
     const [groupName, setGroupName] = useState('');
-    const scrollViewRef = useRef();
 
-    const fetchGroups = async () => {
-        const url = `http://joincanyon.org/groups`;
-        const options = {
-            method: 'GET',
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json;charset=UTF-8",
-                Authorization: "Bearer " + token,
-            }
-        };
-
-        const response = await fetch(url, options)
-            .then(response => {
-                if(!response.ok){
-                    throw new Error(`HTTP error! ${response.status}`);
-                }
-                return response.json()
-            })
-            .then(data => {
-                return data;
-            });
-
-        setGroups(response);
+  const fetchGroups = async () => {
+    const url = `http://joincanyon.org/groups`;
+    const options = {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json;charset=UTF-8",
+        Authorization: "Bearer " + token,
+      },
     };
 
-    const fetchSelf = async () => {
-        const url = `http://joincanyon.org/users`;
-        const options = {
-            method: 'GET',
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json;charset=UTF-8",
-                Authorization: "Bearer " + token,
-            }
-        };
-
-        const response = await fetch(url, options)
-            .then(response => {
-                if(!response.ok){
-                    throw new Error(`HTTP error! ${response.status}`);
-                }
-                return response.json()
-            })
-            .then(data => {
-                return data;
-            });
-
-        setSelf(response);
-    };
-
-    const createGroup = async () => {
-        if (groupName === '') {
-            return;
+    const response = await fetch(url, options)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! ${response.status}`);
         }
+        return response.json();
+      })
+      .then((data) => {
+        return data;
+      });
 
-        const url = `http://joincanyon.org/groups`;
-        const options = {
-            method: 'POST',
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-                Authorization: "Bearer " + token,
-            },
-            body: JSON.stringify({
-                name: groupName,
-            }),
-        };
+    setGroups(response);
+  };
 
-        const response = await fetch(url, options)
-            .then(response => {
-                if(!response.ok){
-                    throw new Error(`HTTP error! ${response.status}`);
-                }
-                return response.json()
-            })
-            .then(data => {
-                return data;
-            });
-
-        setGroups([...groups, response]);
-        setCreating(false);
-        return;
+  const fetchSelf = async () => {
+    const url = `http://joincanyon.org/users`;
+    const options = {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json;charset=UTF-8",
+        Authorization: "Bearer " + token,
+      },
     };
 
-    const joinGroup = async () => {
-        if (groupName === '') {
-            return;
+    const response = await fetch(url, options)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! ${response.status}`);
         }
+        return response.json();
+      })
+      .then((data) => {
+        return data;
+      });
 
-        const url = `http://joincanyon.org/groups/${groupName}`;
-        const options = {
-            method: 'PUT',
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-                Authorization: "Bearer " + token,
-            }
-        };
+    setSelf(response);
+  };
 
-        const response = await fetch(url, options)
-            .then(response => {
-                if(!response.ok){
-                    throw new Error(`HTTP error! ${response.status}`);
-                }
-                return response.json()
-            })
-            .then(data => {
-                return data;
-            });
+  const createGroup = async () => {
+    if (groupName === "") {
+      return;
+    }
 
-        setGroups([...groups, response]);
-        setJoining(false);
-        return;
+    const url = `http://joincanyon.org/groups`;
+    const options = {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+      body: JSON.stringify({
+        name: groupName,
+      }),
     };
 
-    // load groups on login
-    useEffect(() => {
-        fetchGroups();
-        fetchSelf();
-    }, []);
+    const response = await fetch(url, options)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        return data;
+      });
+
+    setGroups([...groups, response]);
+    setCreating(false);
+    return;
+  };
+
+  const joinGroup = async () => {
+    if (groupName === "") {
+      return;
+    }
+
+    const url = `http://joincanyon.org/groups/${groupName}`;
+    const options = {
+      method: "PUT",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+    };
+
+    const response = await fetch(url, options)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        return data;
+      });
+
+    setGroups([...groups, response]);
+    setJoining(false);
+    return;
+  };
+
+  // load groups on login
+  useEffect(() => {
+    fetchGroups();
+    fetchSelf();
+  }, []);
 
     return (
-        <ScrollView style={styles.scrollView} contentContainerStyle={styles.container} ref={scrollViewRef}>
-            <View>
+        <ScrollView style={styles.scrollView} contentContainerStyle={styles.container}>
+            <View style={styles.body}>
                 {/* self ? is to prevent crash while fetchSelf is getting self */}
-                <Text style={styles.titleResponsePage}>
-                    Check in on your groups!
+                <Text style={styles.title}>
+                    Welcome back <Text style={{color: colors.primary}}>{self ? self.name.split(" ")[0] : null}</Text>!
                 </Text>
+                <Text style={styles.heading}>Check in on your groups:</Text>
                 <View style={styles.content}>
                     {groups.map((group) => (
                         // <Response key={group.id} group={group} />
                         <View key={group.id}>
-                            <View style={styles.button}>
-                                <Text style={styles.subtitleResponsePage}>{group.name}</Text>
-                            </View>
+                            <Text style={styles.heading}>{group.name}</Text>
                             {
                                 group.members.map((member) => (
                                     <View key={member.id} style={styles.subcontent}>
@@ -160,16 +159,16 @@ export default function ResponsesPage() {
                                     </View>
                                 ))
                             }
-                            <Text style={[styles.subsubtitleResponsePage, {alignSelf: "flex-start"}]}>Previous Questions</Text>
+                            <Text style={[styles.heading, {alignSelf: "flex-start"}]}>Previous Questions</Text>
                                     {
                                         [...group.issues].reverse().slice(1).map((q) => (
                                             // TODO: take answers component from AnswerPage and put here, minus the editing - instead, opening should display the responses for that issue
                                             <View key={q.id}>
-                                                <Text style={{color: 'white', fontWeight: 'bold', padding: 7,}}>{q.question}</Text>
+                                                <Text style={{color: 'white', fontWeight: 'bold'}}>{q.question}</Text>
                                                 {
                                                     q.responses.map((r) => (
                                                         <View key={r.id}>
-                                                            <Text style={{color: 'white', padding: 5, paddingHorizontal: 5,}}>{r.user.name}: {r.response}</Text>
+                                                            <Text style={{color: 'white'}}>{r.user.name}: {r.response}</Text>
                                                         </View>
                                                     ))
                                                 }
@@ -183,3 +182,40 @@ export default function ResponsesPage() {
         </ScrollView>
     );
 }
+
+const groupStyles = {
+  responseContainer: {
+    flexDirection: "column", // Align children in a row
+    marginTop: 12,
+    marginBottom: 12,
+    borderRadius: 4,
+    backgroundColor: "#1E2029",
+    padding: 15,
+    width: "110%",
+    alignItems: "flex-start", // Align items in the center vertically
+  },
+  parentContainer: {
+    paddingTop: 70,
+    paddingLeft: 20,
+  },
+  name: {
+    color: "#6C6E77",
+    marginBottom: 5,
+  },
+  text: {
+    color: "#FFFFFF",
+    paddingRight: 40,
+  },
+  image: {
+    width: 40,
+    height: 40,
+    borderRadius: 20, // This makes it a circle
+  },
+  option: {
+    marginBottom: 12,
+    marginTop: 12,
+    fontSize: 15,
+    fontWeight: "bold",
+    color: "white",
+  },
+};
