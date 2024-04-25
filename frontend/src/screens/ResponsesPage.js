@@ -149,7 +149,7 @@ export default function ResponsesPage() {
           </Text>
           !
         </Text>
-        <Text style={styles.heading}>Check out your previous responses 🙌</Text>
+        <Text style={styles.heading}>Check out previous group responses 🙌</Text>
 
         <View style={styles.content}>
           {groups.map((group) => (
@@ -161,9 +161,9 @@ export default function ResponsesPage() {
               <Text style={styles.paragraph}>
                 {group.members.map((member) => member.name).join(", ")}
               </Text>
-              <Text style={[styles.heading, { alignSelf: "flex-start" }]}>
+              {/* <Text style={[styles.heading, { alignSelf: "flex-start" }]}>
                 Previous Questions
-              </Text>
+              </Text> */}
               {[...group.issues]
                 .reverse()
                 .slice(1)
