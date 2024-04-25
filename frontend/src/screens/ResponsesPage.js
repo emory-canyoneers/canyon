@@ -1,10 +1,9 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { ScrollView, Text, View } from 'react-native';
 import { AuthContext } from "../store/auth";
 import { InfoContext } from "../store/info";
 import { SelfContext } from '../store/self';
-import { styles } from '../styles/Home';
-import { colors } from '../styles/colors';
+import { styles } from '../styles/Group';
 
 
 export default function ResponsesPage() {
@@ -17,6 +16,7 @@ export default function ResponsesPage() {
     const [creating, setCreating] = useState(false);
     const [joining, setJoining] = useState(false);
     const [groupName, setGroupName] = useState('');
+    const scrollViewRef = useRef();
 
     const fetchGroups = async () => {
         const url = `http://joincanyon.org/groups`;
@@ -140,18 +140,19 @@ export default function ResponsesPage() {
     }, []);
 
     return (
-        <ScrollView style={styles.scrollView} contentContainerStyle={styles.container}>
-            <View style={styles.body}>
+        <ScrollView style={styles.scrollView} contentContainerStyle={styles.container} ref={scrollViewRef}>
+            <View>
                 {/* self ? is to prevent crash while fetchSelf is getting self */}
-                <Text style={styles.title}>
-                    Welcome back <Text style={{color: colors.primary}}>{self ? self.name.split(" ")[0] : null}</Text>!
+                <Text style={styles.titleResponsePage}>
+                    Check in on your groups!
                 </Text>
-                <Text style={styles.heading}>Check in on your groups:</Text>
                 <View style={styles.content}>
                     {groups.map((group) => (
                         // <Response key={group.id} group={group} />
                         <View key={group.id}>
-                            <Text style={styles.heading}>{group.name}</Text>
+                            <View style={styles.button}>
+                                <Text style={styles.subtitleResponsePage}>{group.name}</Text>
+                            </View>
                             {
                                 group.members.map((member) => (
                                     <View key={member.id} style={styles.subcontent}>
@@ -159,16 +160,16 @@ export default function ResponsesPage() {
                                     </View>
                                 ))
                             }
-                            <Text style={[styles.heading, {alignSelf: "flex-start"}]}>Previous Questions</Text>
+                            <Text style={[styles.subsubtitleResponsePage, {alignSelf: "flex-start"}]}>Previous Questions</Text>
                                     {
                                         [...group.issues].reverse().slice(1).map((q) => (
                                             // TODO: take answers component from AnswerPage and put here, minus the editing - instead, opening should display the responses for that issue
                                             <View key={q.id}>
-                                                <Text style={{color: 'white', fontWeight: 'bold'}}>{q.question}</Text>
+                                                <Text style={{color: 'white', fontWeight: 'bold', padding: 7,}}>{q.question}</Text>
                                                 {
                                                     q.responses.map((r) => (
                                                         <View key={r.id}>
-                                                            <Text style={{color: 'white'}}>{r.user.name}: {r.response}</Text>
+                                                            <Text style={{color: 'white', padding: 5, paddingHorizontal: 5,}}>{r.user.name}: {r.response}</Text>
                                                         </View>
                                                     ))
                                                 }

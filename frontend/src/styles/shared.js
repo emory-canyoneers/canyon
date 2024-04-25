@@ -11,7 +11,29 @@ export const shared = StyleSheet.create({
         fontWeight: 'bold',
         marginBottom: 25,
     },
-    heading: { // main text
+    titleResponsePage: {
+        color: 'orange',
+        alignSelf: 'center',
+        textAlign: 'center',
+        fontSize: 28,
+        fontWeight: 'bold',
+        marginBottom: 45,
+    },
+    subtitleResponsePage: {
+        color: 'white',
+        alignSelf: 'center',
+        textAlign: 'center',
+        fontWeight: 'bold',
+        fontSize: 24,
+    },
+    subsubtitleResponsePage: {
+        color: 'white',
+        alignSelf: 'center',
+        textAlign: 'center',
+        fontSize: 20,
+        paddingVertical: 10,
+    },
+    heading: { // ain text
         color: colors.textPrimary,
         fontSize: 24,
         marginTop: 15,
@@ -22,7 +44,7 @@ export const shared = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
     },
-    paragraph: { // body text
+    paragraph: { // body text 
         color: colors.textPrimary,
         fontSize: 18,
     },
@@ -32,9 +54,9 @@ export const shared = StyleSheet.create({
         textAlign: "left",
     },
     button: { // buttons
-        backgroundColor: colors.element,
+        backgroundColor: 'orange',
         width: '100%',
-        paddingVertical: 10,
+        padding: 5,
         borderRadius: 5,
         alignItems: 'center',
     },
@@ -122,5 +144,14 @@ export const shared = StyleSheet.create({
         color: 'white',
         fontWeight: 'bold'
     },
-    
+    box: {
+        backgroundColor: 'white',
+        padding: 3,
+        borderRadius: 5,
+        width: '100%',
+        alignItems: 'center',
+        justifyContent: 'center',
+        margin: 15,
+        
+    },
 });
