@@ -150,10 +150,10 @@ export default AnswerPage = () => {
                         />
                         <Pressable
                             style={[styles.button, styles.buttonClose]}
-                            onPress={currentQuestion.isAnswered ? submitAnswer : editAnswer}
+                            onPress={currentQuestion.isAnswered ? editAnswer : submitAnswer}
                         >
                             <Text style={styles.textStyle}>
-                                {currentQuestion.isAnswered ? "Submit" : "Edit"}
+                                {currentQuestion.isAnswered ? "Edit" : "Submit"}
                             </Text>
                         </Pressable>
                     </View>
