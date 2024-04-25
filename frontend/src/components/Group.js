@@ -204,8 +204,8 @@ export default function Group({ group }) {
     try {
       const result = await Share.share({
         title: "QOTWs",
-        url: "https://reactnative.dev/docs/share?language=javascript",
-        message: `${qs}`,
+        // url: "https://reactnative.dev/docs/share?language=javascript",
+        message: `Answer my question in Canyon. ;) \n\n${qs}`,
       });
       if (result.action === Share.sharedAction) {
         if (result.activityType) {
