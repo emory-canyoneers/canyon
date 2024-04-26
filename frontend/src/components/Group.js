@@ -82,11 +82,6 @@ export default function Group({ group }) {
     // console.log("RANDOM", newQ.key);
   };
 
-  const handleSelectQuestion = (question) =>
-    setSelectedQuestion(question);
-    setModalVisible(true);
-    createIssue(question);
-  };
 
   const createIssue = async (question) => {
     const url = `http://joincanyon.org/issues`;
@@ -430,7 +425,7 @@ export default function Group({ group }) {
       </Modal>
     </View>
   );
-}
+                };
 
 const groupStyles = {
   container: {
