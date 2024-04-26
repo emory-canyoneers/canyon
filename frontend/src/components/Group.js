@@ -1,20 +1,19 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import {
-    Alert,
-    Modal,
-    Pressable,
-    ScrollView,
-    Share,
-    Text,
-    TouchableOpacity,
-    View,
+  Alert,
+  Modal,
+  Pressable,
+  ScrollView,
+  Share,
+  Text,
+  TouchableOpacity,
+  View,
 } from "react-native";
 import { AuthContext } from "../store/auth";
 import { styles } from "../styles/Group";
 import { colors } from "../styles/colors";
 import Question from "./Question";
 import { Exit } from "./Svg";
-
 
 export default function Group({ group }) {
   const [open, setOpen] = useState(false);
@@ -27,19 +26,30 @@ export default function Group({ group }) {
   const questions = [
     { id: 0, key: "What is your earliest memory?" },
     { id: 1, key: "What area in your life are you looking to improve?" },
-    { id: 2, key: "What is something that is important to you that you never really talk about?" },
+    {
+      id: 2,
+      key: "What is something that is important to you that you never really talk about?",
+    },
     { id: 3, key: "What motivates you?" },
     { id: 4, key: "What's the best advice you've ever received?" },
-    { id: 5, key: "What's a deep or difficult question you've been pondering lately?" },
-    { id: 6, key: "How would you describe your approach to your career so far?" },
-    { id: 7, key: "What's something you're absolutely convinced is going to happen in the future?" },
+    {
+      id: 5,
+      key: "What's a deep or difficult question you've been pondering lately?",
+    },
+    {
+      id: 6,
+      key: "How would you describe your approach to your career so far?",
+    },
+    {
+      id: 7,
+      key: "What's something you're absolutely convinced is going to happen in the future?",
+    },
     { id: 8, key: "What's something you recently learned?" },
   ];
 
   const [data, setData] = useState(questions);
   const token = useContext(AuthContext)[0];
   const [selectedQuestion, setSelectedQuestion] = useState();
-
 
   // updates timerRef with the current timer value
   // useEffect(() => {
@@ -219,6 +229,27 @@ export default function Group({ group }) {
     }
   };
 
+  const inviteFriends = async () => {
+    try {
+      const result = await Share.share({
+        title: "QOTWs",
+        // url: "https://reactnative.dev/docs/share?language=javascript",
+        message: `Join my group on Canyon with this invite code. \n${group.id}`,
+      });
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+        } else {
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    } catch (error) {
+      Alert.alert(error.message);
+    }
+  };
+
   return (
     <View style={{ width: "100%" }}>
       <TouchableOpacity
@@ -236,7 +267,7 @@ export default function Group({ group }) {
           </Text>
           <Text style={styles.paragraph} numberOfLines={1} ellipsizeMode="tail">
             {group.issues[0]
-              ? group.issues[group.issues.length-1].question
+              ? group.issues[group.issues.length - 1].question
               : "No questions yet, start a conversation!"}
           </Text>
         </View>
@@ -262,8 +293,19 @@ export default function Group({ group }) {
             <Text style={[styles.title, { color: colors.primary }]}>
               {group.name}
             </Text>
-            <Text style={[styles.title, {fontWeight:'normal', fontSize:16, color:'orange'}]}>
-                {group.id}
+            <Pressable
+              style={groupStyles.invite}
+              onPress={inviteFriends}
+            >
+              <Text>Invite friends</Text>
+            </Pressable>
+            <Text
+              style={[
+                styles.title,
+                { fontWeight: "normal", fontSize: 16, color: "orange" },
+              ]}
+            >
+              {group.id}
             </Text>
 
             <View style={styles.content}>
@@ -441,4 +483,13 @@ const groupStyles = {
     borderRadius: 8,
     marginRight: 10,
   },
+  invite:{
+    padding: 10,
+    color: "black",
+    borderRadius: 8,
+    backgroundColor: "#fff",
+    marginLeft: "auto",
+    marginRight: "auto",
+    marginBottom: 10,
+  }
 };
