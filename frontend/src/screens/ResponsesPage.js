@@ -74,7 +74,7 @@ const groupStyles = {
         borderRadius: 4,
         backgroundColor: "#1E2029",
         padding: 15,
-        width: "105%",
+        width: "110%",
         alignItems: "flex-start", // Align items in the center vertically
     },
     parentContainer: {

@@ -1,5 +1,12 @@
 import { useContext, useEffect, useState } from "react";
-import { Modal, Pressable, ScrollView, Text, TextInput, View } from "react-native";
+import {
+  Modal,
+  Pressable,
+  ScrollView,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
 import { AuthContext } from "../store/auth";
 import { InfoContext, getAllQuestions, getResponseId, getGroup, getCurrentQuestion } from "../store/info";
 import { SelfContext } from "../store/self";
@@ -24,11 +31,11 @@ export default AnswerPage = () => {
         setUnanswered(questions.unanswered);
     }, [groups]);
 
-    const answerQuestion = (question) => {
-        setCurrentQuestion(question);
-        setAnswer("");
-        setModalVisible(true);
-    };
+  const answerQuestion = (question) => {
+    setCurrentQuestion(question);
+    setAnswer("");
+    setModalVisible(true);
+  };
 
     const editQuestion = (question) => {
         setCurrentQuestion(question);
@@ -168,29 +175,64 @@ export default AnswerPage = () => {
                 <Text style={styles.title}>Your groups are waiting to hear back!</Text>
                 <Text style={styles.heading}>Unanswered questions:</Text>
 
-                <View style={styles.content}>
-                    {unanswered.map((question) => (
-                        // TODO: add components, popup to answer question
-                        <Pressable key={question.id} style={styles.noteContainer} onPress={() => answerQuestion(question)}>
-                            <Text style={styles.note}>{question.question}</Text>
-                        </Pressable>
-                    ))}
-                </View>
-                
-                {/* Edit open questions */}
-                <Text style={styles.heading}>Want to revisit open questions?</Text>
-                <View style={styles.content}>
-                    {answered.map((question) => (
-                        // TODO: reuse unanswered question component, change to edit button
-                        <Pressable key={question.id} onPress={() => editQuestion(question)} style={styles.noteContainer}>
-                            <Text style={styles.note}>{question.question}</Text>
-                            <Text style={styles.note}>Your answer: {getResponse(question).response}</Text>
-                        </Pressable>
-                    ))}
-                </View>
+        <View style={styles.content}>
+          {unanswered.map((question) => (
+            // TODO: add components, popup to answer question
+            <Pressable
+              key={question.id}
+              style={[styles.noteContainer, styles.questionbutton]}
+              onPress={() => answerQuestion(question)}
+            >
+              <Text
+                key={question.id}
+                style={[styles.note, { fontWeight: "bold", color: "black" }]}
+              >
+                {getGroup(groups, question.group).name}
+              </Text>
+              <Text style={[styles.note, { color: "black" }]}>
+                {question.question}
+              </Text>
+            </Pressable>
+          ))}
+          {unanswered.length < 1 ? (
+            <Text style={styles.note}>All open questions have been answered!🎉🥳</Text>
+          ) : null}
+        </View>
 
-                <Text style={[styles.note, {marginTop: 15}]}>Want to create a new question? A <Text style={{color: colors.primary, fontWeight: "bold"}}>highlighted group</Text> is ready for a new question!</Text>
-            </View>
-        </ScrollView>
-    );
+        {/* Edit open questions */}
+        <Text style={styles.heading}>Click to edit open questions</Text>
+        <View style={styles.content}>
+          {answered.map((question) => (
+            // TODO: reuse unanswered question component, change to edit button
+            <Pressable
+              key={question.id}
+              onPress={() => editQuestion(question)}
+              style={[styles.noteContainer, styles.questionbutton]}
+            >
+              <Text
+                key={question.id}
+                style={[styles.note, { fontWeight: "bold", color: "black" }]}
+              >
+                {getGroup(groups, question.group).name}
+              </Text>
+              <Text style={[styles.note, { color: "black" }]}>
+                {question.question}
+              </Text>
+              <Text style={[styles.note, { color: "#3b3b3b" }]}>
+                Your answer: {getResponse(question).response}
+              </Text>
+            </Pressable>
+          ))}
+        </View>
+
+        <Text style={[styles.note, { marginTop: 15 }]}>
+          Want to create a new question? A{" "}
+          <Text style={{ color: colors.primary, fontWeight: "bold" }}>
+            highlighted group
+          </Text>{" "}
+          is ready for a new question!
+        </Text>
+      </View>
+    </ScrollView>
+  );
 };
