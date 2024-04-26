@@ -1,21 +1,19 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import {
-  Modal,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-  Pressable,
-  Alert,
-  Share,
+    Alert,
+    Modal,
+    Pressable,
+    ScrollView,
+    Share,
+    Text,
+    TouchableOpacity,
+    View,
 } from "react-native";
-import { getCurrentQuestion } from "../store/info";
+import { AuthContext } from "../store/auth";
 import { styles } from "../styles/Group";
 import { colors } from "../styles/colors";
 import Question from "./Question";
 import { Exit } from "./Svg";
-import { OurModal } from "./Modal";
-import { AuthContext } from "../store/auth";
 
 
 export default function Group({ group }) {
@@ -263,6 +261,9 @@ export default function Group({ group }) {
             </View>
             <Text style={[styles.title, { color: colors.primary }]}>
               {group.name}
+            </Text>
+            <Text style={[styles.title, {fontWeight:'normal', fontSize:16, color:'orange'}]}>
+                {group.id}
             </Text>
 
             <View style={styles.content}>
