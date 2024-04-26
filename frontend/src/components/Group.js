@@ -280,7 +280,7 @@ export default function Group({ group }) {
               </View>
 
               {/* new question button, grayed if unavailable, highlighted if available */}
-              {/* <Text style={styles.heading}>
+              <Text style={styles.heading}>
                 New Question: {randomQuestion ? randomQuestion.key : ""}
               </Text>
               <TouchableOpacity
@@ -294,7 +294,7 @@ export default function Group({ group }) {
                 disabled={timer !== 0}
               >
                 <Text style={{ color: "white" }}>Generate new question</Text>
-              </TouchableOpacity> */}
+              </TouchableOpacity> 
 
               {/* timer to next available */}
               {/* <Text style={styles.note}>
