@@ -23,6 +23,7 @@ export default function Group({ group }) {
   const [randomQuestion, setRandomQuestion] = useState();
   const [clicked, setClicked] = useState(false);
   const [profileName, setProfileName] = useState("");
+  const [modalVisible, setModalVisible] = useState(false);
   const questions = [
     { id: 0, key: "What is your earliest memory?" },
     { id: 1, key: "What area in your life are you looking to improve?" },
@@ -79,6 +80,12 @@ export default function Group({ group }) {
     setQuestion(newQ);
     setClicked(true);
     // console.log("RANDOM", newQ.key);
+  };
+
+  const handleSelectQuestion = (question) =>
+    setSelectedQuestion(question);
+    setModalVisible(true);
+    createIssue(question);
   };
 
   const createIssue = async (question) => {
