@@ -293,10 +293,7 @@ export default function Group({ group }) {
             <Text style={[styles.title, { color: colors.primary }]}>
               {group.name}
             </Text>
-            <Pressable
-              style={groupStyles.invite}
-              onPress={inviteFriends}
-            >
+            <Pressable style={groupStyles.invite} onPress={inviteFriends}>
               <Text>Invite friends</Text>
             </Pressable>
             <Text
@@ -405,6 +402,9 @@ export default function Group({ group }) {
               <Text style={[styles.heading, { alignSelf: "flex-start" }]}>
                 Previous Questions
               </Text>
+              <Text style={[styles.note, { fontWeight: "bold", fontSize: 16, color: "#fff" }]}>
+                Select a question to view the group's responses 🥰
+              </Text>
               {[...group.issues]
                 .reverse()
                 .slice(1)
@@ -483,7 +483,7 @@ const groupStyles = {
     borderRadius: 8,
     marginRight: 10,
   },
-  invite:{
+  invite: {
     padding: 10,
     color: "black",
     borderRadius: 8,
@@ -491,5 +491,5 @@ const groupStyles = {
     marginLeft: "auto",
     marginRight: "auto",
     marginBottom: 10,
-  }
+  },
 };
