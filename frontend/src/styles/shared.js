@@ -127,8 +127,8 @@ export const shared = StyleSheet.create({
         width: Dimensions.get('window').width * 0.9,
         padding: 10,
         borderRadius: 5,
-        justifyContent: 'center',
-        alignItems: 'center',
+        // justifyContent: 'center',
+        // alignItems: 'center',
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
