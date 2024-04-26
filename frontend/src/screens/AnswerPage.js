@@ -149,7 +149,8 @@ export default AnswerPage = () => {
                             placeholder="Your answer here..."
                             placeholderTextColor="white"
                         />
-                        <Pressable
+
+                        <Pressable 
                             style={[styles.button, styles.buttonClose]}
                             onPress={currentQuestion.isAnswered ? editAnswer : submitAnswer}
                         >
@@ -170,8 +171,8 @@ export default AnswerPage = () => {
                 <View style={styles.content}>
                     {unanswered.map((question) => (
                         // TODO: add components, popup to answer question
-                        <Pressable key={question.id} style={styles.noteContainer} onPress={() => answerQuestion(question)}>
-                            <Text style={styles.note}>{question.question}</Text>
+                        <Pressable key={question.id} style={[styles.noteContainer, styles.questionbutton]} onPress={() => answerQuestion(question)}>
+                            <Text style={[styles.note, {color:'black'}]}>{question.question}</Text>
                         </Pressable>
                     ))}
                 </View>
@@ -181,9 +182,9 @@ export default AnswerPage = () => {
                 <View style={styles.content}>
                     {answered.map((question) => (
                         // TODO: reuse unanswered question component, change to edit button
-                        <Pressable key={question.id} onPress={() => editQuestion(question)} style={styles.noteContainer}>
-                            <Text style={styles.note}>{question.question}</Text>
-                            <Text style={styles.note}>Your answer: {getResponse(question).response}</Text>
+                        <Pressable key={question.id} onPress={() => editQuestion(question)} style={[styles.noteContainer, styles.questionbutton]}>
+                            <Text style={[styles.note, {color:'black'}]}>{question.question}</Text>
+                            <Text style={[styles.note, {color:'grey'}]}>Your answer: {getResponse(question).response}</Text>
                         </Pressable>
                     ))}
                 </View>

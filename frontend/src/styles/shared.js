@@ -154,4 +154,19 @@ export const shared = StyleSheet.create({
         margin: 15,
         
     },
+    questionbutton: {
+        backgroundColor: 'orange',
+        width: Dimensions.get('window').width * 0.9,
+        padding: 10,
+        borderRadius: 5,
+        justifyContent: 'center',
+        alignItems: 'center',
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+    }
 });
