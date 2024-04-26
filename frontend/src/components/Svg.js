@@ -9,10 +9,19 @@ export function HomeIcon({ color }) {
     )
 }
 
-export function AnswerIcon({ color }) {
+export function PreviousIcon({ color }) {
     return (
         <Svg className="feather feather-message-square" height="24" width="24" viewBox="0 0 24 24">
             <Path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" fill="none" stroke={color} strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" />
+        </Svg>
+    )
+}
+
+export function AnswerIcon({ color }) {
+    return (
+        <Svg class="feather feather-edit" fill="none" height="24" stroke={color} strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+            <Path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+            <Path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
         </Svg>
     )
 }
