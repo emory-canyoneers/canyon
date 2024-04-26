@@ -123,7 +123,7 @@ export const shared = StyleSheet.create({
         fontWeight: 'bold'
     },
     questionbutton: {
-        backgroundColor: 'orange',
+        backgroundColor:"#FAC898",
         width: Dimensions.get('window').width * 0.9,
         padding: 10,
         borderRadius: 5,

@@ -294,7 +294,7 @@ export default function Group({ group }) {
               {group.name}
             </Text>
             <Pressable style={groupStyles.invite} onPress={inviteFriends}>
-              <Text>Invite friends</Text>
+              <Text style={{ fontWeight: "bold" }}>Invite friends</Text>
             </Pressable>
             <Text
               style={[
@@ -302,7 +302,7 @@ export default function Group({ group }) {
                 { fontWeight: "normal", fontSize: 16, color: "orange" },
               ]}
             >
-              {group.id}
+              Or use this group ID: {group.id}
             </Text>
 
             <View style={styles.content}>
@@ -402,8 +402,13 @@ export default function Group({ group }) {
               <Text style={[styles.heading, { alignSelf: "flex-start" }]}>
                 Previous Questions
               </Text>
-              <Text style={[styles.note, { fontWeight: "bold", fontSize: 16, color: "#fff" }]}>
-                Select a question to view the group's responses 🥰
+              <Text
+                style={[
+                  styles.note,
+                  { fontWeight: "bold", fontSize: 16, color: "#fff" },
+                ]}
+              >
+                Select a question and view the group's responses 🥰
               </Text>
               {[...group.issues]
                 .reverse()
@@ -490,6 +495,6 @@ const groupStyles = {
     backgroundColor: "#fff",
     marginLeft: "auto",
     marginRight: "auto",
-    marginBottom: 10,
+    marginBottom: 20,
   },
 };
