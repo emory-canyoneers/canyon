@@ -2,10 +2,9 @@ import { useState } from "react";
 import { Modal, Pressable, Text, TouchableOpacity, View } from "react-native";
 import { styles } from "../styles/Group";
 
-export default function Question({ question }) {
-  const [open, setOpen] = useState(false);
-  const [selectedQuestion, setSelectedQuestion] = useState(null);
-  console.log(question);
+export default function Question({question}) {
+    const [open, setOpen] = useState(false);
+    const [sexlectedQuestion, setSelectedQuestion] = useState(null);
 
   const openDetails = (question) => {
     setSelectedQuestion(question);
