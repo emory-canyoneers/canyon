@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { Modal, Pressable, ScrollView, Text, TextInput, View } from "react-native";
 import { AuthContext } from "../store/auth";
-import { InfoContext, getAllQuestions, getResponseId } from "../store/info";
+import { InfoContext, getAllQuestions, getResponseId, getGroup, getCurrentQuestion } from "../store/info";
 import { SelfContext } from "../store/self";
 import { styles } from "../styles/Answer";
 import { colors } from "../styles/colors";
@@ -9,20 +9,20 @@ import { colors } from "../styles/colors";
 export default AnswerPage = () => {
     const token = useContext(AuthContext)[0];
     const groups = useContext(InfoContext)[0];
+    const setGroups = useContext(InfoContext)[1];
     const selfId = useContext(SelfContext)[0].id;
     const [unanswered, setUnanswered] = useState([]);
     const [answered, setAnswered] = useState([]);
     const [modalVisible, setModalVisible] = useState(false);
     const [currentQuestion, setCurrentQuestion] = useState({});
+
     const [answer, setAnswer] = useState("");
-
-
 
     useEffect(() => {
         const questions = getAllQuestions(groups, selfId);
         setAnswered(questions.answered);
         setUnanswered(questions.unanswered);
-    }, []);
+    }, [groups]);
 
     const answerQuestion = (question) => {
         setCurrentQuestion(question);
@@ -32,18 +32,21 @@ export default AnswerPage = () => {
 
     const editQuestion = (question) => {
         setCurrentQuestion(question);
-        setAnswer(question.answer || "");
+        setAnswer(question.answer);
         setModalVisible(true);
     };
 
     const getResponse = (question) => {
-        return question.responses.find(response => response.user.id === selfId);
+        if (question && question.responses) {
+            return question.responses.find(response => response.user.id === selfId);
+        }
+        return null;
     }
 
     const submitAnswer = async () => {
         const url = `http://joincanyon.org/responses`;
         const data = {
-            groupId: currentQuestion.groupId,
+            groupId: currentQuestion.group,
             response: answer
         };
         const options = {
@@ -56,24 +59,22 @@ export default AnswerPage = () => {
             body: JSON.stringify(data)
         };
 
-        console.log(data)
-
         try{
             const response = await fetch(url, options)
-            
-            .then(response => {
-                if(!response.ok){
-                    throw new Error(`HTTP error! ${response.status}`);
-                } else {
-                    currentQuestion.isAnswered = true;
-                    console.log("Successfully submitted/ edited answer!");
-                
-                return response.json()
-                }
-            })
-            .then(data => {
-                return data;
-            });
+                .then(response => {
+                    if(!response.ok){
+                        throw new Error(`HTTP error! ${response.status}`);
+                    } else {
+                        return response.json()
+                    }
+                })
+                .then(data => {
+                    return data;
+                });
+
+            const group = getGroup(groups, response.group);
+            getCurrentQuestion(group).responses.push(response);
+            setGroups([...groups]);
         } catch (error) {
             console.error("Failed to submit answer: ", error);
         } finally {
@@ -82,13 +83,10 @@ export default AnswerPage = () => {
     };
 
     const editAnswer = async () => {
-        if (!currentQuestion.id) {
-            console.error("No response ID found for question: ", currentQuestion);
-            return;
-        }
         const url = `http://joincanyon.org/responses`;
+        console.log(getResponseId(selfId, currentQuestion));
         const data = {
-            responseId: getResponseId(answered, selfId, currentQuestion.id),
+            responseId: getResponseId(selfId, currentQuestion),
             response: answer
         };
         const options = {
@@ -100,25 +98,28 @@ export default AnswerPage = () => {
             },
             body: JSON.stringify(data)
         };
-        console.log(currentQuestion.id)
-        console.log(data)
 
         try{
             const response = await fetch(url, options)
+                .then(response => {
+                    if(!response.ok){
+                        throw new Error(`HTTP error! ${response.status}`);
+                    } else {            
+                        return response.json()
+                    }
+                })
+                .then(data => {
+                    return data;
+                });
             
-            .then(response => {
-                if(!response.ok){
-                    throw new Error(`HTTP error! ${response.status}`);
-                } else {
-                    currentQuestion.isAnswered = true;
-                    console.log("Successfully submitted/ edited answer!");
-                
-                return response.json()
-                }
-            })
-            .then(data => {
-                return data;
-            });
+            console.log(getResponseId(selfId, currentQuestion))
+            console.log(JSON.stringify(response, null, 2))
+
+
+            const group = getGroup(groups, response.group);
+            // get the response from group most recent issue and replace
+            getCurrentQuestion(group).responses.find(response => response.user.id === selfId).response = response.response;
+            setGroups([...groups]);
         } catch (error) {
             console.error("Failed to submit answer: ", error);
         } finally {
@@ -151,10 +152,10 @@ export default AnswerPage = () => {
                         />
                         <Pressable
                             style={[styles.button, styles.buttonClose]}
-                            onPress={currentQuestion.isAnswered ? editAnswer : submitAnswer}
+                            onPress={getResponse(currentQuestion) ? editAnswer : submitAnswer}
                         >
                             <Text style={styles.textStyle}>
-                                {currentQuestion.isAnswered ? "Edit" : "Submit"}
+                                {getResponse(currentQuestion) ? "Edit" : "Submit"}
                             </Text>
                         </Pressable>
                     </View>

@@ -101,12 +101,10 @@ export function getCurrentQuestion(group) {
 
 
 //make a function called getResponseId which returns the response id when given the user id and group id
-export function getResponseId(answered, userId, issueId) {
-    for (let i = 0; i < answered.length; i++) {
-        for ( let j = 0; j < answered[i].responses.length; j++) {
-            if (answered[i].responses[j].user.id === userId && answered[i].id === issueId) {
-                return answered[i].responses[j].id;
-            }
+export function getResponseId(userId, issue) {
+    for (let i = 0; i < issue.responses.length; i++) {
+        if (issue.responses[i].user.id === userId) {
+            return issue.responses[i].id;
         }
     }
     console.error("No response found for this user in this group");
