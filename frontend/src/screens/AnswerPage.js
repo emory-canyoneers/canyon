@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { Modal, Pressable, ScrollView, Text, TextInput, View } from "react-native";
 import { AuthContext } from "../store/auth";
-import { InfoContext, getAllQuestions, getResponseId } from "../store/info";
+import { InfoContext, getAllQuestions, getGroup, getResponseId } from "../store/info";
 import { SelfContext } from "../store/self";
 import { styles } from "../styles/Answer";
 import { colors } from "../styles/colors";
@@ -16,13 +16,12 @@ export default AnswerPage = () => {
     const [currentQuestion, setCurrentQuestion] = useState({});
     const [answer, setAnswer] = useState("");
 
-
-
     useEffect(() => {
         const questions = getAllQuestions(groups, selfId);
         setAnswered(questions.answered);
         setUnanswered(questions.unanswered);
     }, []);
+
 
     const answerQuestion = (question) => {
         setCurrentQuestion(question);
@@ -171,6 +170,7 @@ export default AnswerPage = () => {
                     {unanswered.map((question) => (
                         // TODO: add components, popup to answer question
                         <Pressable key={question.id} style={[styles.noteContainer, styles.questionbutton]} onPress={() => answerQuestion(question)}>
+                            <Text key={question.id} style={[styles.note, {fontWeight:'bold', color:'black'}]}>{getGroup(groups, question.group).name}</Text>
                             <Text style={[styles.note, {color:'black'}]}>{question.question}</Text>
                         </Pressable>
                     ))}
@@ -182,6 +182,7 @@ export default AnswerPage = () => {
                     {answered.map((question) => (
                         // TODO: reuse unanswered question component, change to edit button
                         <Pressable key={question.id} onPress={() => editQuestion(question)} style={[styles.noteContainer, styles.questionbutton]}>
+                            <Text key={question.id} style={[styles.note, {fontWeight:'bold', color:'black'}]}>{getGroup(groups, question.group).name}</Text>
                             <Text style={[styles.note, {color:'black'}]}>{question.question}</Text>
                             <Text style={[styles.note, {color:'grey'}]}>Your answer: {getResponse(question).response}</Text>
                         </Pressable>
