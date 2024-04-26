@@ -82,6 +82,10 @@ export default function Group({ group }) {
     // console.log("RANDOM", newQ.key);
   };
 
+  const toggleModal = () => {
+    setModalVisible(!modalVisible);
+    console.log("modal visible", modalVisible);
+  };
 
   const createIssue = async (question) => {
     const url = `http://joincanyon.org/issues`;
@@ -320,7 +324,7 @@ export default function Group({ group }) {
                 </Text>
               </View>
 
-              {/* new question button, grayed if unavailable, highlighted if available */}
+              {/* new question button, grayed if unavailable, highlighted if available
               <Text style={styles.heading}>
                 New Question: {randomQuestion ? randomQuestion.key : ""}
               </Text>
@@ -334,54 +338,19 @@ export default function Group({ group }) {
                 onPress={handleNewQuestion}
                 disabled={timer !== 0}
               >
+                
                 <Text style={{ color: "white" }}>Generate new question</Text>
-              </TouchableOpacity> 
+              </TouchableOpacity>  */}
+
+              <TouchableOpacity onPress={() => {setModalVisible(true);}}>
+                <Text style={styles.heading}>Select Question</Text>
+              </TouchableOpacity>
 
               {/* timer to next available */}
               {/* <Text style={styles.note}>
                 Next question available in {timer} seconds
               </Text> */}
-              {!clicked ? (
-                <View>
-                  <Text style={groupStyles.textStyle}>
-                    Pick a question for this week! 🎉 🙌
-                  </Text>
-                  {/* <Text style={groupStyles.subTextStyle}>
-                    Pick a question for this week!
-                  </Text> */}
-                </View>
-              ) : null}
-              {this.renderQuestions()}
-              {question && clicked ? (
-                <Text style={styles.paragraph}>{question.key}</Text>
-              ) : null}
-              <View style={groupStyles.row}>
-                {!clicked ? (
-                  <Pressable
-                    style={[
-                      groupStyles.sched,
-                      question
-                        ? { backgroundColor: "#71bc68" }
-                        : { backgroundColor: "#e8e8e8" },
-                    ]}
-                    onPress={handleNewQuestion}
-                  >
-                    <Text style={{ textAlign: "center" }}>Select Question</Text>
-                  </Pressable>
-                ) : (
-                  <Pressable
-                    style={[
-                      groupStyles.sched,
-                      question
-                        ? { backgroundColor: "#71bc68" }
-                        : { backgroundColor: "#e8e8e8" },
-                    ]}
-                    onPress={onShare}
-                  >
-                    <Text style={{ textAlign: "center" }}>Send Text Now</Text>
-                  </Pressable>
-                )}
-              </View>
+              
               {/* <OurModal
                 questions={
                   question
@@ -422,6 +391,55 @@ export default function Group({ group }) {
             </View>
           </View>
         </ScrollView>
+        <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={() => setModalVisible(false)}>
+            <View style={styles.centeredView}>
+            {!clicked ? (
+                <View>
+                  <Text style={groupStyles.textStyle}>
+                    Pick a question for this week! 🎉 🙌
+                  </Text>
+                  {/* <Text style={groupStyles.subTextStyle}>
+                    Pick a question for this week!
+                  </Text> */}
+                </View>
+              ) : null}
+              {this.renderQuestions()}
+              {question && clicked ? (
+                <Text style={styles.paragraph}>{question.key}</Text>
+              ) : null}
+              <View style={groupStyles.row}>
+                {!clicked ? (
+                  <Pressable
+                    style={[
+                      groupStyles.sched,
+                      question
+                        ? { backgroundColor: "#71bc68" }
+                        : { backgroundColor: "#e8e8e8" },
+                    ]}
+                    onPress={handleNewQuestion}
+                  >
+                    <Text style={{ textAlign: "center" }}>Select Question</Text>
+                  </Pressable>
+                ) : (
+                  <Pressable
+                    style={[
+                      groupStyles.sched,
+                      question
+                        ? { backgroundColor: "#71bc68" }
+                        : { backgroundColor: "#e8e8e8" },
+                    ]}
+                    onPress={onShare}
+                  >
+                    <Text style={{ textAlign: "center" }}>Send Text Now</Text>
+                  </Pressable>
+                )}
+              </View>
+            </View>
+          </Modal>
       </Modal>
     </View>
   );
