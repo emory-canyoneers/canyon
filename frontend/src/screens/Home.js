@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Text, ScrollView, View, TouchableOpacity, TextInput } from 'react-native';
+import { Text, ScrollView, View, TouchableOpacity, TextInput, KeyboardAvoidingView } from 'react-native';
 import { AuthContext } from "../store/auth";
 import { InfoContext } from "../store/info";
 import Group from '../components/Group';
@@ -140,70 +140,72 @@ export default function Home() {
     }, []);
 
     return (
-        <ScrollView style={styles.scrollView} contentContainerStyle={styles.container}>
-            <View style={styles.body}>
-                {/* self ? is to prevent crash while fetchSelf is getting self */}
-                <Text style={styles.title}>
-                    Welcome back <Text style={{color: colors.primary}}>{self ? self.name.split(" ")[0] : null}</Text>!
-                </Text>
-                <Text style={styles.heading}>Check in on your groups:</Text>
-                <View style={styles.content}>
-                    {groups.map((group) => (
-                        <Group key={group.id} group={group} />
-                    ))}
-                </View>
-                
-                <Text style={styles.heading}>Or...</Text>
-                <View style={styles.content}>
-                    <View style={styles.horizontalWrapper}>
-                        <TouchableOpacity style={styles.flexButton} onPress={() => {
-                            setJoining((j) => !j);
-                            setCreating(false);
-                        }}>
-                            <Text>Join a Group</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.flexButton} onPress={() => {
-                            setCreating((c) => !c);
-                            setJoining(false);
-                        }}>
-                            <Text>Create a Group</Text>
-                        </TouchableOpacity>
+        <KeyboardAvoidingView behavior="padding" style={{width: "100%", backgroundColor: colors.background}}>
+            <ScrollView style={styles.scrollView} contentContainerStyle={styles.container}>
+                <View style={[styles.body, {paddingBottom: 20}]}>
+                    {/* self ? is to prevent crash while fetchSelf is getting self */}
+                    <Text style={styles.title}>
+                        Welcome back <Text style={{color: colors.primary}}>{self ? self.name.split(" ")[0] : null}</Text>!
+                    </Text>
+                    <Text style={styles.heading}>Check in on your groups:</Text>
+                    <View style={styles.content}>
+                        {groups.map((group) => (
+                            <Group key={group.id} group={group} />
+                        ))}
                     </View>
-                    {
-                        creating ? (
-                            <View style={styles.subcontent}>
-                                <TextInput
-                                    style={styles.input}
-                                    placeholder="New Group Name"
-                                    placeholderTextColor={colors.textSecondary}
-                                    onChangeText={setGroupName}
-                                    value={groupName}
-                                />
-                                
-                                <TouchableOpacity style={styles.button} onPress={createGroup}>
-                                    <Text>Create Group</Text>
-                                </TouchableOpacity>
-                            </View>
-                        ) : <></>
-                    }
-                    {
-                        joining ? (
-                            <View style={styles.subcontent}>
-                                <TextInput
-                                    style={styles.input}
-                                    placeholder="Group Code"
-                                    placeholderTextColor={colors.textSecondary}
-                                    onChangeText={setGroupName}
-                                    value={groupName}
-                                />
-                                <TouchableOpacity style={styles.button} onPress={joinGroup}>
-                                    <Text>Join Group</Text>
-                                </TouchableOpacity>
-                            </View>
-                        ) : <></>
-                    }
+                    
+                    <Text style={styles.heading}>Or...</Text>
+                    <View style={styles.content}>
+                        <View style={styles.horizontalWrapper}>
+                            <TouchableOpacity style={styles.flexButton} onPress={() => {
+                                setJoining((j) => !j);
+                                setCreating(false);
+                            }}>
+                                <Text>Join a Group</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.flexButton} onPress={() => {
+                                setCreating((c) => !c);
+                                setJoining(false);
+                            }}>
+                                <Text>Create a Group</Text>
+                            </TouchableOpacity>
+                        </View>
+                        {
+                            creating ? (
+                                <View style={styles.subcontent}>
+                                    <TextInput
+                                        style={styles.input}
+                                        placeholder="New Group Name"
+                                        placeholderTextColor={colors.textSecondary}
+                                        onChangeText={setGroupName}
+                                        value={groupName}
+                                    />
+                                    
+                                    <TouchableOpacity style={styles.button} onPress={createGroup}>
+                                        <Text>Create Group</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            ) : <></>
+                        }
+                        {
+                            joining ? (
+                                <View style={styles.subcontent}>
+                                    <TextInput
+                                        style={styles.input}
+                                        placeholder="Group Code"
+                                        placeholderTextColor={colors.textSecondary}
+                                        onChangeText={setGroupName}
+                                        value={groupName}
+                                    />
+                                    <TouchableOpacity style={styles.button} onPress={joinGroup}>
+                                        <Text>Join Group</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            ) : <></>
+                        }
+                    </View>
                 </View>
-            </View>
-        </ScrollView>
+            </ScrollView>
+        </KeyboardAvoidingView>
     );
 }

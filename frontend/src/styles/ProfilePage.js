@@ -10,7 +10,7 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
         paddingTop: 80,
         width: '80%',
-        height: '50%',
+        height: '100%',
     },
     horizontalWrapper: {
         width: '100%',

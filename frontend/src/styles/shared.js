@@ -51,10 +51,10 @@ export const shared = StyleSheet.create({
         textDecorationLine: 'underline',
     },
     container: { // outermost view, provides top padding and centering margins
-        paddingVertical: 80,
+        paddingTop: 80,
         backgroundColor: colors.background,
         alignItems: 'center',
-        flex: 1,
+        // flex: 1,
     },
     scrollView: { // scroll view specific style for background outside of view 
         backgroundColor: colors.background,
@@ -63,6 +63,7 @@ export const shared = StyleSheet.create({
         width: '90%',
         justifyContent: 'center',
         alignItems: 'left',
+        paddingBottom: 80,
     },
     content: { // flex container for content using map()
         display: 'flex',
