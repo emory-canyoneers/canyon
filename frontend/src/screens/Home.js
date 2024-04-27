@@ -140,7 +140,7 @@ export default function Home() {
     }, []);
 
     return (
-        <KeyboardAvoidingView behavior="padding" style={{width: "100%", backgroundColor: colors.background}}>
+        <KeyboardAvoidingView behavior="padding" style={{width: "100%", height: "100%", backgroundColor: colors.background}}>
             <ScrollView style={styles.scrollView} contentContainerStyle={styles.container}>
                 <View style={[styles.body, {paddingBottom: 20}]}>
                     {/* self ? is to prevent crash while fetchSelf is getting self */}

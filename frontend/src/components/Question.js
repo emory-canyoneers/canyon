@@ -4,15 +4,9 @@ import { styles } from "../styles/Group";
 
 export default function Question({question}) {
     const [open, setOpen] = useState(false);
-    const [selectedQuestion, setSelectedQuestion] = useState(null);
 
-  const openDetails = (question) => {
-    setSelectedQuestion(question);
+  const openDetails = () => {
     setOpen(true); //opens the second modal
-  };
-
-  const closeModal = () => {
-    setOpen(false);
   };
 
   return (
