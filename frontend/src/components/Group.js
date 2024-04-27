@@ -21,7 +21,7 @@ export default function Group({ group }) {
     const timerRef = useRef(timer);
     const [question, setQuestion] = useState();
     const [clicked, setClicked] = useState(false);
-    const [modalVisible, setModalVisible] = useState(false);
+    const [questionOpen, setQuestionOpen] = useState(false);
     const [inviteOpen, setInviteOpen] = useState(false);
 
     const questions = [
@@ -75,6 +75,7 @@ export default function Group({ group }) {
     const handleNewQuestion = () => {
         //const randomIndex = Math.floor(Math.random() * questions.length);
         const newQ = questions[selectedQuestion];
+        setQuestionOpen(true);
         setRandomQuestion(newQ);
         createIssue(newQ);
         setQuestion(newQ);
@@ -200,7 +201,7 @@ export default function Group({ group }) {
     const inviteFriends = async () => {
         try {
             const result = await Share.share({
-                title: "QOTWs",
+                title: "Join Canyon!",
                 // url: "https://reactnative.dev/docs/share?language=javascript",
                 message: `Join my group on Canyon with this invite code. \n${group.id}`,
             });
@@ -240,7 +241,6 @@ export default function Group({ group }) {
                     </Text>
                 </View>
             </TouchableOpacity>
-            {/* {console.log(members)} */}
 
             <Modal
                 animationType="slide"
@@ -263,10 +263,7 @@ export default function Group({ group }) {
                         </Text>
 
                         <View style={styles.content}>
-                            {/* new question button, grayed if unavailable, highlighted if available
-                            <Text style={styles.heading}>
-                                New Question: {randomQuestion ? randomQuestion.key : ""}
-                            </Text>
+                            {/* new question button, grayed if unavailable, highlighted if available */}
                             <TouchableOpacity
                                 style={[
                                     styles.button,
@@ -277,36 +274,70 @@ export default function Group({ group }) {
                                 onPress={handleNewQuestion}
                                 disabled={timer !== 0}
                             >
-                                
                                 <Text style={{ color: "white" }}>Generate new question</Text>
-                            </TouchableOpacity>  */}
+                            </TouchableOpacity>
+                            <Text style={[styles.note, {alignSelf: "center"}]}>
+                                Next question available in {timer} seconds
+                            </Text>
 
-                            <TouchableOpacity onPress={() => {setModalVisible(true);}}>
+                            <TouchableOpacity onPress={() => {setQuestionOpen(true);}}>
                                 <Text style={styles.heading}>Select Question</Text>
                             </TouchableOpacity>
 
-                            {/* timer to next available */}
-                            {/* <Text style={styles.note}>
-                                Next question available in {timer} seconds
-                            </Text> */}
+                            {
+                                questionOpen ? (
+                                    <Modal
+                                        animationType="slide"
+                                        transparent={true}
+                                        visible={questionOpen}
+                                        onRequestClose={() => setQuestionOpen(false)}
+                                    >
+                                        <Pressable style={styles.centeredView} onPress={() => {setQuestionOpen(false)}}>
+                                            <View style={styles.modalView} onStartShouldSetResponder={() => true}>
+                                            {!clicked ? (
+                                                    <View>
+                                                        <Text style={groupStyles.textStyle}>
+                                                            Pick a question for this week! 🎉 🙌
+                                                        </Text>
+                                                    </View>
+                                                ) : null}
+                                                {this.renderQuestions()}
+                                                {question && clicked ? (
+                                                    <Text style={styles.paragraph}>{question.key}</Text>
+                                                ) : null}
+                                                <View style={groupStyles.row}>
+                                                    {!clicked ? (
+                                                        <Pressable
+                                                            style={[
+                                                                groupStyles.sched,
+                                                                question
+                                                                    ? { backgroundColor: "#71bc68" }
+                                                                    : { backgroundColor: "#e8e8e8" },
+                                                            ]}
+                                                            onPress={handleNewQuestion}
+                                                        >
+                                                            <Text style={{ textAlign: "center" }}>Select Question</Text>
+                                                        </Pressable>
+                                                    ) : (
+                                                        <Pressable
+                                                            style={[
+                                                                groupStyles.sched,
+                                                                question
+                                                                    ? { backgroundColor: "#71bc68" }
+                                                                    : { backgroundColor: "#e8e8e8" },
+                                                            ]}
+                                                            onPress={onShare}
+                                                        >
+                                                            <Text style={{ textAlign: "center" }}>Send Text Now</Text>
+                                                        </Pressable>
+                                                    )}
+                                                </View>
+                                            </View>
+                                        </Pressable>
+                                    </Modal>
+                                ) : <></>
+                            }
                             
-                            {/* <OurModal
-                                questions={
-                                    question
-                                        ? question.key
-                                        : ""
-                                }
-                            /> */}
-                            {/* current question */}
-                            {/* <Text style={[styles.heading, { alignSelf: "flex-start" }]}>
-                                Current Question
-                            </Text> */}
-                            {/* <Text style={styles.paragraph}>
-                                TODO: add answer/edit modal here as well:{" "}
-                                {question
-                                    ? question.question
-                                    : "No questions yet, start a conversation!"}
-                            </Text> */}
 
                             {/* people */}
                             <View style={{display: "flex", flexDirection: "row", gap: 15, alignItems: "center"}}>
@@ -381,93 +412,6 @@ export default function Group({ group }) {
                         </View>
                     </View>
                 </ScrollView>
-
-                <Modal
-                        animationType="slide"
-                        transparent={true}
-                        visible={modalVisible}
-                        onRequestClose={() => setModalVisible(false)}>
-                        <View style={styles.centeredView}>
-                        {!clicked ? (
-                                <View>
-                                    <Text style={groupStyles.textStyle}>
-                                        Pick a question for this week! 🎉 🙌
-                                    </Text>
-                                    {/* <Text style={groupStyles.subTextStyle}>
-                                        Pick a question for this week!
-                                    </Text> */}
-                                </View>
-                            ) : null}
-                            {this.renderQuestions()}
-                            {question && clicked ? (
-                                <Text style={styles.paragraph}>{question.key}</Text>
-                            ) : null}
-                            <View style={groupStyles.row}>
-                                {!clicked ? (
-                                    <Pressable
-                                        style={[
-                                            groupStyles.sched,
-                                            question
-                                                ? { backgroundColor: "#71bc68" }
-                                                : { backgroundColor: "#e8e8e8" },
-                                        ]}
-                                        onPress={handleNewQuestion}
-                                    >
-                                        <Text style={{ textAlign: "center" }}>Select Question</Text>
-                                    </Pressable>
-                                ) : (
-                                    <Pressable
-                                        style={[
-                                            groupStyles.sched,
-                                            question
-                                                ? { backgroundColor: "#71bc68" }
-                                                : { backgroundColor: "#e8e8e8" },
-                                        ]}
-                                        onPress={onShare}
-                                    >
-                                        <Text style={{ textAlign: "center" }}>Send Text Now</Text>
-                                    </Pressable>
-                                )}
-                            </View>
-                            {/* <OurModal
-                                questions={
-                                    question
-                                        ? question.key
-                                        : ""
-                                }
-                            /> */}
-                            {/* current question */}
-                            {/* <Text style={[styles.heading, { alignSelf: "flex-start" }]}>
-                                Current Question
-                            </Text> */}
-                            {/* <Text style={styles.paragraph}>
-                                TODO: add answer/edit modal here as well:{" "}
-                                {question
-                                    ? question.question
-                                    : "No questions yet, start a conversation!"}
-                            </Text> */}
-
-                            {/* previous questions */}
-                            <Text style={[styles.heading, { alignSelf: "flex-start" }]}>
-                                Previous Questions
-                            </Text>
-                            <Text
-                                style={[
-                                    styles.note,
-                                    { fontWeight: "bold", fontSize: 16, color: "#fff" },
-                                ]}
-                            >
-                                Select a question and view the group's responses 🥰
-                            </Text>
-                            {[...group.issues]
-                                .reverse()
-                                .slice(1)
-                                .map((q) => (
-                                    // TODO: take answers component from AnswerPage and put here, minus the editing - instead, opening should display the responses for that issue
-                                    <Question key={q.id} question={q} />
-                                ))}
-                        </View>
-                    </Modal>
             </Modal>
         </View>
     );
