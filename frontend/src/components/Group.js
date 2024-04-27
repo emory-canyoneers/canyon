@@ -438,6 +438,43 @@ export default function Group({ group }) {
                   </Pressable>
                 )}
               </View>
+              {/* <OurModal
+                questions={
+                  question
+                    ? question.key
+                    : ""
+                }
+              /> */}
+              {/* current question */}
+              {/* <Text style={[styles.heading, { alignSelf: "flex-start" }]}>
+                Current Question
+              </Text> */}
+              {/* <Text style={styles.paragraph}>
+                TODO: add answer/edit modal here as well:{" "}
+                {question
+                  ? question.question
+                  : "No questions yet, start a conversation!"}
+              </Text> */}
+
+              {/* previous questions */}
+              <Text style={[styles.heading, { alignSelf: "flex-start" }]}>
+                Previous Questions
+              </Text>
+              <Text
+                style={[
+                  styles.note,
+                  { fontWeight: "bold", fontSize: 16, color: "#fff" },
+                ]}
+              >
+                Select a question and view the group's responses 🥰
+              </Text>
+              {[...group.issues]
+                .reverse()
+                .slice(1)
+                .map((q) => (
+                  // TODO: take answers component from AnswerPage and put here, minus the editing - instead, opening should display the responses for that issue
+                  <Question key={q.id} question={q} />
+                ))}
             </View>
           </Modal>
       </Modal>

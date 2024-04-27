@@ -4,7 +4,7 @@ import { styles } from "../styles/Group";
 
 export default function Question({question}) {
     const [open, setOpen] = useState(false);
-    const [sexlectedQuestion, setSelectedQuestion] = useState(null);
+    const [selectedQuestion, setSelectedQuestion] = useState(null);
 
   const openDetails = (question) => {
     setSelectedQuestion(question);
