@@ -8,8 +8,12 @@ import {
     Text,
     TouchableOpacity,
     View,
+    TextInput,
+    Platform,
+    KeyboardAvoidingView
 } from "react-native";
 import { AuthContext } from "../store/auth";
+import { InfoContext } from "../store/info";
 import { styles } from "../styles/Group";
 import { colors } from "../styles/colors";
 import Question from "./Question";
@@ -19,10 +23,9 @@ export default function Group({ group }) {
     const [open, setOpen] = useState(false);
     const [timer, setTimer] = useState(group.issueFrequency); // time until next question
     const timerRef = useRef(timer);
-    const [question, setQuestion] = useState();
-    const [clicked, setClicked] = useState(false);
-    const [questionOpen, setQuestionOpen] = useState(false);
-    const [inviteOpen, setInviteOpen] = useState(false);
+    const token = useContext(AuthContext)[0];
+    const groups = useContext(InfoContext)[0];
+    const setGroups = useContext(InfoContext)[1];
 
     const questions = [
         { id: 0, key: "What is your earliest memory?" },
@@ -47,10 +50,15 @@ export default function Group({ group }) {
         },
         { id: 8, key: "What's something you recently learned?" },
     ];
+    
+    const [question, setQuestion] = useState();
+    const [questionSubmitted, setQuestionSubmitted] = useState(false);
+    const [questionOpen, setQuestionOpen] = useState(false);
+    const [inviteOpen, setInviteOpen] = useState(false);
 
     const [data, setData] = useState(questions);
-    const token = useContext(AuthContext)[0];
-    const [selectedQuestion, setSelectedQuestion] = useState();
+    const [randomQuestions, setRandomQuestions] = useState([]);
+    const [selectedQuestion, setSelectedQuestion] = useState("");
 
     // updates timerRef with the current timer value
     // useEffect(() => {
@@ -72,15 +80,16 @@ export default function Group({ group }) {
         // return () => clearInterval(interval);
     }, []);
 
-    const handleNewQuestion = () => {
-        //const randomIndex = Math.floor(Math.random() * questions.length);
-        const newQ = questions[selectedQuestion];
+    const handleQuestionOpen = () => {
         setQuestionOpen(true);
-        setRandomQuestion(newQ);
-        createIssue(newQ);
-        setQuestion(newQ);
-        setClicked(true);
-        // console.log("RANDOM", newQ.key);
+        setSelectedQuestion("");
+        // select 3 random ids from data
+        setRandomQuestions(data.sort(() => 0.5 - Math.random()).slice(0, 3).map((item) => item.id));
+    };
+
+    const handleNewQuestion = () => {
+        createIssue(selectedQuestion);
+        setQuestionSubmitted(true);
     };
 
     const createIssue = async (question) => {
@@ -103,20 +112,26 @@ export default function Group({ group }) {
                 throw new Error(`HTTP error! ${q.status}`);
             }
             const data = await response.json();
-            // console.log("NEW QUESTION", data);
-            setQuestion(data);
+
+            setQuestion(data); // TODO: fix state update in groups context
         } catch (error) {
             console.error("Error:", error);
         }
+
+
     };
 
-    const onChecked = (id) => {
+    const onChecked = (text) => {
         // Update data with new checked states
-        setSelectedQuestion(id);
+        setSelectedQuestion(text);
         const newData = data.map((item) => {
-            if (item.id === id) {
+            if (item.key === text) {
                 // Toggle the checked state of the selected item
                 const updatedItem = { ...item, checked: !item.checked };
+                if (!updatedItem.checked) {
+                    setQuestion(updatedItem);
+                    setSelectedQuestion("");
+                }
                 return updatedItem;
             } else {
                 // Ensure all other items are not checked
@@ -128,7 +143,7 @@ export default function Group({ group }) {
         setData(newData);
 
         // Find the newly checked item, if any
-        const checkedItem = newData.find((item) => item.id === id && item.checked);
+        const checkedItem = newData.find((item) => item.key === text && item.checked);
 
         if (checkedItem) {
             // If an item is checked, set it as the only selected question
@@ -140,31 +155,21 @@ export default function Group({ group }) {
     };
 
     renderQuestions = () => {
-        return !clicked ? (
-            data.map((item, key) => {
-                // getDataFromBackend();
+        return !questionSubmitted ? (
+            data.map((item) => {
                 return (
-                    <TouchableOpacity
-                        key={key}
-                        style={!item.checked ? groupStyles.box : groupStyles.boxChecked}
-                        onPress={() => {
-                            onChecked(item.id);
-                        }}
-                    >
-                        {/* <Image
-                        style={styles.tinyImg}
-                        source={
-                            !item.checked
-                                ? require("./assets/uncheckedImg.png")
-                                : require("./assets/checkedImg.png")
-                        }
-                        value={item.checked}
-                        onValueChange={() => {
-                            this.onchecked(item.id);
-                        }}
-                    /> */}
-                        <Text style={groupStyles.options}>{item.key}</Text>
-                    </TouchableOpacity>
+                    // only render questions if item.id is in randomQuestions
+                    randomQuestions.includes(item.id) && (
+                        <TouchableOpacity
+                            key={item.id}
+                            style={!item.checked ? groupStyles.box : groupStyles.boxChecked}
+                            onPress={() => {
+                                onChecked(item.key);
+                            }}
+                        >
+                            <Text style={groupStyles.options}>{item.key}</Text>
+                        </TouchableOpacity>
+                    )
                 );
             })
         ) : (
@@ -271,7 +276,7 @@ export default function Group({ group }) {
                                         ? { backgroundColor: colors.primary }
                                         : { backgroundColor: "gray" },
                                 ]}
-                                onPress={handleNewQuestion}
+                                onPress={handleQuestionOpen}
                                 disabled={timer !== 0}
                             >
                                 <Text style={{ color: "white" }}>Generate new question</Text>
@@ -280,7 +285,7 @@ export default function Group({ group }) {
                                 Next question available in {timer} seconds
                             </Text>
 
-                            <TouchableOpacity onPress={() => {setQuestionOpen(true);}}>
+                            <TouchableOpacity onPress={handleQuestionOpen}>
                                 <Text style={styles.heading}>Select Question</Text>
                             </TouchableOpacity>
 
@@ -293,46 +298,62 @@ export default function Group({ group }) {
                                         onRequestClose={() => setQuestionOpen(false)}
                                     >
                                         <Pressable style={styles.centeredView} onPress={() => {setQuestionOpen(false)}}>
-                                            <View style={styles.modalView} onStartShouldSetResponder={() => true}>
-                                            {!clicked ? (
-                                                    <View>
-                                                        <Text style={groupStyles.textStyle}>
-                                                            Pick a question for this week! 🎉 🙌
-                                                        </Text>
+                                            <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
+                                                <View style={styles.modalView} onStartShouldSetResponder={() => true}>
+                                                    <View style={[styles.content, {marginVertical: 0}]}>
+                                                        {
+                                                            !questionSubmitted ? (
+                                                                <View>
+                                                                    <Text style={[groupStyles.textStyle, {paddingTop: 0}]}>
+                                                                        Pick a question for this week! 🎉 🙌
+                                                                    </Text>
+                                                                </View>
+                                                            ) : null
+                                                        }
+                                                        {this.renderQuestions()}
+                                                        {
+                                                            question && questionSubmitted ? (
+                                                                <Text style={styles.paragraph}>{question.key}</Text>
+                                                            ) : null
+                                                        }
+                                                        {!questionSubmitted ? (
+                                                            <>
+                                                                <TextInput
+                                                                    style={styles.input}
+                                                                    placeholder="Or, write your own question!"
+                                                                    placeholderTextColor={colors.textSecondary}
+                                                                    onChangeText={setSelectedQuestion}
+                                                                    value={selectedQuestion}
+                                                                    autoCapitalize='none'
+                                                                />
+                                                                <Pressable
+                                                                    style={[
+                                                                        styles.button,
+                                                                        selectedQuestion !== ""
+                                                                            ? { backgroundColor: colors.primary }
+                                                                            : { backgroundColor: colors.textPrimary },
+                                                                    ]}
+                                                                    onPress={handleNewQuestion}
+                                                                >
+                                                                    <Text style={{ textAlign: "center" }}>Select Question</Text>
+                                                                </Pressable>
+                                                            </>
+                                                        ) : (
+                                                            <Pressable
+                                                                style={[
+                                                                    groupStyles.sched,
+                                                                    question
+                                                                        ? { backgroundColor: "#71bc68" }
+                                                                        : { backgroundColor: "#e8e8e8" },
+                                                                ]}
+                                                                onPress={onShare}
+                                                            >
+                                                                <Text style={{ textAlign: "center" }}>Send Text Now</Text>
+                                                            </Pressable>
+                                                        )}
                                                     </View>
-                                                ) : null}
-                                                {this.renderQuestions()}
-                                                {question && clicked ? (
-                                                    <Text style={styles.paragraph}>{question.key}</Text>
-                                                ) : null}
-                                                <View style={groupStyles.row}>
-                                                    {!clicked ? (
-                                                        <Pressable
-                                                            style={[
-                                                                groupStyles.sched,
-                                                                question
-                                                                    ? { backgroundColor: "#71bc68" }
-                                                                    : { backgroundColor: "#e8e8e8" },
-                                                            ]}
-                                                            onPress={handleNewQuestion}
-                                                        >
-                                                            <Text style={{ textAlign: "center" }}>Select Question</Text>
-                                                        </Pressable>
-                                                    ) : (
-                                                        <Pressable
-                                                            style={[
-                                                                groupStyles.sched,
-                                                                question
-                                                                    ? { backgroundColor: "#71bc68" }
-                                                                    : { backgroundColor: "#e8e8e8" },
-                                                            ]}
-                                                            onPress={onShare}
-                                                        >
-                                                            <Text style={{ textAlign: "center" }}>Send Text Now</Text>
-                                                        </Pressable>
-                                                    )}
                                                 </View>
-                                            </View>
+                                            </KeyboardAvoidingView>
                                         </Pressable>
                                     </Modal>
                                 ) : <></>
@@ -438,7 +459,7 @@ const groupStyles = {
     boxChecked: {
         flexDirection: "row",
         alignItems: "center",
-        backgroundColor: "#8296E1",
+        backgroundColor: colors.secondary,
         paddingTop: 10,
         paddingBottom: 10,
         borderRadius: 4,
