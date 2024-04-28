@@ -124,7 +124,9 @@ export default function Group({ group }) {
                 });
             console.log(response);
 
-            // setQuestion(data); // TODO: fix state update in groups context
+            const groupIndex = groups.findIndex((g) => g.id === group.id);
+            groups[groupIndex].issues.push(response);
+            setGroups([...groups]);
         } catch (error) {
             console.error("Error:", error);
         }
