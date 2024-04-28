@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bson.types.ObjectId;
+import org.springframework.cglib.core.Local;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -79,7 +80,11 @@ public class Group {
     public Issue newIssue(String question) {
         // short circuit, create a new issue if there are no issues or current is older
         // than time to wait
-        if (currentIssue() == null || !currentIssue().getTime().isAfter(LocalTime.now().minusSeconds(issueFrequency))) {
+        LocalTime now = LocalTime.now();
+        LocalTime prev = currentIssue() == null ? LocalTime.MIN : currentIssue().getTime();
+
+        if (issues.isEmpty() || now.isBefore(prev)
+                || now.isAfter(currentIssue().getTime().plusSeconds(issueFrequency))) {
             issueCount++;
             Issue issue = new Issue(this, question);
             if (issues.add(issue)) {
