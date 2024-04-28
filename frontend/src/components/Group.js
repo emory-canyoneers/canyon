@@ -531,7 +531,9 @@ const groupStyles = {
   boxChecked: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: colors.secondary,
+    backgroundColor: "#f1bf73",
+    // backgroundColor: colors.secondary,
+    color: "#000",
     paddingTop: 10,
     paddingBottom: 10,
     borderRadius: 4,
@@ -559,7 +561,7 @@ const groupStyles = {
   options: {
     marginRight: 20,
     fontSize: 16,
-    color: "#FFFFFF",
+    color: "#fff",
   },
   text: {
     margin: 15,

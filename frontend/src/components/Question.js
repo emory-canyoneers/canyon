@@ -31,7 +31,7 @@ export default function Question({ question }) {
               </Text>
               {question.responses.map((response) => (
                 <View key={response.id}>
-                  <Text style={{ color: "white" }}>
+                  <Text style={[questionStyles.answer, { color: "white" }]}>
                     {response.user.name}: {response.response}
                   </Text>
                 </View>
@@ -43,3 +43,9 @@ export default function Question({ question }) {
     </View>
   );
 }
+
+const questionStyles = {
+  answer: {
+    textAlign: "center",
+  },
+};
