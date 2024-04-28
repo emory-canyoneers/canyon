@@ -9,7 +9,7 @@ export default function ResponsesPage() {
     const groups = groupsContext[0];
 
     return (
-        <ScrollView style={[styles.scrollView, groupStyles.parentContainer]}>
+        <ScrollView style={styles.scrollView} contentContainerStyle={styles.container}>
             <View style={styles.body}>
                 <Text style={styles.title}>Check out previous group responses 🙌</Text>
 
@@ -17,7 +17,6 @@ export default function ResponsesPage() {
                     {
                         groups.length > 0 ? (
                         groups.map((group) => (
-                            // <Response key={group.id} group={group} />
                             <View key={group.id}>
                                 <Text style={[styles.heading, { color:colors.secondary }]}>
                                     {group.name}
@@ -77,12 +76,11 @@ const groupStyles = {
         borderRadius: 4,
         backgroundColor: "#1E2029",
         padding: 15,
-        width: "110%",
+        width: "100%",
         alignItems: "flex-start", // Align items in the center vertically
     },
     parentContainer: {
         paddingTop: 70,
-        paddingLeft: 20,
     },
     name: {
         color: "#6C6E77",
