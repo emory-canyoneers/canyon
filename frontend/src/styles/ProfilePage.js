@@ -6,7 +6,7 @@ export const styles = StyleSheet.create({
     ...shared,
     loginContent: {
         display: 'flex',
-        gap: 15,
+        gap: 16,
         alignItems: 'center',
         paddingTop: 80,
         width: '80%',

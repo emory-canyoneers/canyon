@@ -526,6 +526,7 @@ const groupStyles = {
         backgroundColor: "#fff",
         marginLeft: "auto",
         marginRight: "auto",
-        marginBottom: 20,
+        marginBottom: 10,
+        marginTop: 20,
     },
 };
