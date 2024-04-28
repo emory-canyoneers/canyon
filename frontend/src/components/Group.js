@@ -66,24 +66,39 @@ export default function Group({ group }) {
     const [selectedQuestion, setSelectedQuestion] = useState("");
 
     // updates timerRef with the current timer value
-    // useEffect(() => {
-    //   timerRef.current = timer;
-    // }, [timer]); // runs whenever timer changes
+    useEffect(() => {
+      timerRef.current = timer;
+    }, [timer]); // runs whenever timer changes
 
     useEffect(() => {
-        // setQuestion(getCurrentQuestion(group));
         setData(questions);
-
-        // const interval = setInterval(() => {
-        //   if (timerRef.current > 0) {
-        //     setTimer((timer) => timer - 1);
-        //   } else {
-        //     clearInterval(interval);
-        //   }
-        // }, 1000);
-
-        // return () => clearInterval(interval);
+        startTimer();
     }, []);
+
+    const startTimer = () => {
+        if (group.issues.length === 0) {
+            setTimer(0);
+        } else {
+            const [h, m, s] = group.issues[group.issues.length - 1].time.split(":");
+            const issueSeconds = parseInt(h) * 3600 + parseInt(m) * 60 + parseInt(s);
+            const currentTime = new Date(new Date().toISOString());
+            const currentSeconds = currentTime.getUTCHours() * 3600 + currentTime.getUTCMinutes() * 60 + currentTime.getUTCSeconds();
+
+            const timeElapsed = currentSeconds - issueSeconds;
+            const initialTimer = Math.max(group.issueFrequency - timeElapsed, 0);
+            setTimer(initialTimer);
+        }
+
+        const interval = setInterval(() => {
+            if (timerRef.current > 0) {
+              setTimer((timer) => timer - 1);
+            } else {
+              clearInterval(interval);
+            }
+          }, 1000);
+  
+          return () => clearInterval(interval);
+        };
 
     const handleQuestionOpen = () => {
         onChecked("");
@@ -122,11 +137,11 @@ export default function Group({ group }) {
                 }).then((data) => {
                     return data.json();
                 });
-            console.log(response);
 
             const groupIndex = groups.findIndex((g) => g.id === group.id);
             groups[groupIndex].issues.push(response);
             setGroups([...groups]);
+            startTimer();
         } catch (error) {
             console.error("Error:", error);
         }
@@ -286,10 +301,6 @@ export default function Group({ group }) {
                             <Text style={[styles.note, {alignSelf: "center"}]}>
                                 Next question available in {timer} seconds
                             </Text>
-
-                            <TouchableOpacity onPress={handleQuestionOpen}>
-                                <Text style={styles.heading}>Select Question</Text>
-                            </TouchableOpacity>
 
                             {
                                 questionOpen ? (
