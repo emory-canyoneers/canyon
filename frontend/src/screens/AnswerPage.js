@@ -174,7 +174,10 @@ export default AnswerPage = () => {
                   getResponse(currentQuestion) ? editAnswer : submitAnswer
                 }
               >
-                <Text style={styles.textStyle}>Submit</Text>
+                <Text style={styles.textStyle}>
+                  {" "}
+                  {getResponse(currentQuestion) ? "Edit" : "Submit"}
+                </Text>
               </Pressable>
             </View>
           </View>
