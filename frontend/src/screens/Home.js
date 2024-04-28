@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Text, ScrollView, View, TouchableOpacity, TextInput, KeyboardAvoidingView } from 'react-native';
+import { Text, ScrollView, View, TouchableOpacity, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
 import { AuthContext } from "../store/auth";
 import { InfoContext } from "../store/info";
 import Group from '../components/Group';
@@ -140,7 +140,7 @@ export default function Home() {
     }, []);
 
     return (
-        <KeyboardAvoidingView behavior="padding" style={{width: "100%", height: "100%", backgroundColor: colors.background}}>
+        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={{width: "100%", height: "100%", backgroundColor: colors.background}}>
             <ScrollView style={styles.scrollView} contentContainerStyle={styles.container}>
                 <View style={[styles.body, {paddingBottom: 20}]}>
                     {/* self ? is to prevent crash while fetchSelf is getting self */}

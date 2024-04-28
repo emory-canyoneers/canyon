@@ -19,6 +19,11 @@ import { colors } from "../styles/colors";
 import Question from "./Question";
 import { Exit, Invite } from "./Svg";
 
+//
+// no such thing as q
+//
+//
+
 export default function Group({ group }) {
     const [open, setOpen] = useState(false);
     const [timer, setTimer] = useState(group.issueFrequency); // time until next question
@@ -51,7 +56,7 @@ export default function Group({ group }) {
         { id: 8, key: "What's something you recently learned?" },
     ];
     
-    const [question, setQuestion] = useState();
+    // const [question, setQuestion] = useState();
     const [questionSubmitted, setQuestionSubmitted] = useState(false);
     const [questionOpen, setQuestionOpen] = useState(false);
     const [inviteOpen, setInviteOpen] = useState(false);
@@ -81,8 +86,9 @@ export default function Group({ group }) {
     }, []);
 
     const handleQuestionOpen = () => {
-        setQuestionOpen(true);
+        onChecked("");
         setSelectedQuestion("");
+        setQuestionOpen(true);
         // select 3 random ids from data
         setRandomQuestions(data.sort(() => 0.5 - Math.random()).slice(0, 3).map((item) => item.id));
     };
@@ -92,28 +98,33 @@ export default function Group({ group }) {
         setQuestionSubmitted(true);
     };
 
-    const createIssue = async (question) => {
+    const createIssue = async () => {
         const url = `http://joincanyon.org/issues`;
         const options = {
             method: "POST",
             headers: {
                 Accept: "application/json",
-                "Content-Type": "application/json;charset=UTF-8",
+                "Content-Type": "application/json",
                 Authorization: "Bearer " + token,
             },
             body: JSON.stringify({
                 groupId: group.id,
-                question: question.key,
+                question: selectedQuestion,
             }),
         };
         try {
-            const response = await fetch(url, options);
-            if (!response.ok) {
-                throw new Error(`HTTP error! ${q.status}`);
-            }
-            const data = await response.json();
+            const response = await fetch(url, options)
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! ${response.status}`);
+                    }
+                    return response;
+                }).then((data) => {
+                    return data.json();
+                });
+            console.log(response);
 
-            setQuestion(data); // TODO: fix state update in groups context
+            // setQuestion(data); // TODO: fix state update in groups context
         } catch (error) {
             console.error("Error:", error);
         }
@@ -129,7 +140,6 @@ export default function Group({ group }) {
                 // Toggle the checked state of the selected item
                 const updatedItem = { ...item, checked: !item.checked };
                 if (!updatedItem.checked) {
-                    setQuestion(updatedItem);
                     setSelectedQuestion("");
                 }
                 return updatedItem;
@@ -141,17 +151,6 @@ export default function Group({ group }) {
 
         // Set the new data state
         setData(newData);
-
-        // Find the newly checked item, if any
-        const checkedItem = newData.find((item) => item.key === text && item.checked);
-
-        if (checkedItem) {
-            // If an item is checked, set it as the only selected question
-            setQuestion(checkedItem);
-        } else {
-            // If no item is checked, clear the selected questions
-            setQuestion();
-        }
     };
 
     renderQuestions = () => {
@@ -173,21 +172,18 @@ export default function Group({ group }) {
                 );
             })
         ) : (
-            <Text style={groupStyles.textStyle}>
-                Thanks for selecting a question!
+            <Text style={[styles.subheading, {alignSelf: "center", textAlign: "center"}]}>
+                New question created! 🎉 
             </Text>
         );
     };
 
     const onShare = async () => {
-        var listOfQuestions = "";
-        let count = 1;
-        qs = question ? question.key : "";
         try {
             const result = await Share.share({
-                title: "QOTWs",
+                title: "New Canyon Question! 🎉",
                 // url: "https://reactnative.dev/docs/share?language=javascript",
-                message: `Answer my question in Canyon. ;) \n\n${qs}`,
+                message: `New question in Canyon @ ${group.name}! \n\n${selectedQuestion}`,
             });
             if (result.action === Share.sharedAction) {
                 if (result.activityType) {
@@ -200,6 +196,10 @@ export default function Group({ group }) {
             }
         } catch (error) {
             Alert.alert(error.message);
+        } finally {
+            setQuestionOpen(false);
+            setSelectedQuestion("");
+            setQuestionSubmitted(false);
         }
     };
 
@@ -279,7 +279,7 @@ export default function Group({ group }) {
                                 onPress={handleQuestionOpen}
                                 disabled={timer !== 0}
                             >
-                                <Text style={{ color: "white" }}>Generate new question</Text>
+                                <Text style={{ color: "white" }}>Create new question</Text>
                             </TouchableOpacity>
                             <Text style={[styles.note, {alignSelf: "center"}]}>
                                 Next question available in {timer} seconds
@@ -295,9 +295,16 @@ export default function Group({ group }) {
                                         animationType="slide"
                                         transparent={true}
                                         visible={questionOpen}
-                                        onRequestClose={() => setQuestionOpen(false)}
+                                        onRequestClose={() => {
+                                            setQuestionOpen(false);
+                                            setSelectedQuestion("");
+                                            setQuestionSubmitted(false);
+                                        }}
                                     >
-                                        <Pressable style={styles.centeredView} onPress={() => {setQuestionOpen(false)}}>
+                                        <Pressable style={styles.centeredView} onPress={() => {
+                                            setQuestionOpen(false)
+                                            setQuestionSubmitted(false);
+                                        }}>
                                             <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
                                                 <View style={styles.modalView} onStartShouldSetResponder={() => true}>
                                                     <View style={[styles.content, {marginVertical: 0}]}>
@@ -305,15 +312,15 @@ export default function Group({ group }) {
                                                             !questionSubmitted ? (
                                                                 <View>
                                                                     <Text style={[groupStyles.textStyle, {paddingTop: 0}]}>
-                                                                        Pick a question for this week! 🎉 🙌
+                                                                        Create a new question! 🎉 🙌
                                                                     </Text>
                                                                 </View>
                                                             ) : null
                                                         }
                                                         {this.renderQuestions()}
                                                         {
-                                                            question && questionSubmitted ? (
-                                                                <Text style={styles.paragraph}>{question.key}</Text>
+                                                            questionSubmitted ? (
+                                                                <Text style={styles.paragraph}>{selectedQuestion}</Text>
                                                             ) : null
                                                         }
                                                         {!questionSubmitted ? (
@@ -333,7 +340,10 @@ export default function Group({ group }) {
                                                                             ? { backgroundColor: colors.primary }
                                                                             : { backgroundColor: colors.textPrimary },
                                                                     ]}
-                                                                    onPress={handleNewQuestion}
+                                                                    onPress={
+                                                                        selectedQuestion !== ""
+                                                                            ? handleNewQuestion
+                                                                            : () => {}}
                                                                 >
                                                                     <Text style={{ textAlign: "center" }}>Select Question</Text>
                                                                 </Pressable>
@@ -341,14 +351,11 @@ export default function Group({ group }) {
                                                         ) : (
                                                             <Pressable
                                                                 style={[
-                                                                    groupStyles.sched,
-                                                                    question
-                                                                        ? { backgroundColor: "#71bc68" }
-                                                                        : { backgroundColor: "#e8e8e8" },
+                                                                    styles.button, { backgroundColor: colors.primary },
                                                                 ]}
                                                                 onPress={onShare}
                                                             >
-                                                                <Text style={{ textAlign: "center" }}>Send Text Now</Text>
+                                                                <Text style={{ textAlign: "center" }}>Share Via Text Now!</Text>
                                                             </Pressable>
                                                         )}
                                                     </View>
@@ -369,7 +376,6 @@ export default function Group({ group }) {
                                 </Text>
                                 <TouchableOpacity onPress={() => {
                                     setInviteOpen(true);
-                                    // inviteFriends();
                                 }}>
                                     <Invite color={colors.secondary} />
                                 </TouchableOpacity>
@@ -427,7 +433,6 @@ export default function Group({ group }) {
                                 .reverse()
                                 .slice(1)
                                 .map((q) => (
-                                    // TODO: take answers component from AnswerPage and put here, minus the editing - instead, opening should display the responses for that issue
                                     <Question key={q.id} question={q} />
                                 ))}
                         </View>
