@@ -122,7 +122,8 @@ export const shared = StyleSheet.create({
     },
     questionInModal: {
         color: 'white',
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        marginTop: 10,
     },
     questionbutton: {
         backgroundColor:colors.primary,
