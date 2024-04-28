@@ -147,14 +147,24 @@ export default function Home() {
                     <Text style={styles.title}>
                         Welcome back <Text style={{color: colors.primary}}>{self ? self.name.split(" ")[0] : null}</Text>!
                     </Text>
-                    <Text style={styles.heading}>Check in on your groups:</Text>
-                    <View style={styles.content}>
-                        {groups.map((group) => (
-                            <Group key={group.id} group={group} />
-                        ))}
-                    </View>
-                    
-                    <Text style={styles.heading}>Or...</Text>
+                    {
+                        groups.length > 0 ? (
+                            <>
+                                <Text style={styles.heading}>Check in on your groups:</Text>
+                                <View style={styles.content}>
+                                    {groups.map((group) => (
+                                        <Group key={group.id} group={group} />
+                                    ))}
+                                </View>
+                                
+                                <Text style={styles.heading}>Or...</Text>
+                            </>
+                        ) : (
+                            <Text style={[styles.note, {alignSelf: "center", textAlign: "center"}]}>
+                                You are not in any groups yet. Join one or create a new one!
+                            </Text>
+                        )
+                    }
                     <View style={styles.content}>
                         <View style={styles.horizontalWrapper}>
                             <TouchableOpacity style={styles.flexButton} onPress={() => {

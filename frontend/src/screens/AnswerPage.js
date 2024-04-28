@@ -170,57 +170,63 @@ export default AnswerPage = () => {
                 <Text style={styles.title}>Your groups are waiting to hear back!</Text>
                 <Text style={styles.heading}>Unanswered questions:</Text>
 
-            <View style={styles.content}>
-                {unanswered.map((question) => (
-                    // TODO: add components, popup to answer question
-                    <Pressable
-                    key={question.id}
-                    style={[styles.noteContainer, styles.questionbutton]}
-                    onPress={() => answerQuestion(question)}
-                    >
-                    <Text
+                <View style={[styles.content, {alignItems: "center"}]}>
+                    {unanswered.map((question) => (
+                        // TODO: add components, popup to answer question
+                        <Pressable
                         key={question.id}
-                        style={[styles.note, { fontWeight: "bold", color: "black" }]}
-                    >
-                        {getGroup(groups, question.group).name}
-                    </Text>
-                    <Text style={[styles.note, { color: "black" }]}>
-                        {question.question}
-                    </Text>
-                    </Pressable>
-                ))}
-                {unanswered.length < 1 ? (
-                    <Text style={styles.note}>All open questions have been answered!🎉🥳</Text>
-                ) : null}
-            </View>
+                        style={[styles.noteContainer, styles.questionbutton]}
+                        onPress={() => answerQuestion(question)}
+                        >
+                        <Text
+                            key={question.id}
+                            style={[styles.note, { fontWeight: "bold", color: "black" }]}
+                        >
+                            {getGroup(groups, question.group).name}
+                        </Text>
+                        <Text style={[styles.note, { color: "black" }]}>
+                            {question.question}
+                        </Text>
+                        </Pressable>
+                    ))}
+                    {unanswered.length < 1 ? (
+                        <Text style={[styles.note, {textAlign: "center"}]}>All open questions have been answered!🎉🥳</Text>
+                    ) : null}
+                </View>
 
-            {/* Edit open questions */}
-            <Text style={styles.heading}>Click to edit open questions</Text>
-            <View style={styles.content}>
-                {answered.map((question) => (
-                    // TODO: reuse unanswered question component, change to edit button
-                    <Pressable
-                    key={question.id}
-                    onPress={() => editQuestion(question)}
-                    style={[styles.noteContainer, styles.questionbutton]}
-                    >
-                    <Text
-                        key={question.id}
-                        style={[styles.note, { fontWeight: "bold", color: "black" }]}
-                    >
-                        {getGroup(groups, question.group).name}
-                    </Text>
-                    <Text style={[styles.note, { color: "black" }]}>
-                        {question.question}
-                    </Text>
-                    <Text style={[styles.note, { color: "#3b3b3b" }]}>
-                        Your answer: {getResponse(question).response}
-                    </Text>
-                    </Pressable>
-                ))}
-            </View>
+                {/* Edit open questions */}
+                <Text style={styles.heading}>Click to edit open questions</Text>
+                <View style={[styles.content, {alignItems: "center"}]}>
+                    {
+                        answered.length > 0 ? (
+                            answered.map((question) => (
+                                // TODO: reuse unanswered question component, change to edit button
+                                <Pressable
+                                key={question.id}
+                                onPress={() => editQuestion(question)}
+                                style={[styles.noteContainer, styles.questionbutton]}
+                                >
+                                <Text
+                                    key={question.id}
+                                    style={[styles.note, { fontWeight: "bold", color: "black" }]}
+                                >
+                                    {getGroup(groups, question.group).name}
+                                </Text>
+                                <Text style={[styles.note, { color: "black" }]}>
+                                    {question.question}
+                                </Text>
+                                <Text style={[styles.note, { color: "#3b3b3b" }]}>
+                                    Your answer: {getResponse(question).response}
+                                </Text>
+                                </Pressable>
+                            ))
+                        ) : (
+                            <Text style={[styles.note, {textAlign: "center"}]}>No answered questions yet.</Text>
+                        )
+                    }
+                </View>
 
-                <Text style={[styles.note, { marginTop: 15 }]}>
+                <Text style={[styles.note, { marginTop: 15, textAlign: "center" }]}>
                     Want to create a new question? A{" "}
                     <Text style={{ color: colors.primary, fontWeight: "bold" }}>
                         highlighted group
