@@ -2,16 +2,19 @@ import { useState } from "react";
 import { Modal, Pressable, Text, TouchableOpacity, View } from "react-native";
 import { styles } from "../styles/Group";
 
-export default function Question({question}) {
-    const [open, setOpen] = useState(false);
+export default function Question({ question }) {
+  const [open, setOpen] = useState(false);
 
   const openDetails = () => {
     setOpen(true); //opens the second modal
   };
 
   return (
-    <View>
-      <TouchableOpacity onPress={openDetails}>
+    <View style={{ width: "100%" }}>
+      <TouchableOpacity
+        style={[styles.questionContainer]}
+        onPress={openDetails}
+      >
         <Text style={styles.note}>{question.question}</Text>
       </TouchableOpacity>
       <Modal
@@ -28,7 +31,7 @@ export default function Question({question}) {
               </Text>
               {question.responses.map((response) => (
                 <View key={response.id}>
-                  <Text style={{ color: "white"}}>
+                  <Text style={{ color: "white" }}>
                     {response.user.name}: {response.response}
                   </Text>
                 </View>
