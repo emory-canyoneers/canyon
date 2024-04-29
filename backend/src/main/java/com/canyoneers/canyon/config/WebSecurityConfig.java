@@ -21,7 +21,7 @@ public class WebSecurityConfig {
                 requests -> requests
                     .requestMatchers("/auth").permitAll()
                     .requestMatchers(HttpMethod.POST, "/users").permitAll()
-                    .requestMatchers("/", "index.html", "AboutUs.html", "ContactUs.html", "Group 9.svg", "nav.html", "logo1.png", "Vector.png", "/HeadShots/**", "/scripts/**", "/styles/**").permitAll()
+                    .requestMatchers("/", "index.html", "AboutUs.html", "HowTo.html", "Group 9.svg", "nav.html", "logo1.png", "Vector.png", "/HeadShots/**", "/scripts/**", "/styles/**").permitAll()
                     .anyRequest().authenticated());
                     
         http
