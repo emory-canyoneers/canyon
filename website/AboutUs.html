@@ -20,7 +20,7 @@
       for (i = 0; i < z.length; i++) {
         elmnt = z[i];
         /*search for elements with a certain attribute:*/
-        file = elmnt.getAttribute("w3-include-html");
+        file = elmnt.getAttribute("navigation");
         if (file) {
           /*make an HTTP request using the attribute value as the file name:*/
           xhttp = new XMLHttpRequest();
@@ -29,7 +29,7 @@
               if (this.status == 200) {elmnt.innerHTML = this.responseText;}
               if (this.status == 404) {elmnt.innerHTML = "Page not found.";}
               /*remove the attribute, and call this function once more:*/
-              elmnt.removeAttribute("w3-include-html");
+              elmnt.removeAttribute("navigation");
               includeHTML();
             }
           }      
@@ -44,18 +44,18 @@
 
 <body>
 
-    <div w3-include-html="nav.html"></div>
+    <div navigation="nav.html"></div>
 
     <script>
         includeHTML();
     </script>
 
     <div class="about-section">
-        <h1>About Us</h1>
-        <p>Canyoneers fkdrfjafhlsdfjhrigu</p>
+        <h1>The Team</h1>
+        <p></p>
     </div>
     
-    <h2 style="text-align:center">The Team</h2>
+    <!-- <h2 style="text-align:center">The Team</h2> -->
 
     <div class="row">
         <div class="column">
