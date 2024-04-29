@@ -79,15 +79,20 @@ export default function Group({ group }) {
     if (group.issues.length === 0) {
       setTimer(0);
     } else {
-      const [h, m, s] = group.issues[group.issues.length - 1].time.split(":");
-      const issueSeconds = parseInt(h) * 3600 + parseInt(m) * 60 + parseInt(s);
-      const currentTime = new Date(new Date().toISOString());
-      const currentSeconds =
-        currentTime.getUTCHours() * 3600 +
-        currentTime.getUTCMinutes() * 60 +
-        currentTime.getUTCSeconds();
+      const lastIssueTime = new Date(group.issues[group.issues.length - 1].time);
+      const currentTime = new Date();
+      const currentTimeUTC = new Date( // incredibly jank but it works
+        currentTime.getUTCFullYear(),
+        currentTime.getUTCMonth(),
+        currentTime.getUTCDate(),
+        currentTime.getUTCHours(),
+        currentTime.getUTCMinutes(),
+        currentTime.getUTCSeconds(),
+        currentTime.getUTCMilliseconds()
+      );
 
-      const timeElapsed = currentSeconds - issueSeconds;
+      const timeElapsed = Math.floor((currentTimeUTC - lastIssueTime) / 1000);
+      
       const initialTimer = Math.max(group.issueFrequency - timeElapsed, 0);
       setTimer(initialTimer);
     }
@@ -366,7 +371,6 @@ export default function Group({ group }) {
                                 placeholderTextColor={colors.textSecondary}
                                 onChangeText={setSelectedQuestion}
                                 value={selectedQuestion}
-                                autoCapitalize="none"
                               />
                               <Pressable
                                 style={[
