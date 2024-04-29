@@ -1,7 +1,7 @@
 package com.canyoneers.canyon.models;
 
 import java.util.ArrayList;
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.bson.types.ObjectId;
@@ -22,7 +22,7 @@ public class Issue {
     private ObjectId id;
     private int issueNumber;
     // potentially issue name? or should it just be question?
-    private LocalTime time; // can just be week number? may need tweaking depending on final model
+    private LocalDateTime time; // can just be week number? may need tweaking depending on final model
     private String question;
 
     @JsonSerialize(using = ObjectIdSerializer.class)
@@ -32,7 +32,7 @@ public class Issue {
 
     public Issue() { // boilerplate constructor
         id = new ObjectId();
-        time = LocalTime.now();
+        time = LocalDateTime.now();
         question = "Test question " + id.toString();
     }
 
