@@ -43,25 +43,13 @@ public class GroupService {
     }
 
     @Transactional
-    public Group updateGroup(String groupId, Group updatedGroup) {
-        Optional<Group> groupOptional = groupRepository.findById(new ObjectId(groupId));
-        if (groupOptional.isPresent()) {
-            Group existingGroup = groupOptional.get();
-            existingGroup.setName(updatedGroup.getName());
-
-            return groupRepository.save(existingGroup);
-        }
-        return null;
-    }
-
-    @Transactional
     public ResponseEntity<?> deleteGroup(String token, String groupId) {
         User user = firebaseService.fetchUser(token);
 
         ObjectId id = new ObjectId(groupId);
         Group group = groupRepository.findById(id).get();
 
-        if (group == null || !group.getOwner().equals(user.getId())) {
+        if (group == null || !group.getOwner().equals(user)) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
         groupRepository.deleteById(id);
