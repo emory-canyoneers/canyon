@@ -13,7 +13,7 @@ Canyon seeks to use limited questions to help facilitate meaningful interactions
 
 ## Documentation
 
-Refer to the `doc` directory for documentation of our entire codebase.
+Refer to the [doc](https://github.com/emory-canyoneers/canyon/tree/main/doc) directory for documentation of our entire codebase.
 
 ## Features
 
