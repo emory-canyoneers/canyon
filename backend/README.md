@@ -119,7 +119,7 @@ Our models are as follows:
 In summary, our chain of references are as follows (ie, fetching a singular group returns the following):
 
 - Group Info (id, name, etc)
-- Owner (actual user info)
+- Owner (actual user info, DBRefs)
 - Members (DBRefs)
   - List of actual user info
 - Issues
@@ -150,7 +150,7 @@ Some final notes:
 - New endpoints will always require authentication unless ignored in `WebSecurityConfig.java`, including static content served on the main webpage.
 - If you would like to replace the current static content in `resources/` using some framework such as React or Svelte, you will have to run their respective build commands and place the built files (often found in `build/`) into the `resources/static/` directory.
 
-This is all you need to begin contributing to this project; read up on Spring Boot/MongoDB documentation, remember that editted Java objects need to be re-saved into the repository, and happy coding!
+This is all you need to begin contributing to this project; read up on Spring Boot/MongoDB documentation, remember that editted Java objects need to be re-saved into the repository, and happy coding! (See [testing](#testing) for deployment information.)
 
 ## Testing
 
@@ -170,6 +170,13 @@ firebase.api.key=<Firebase API Key>
 ```
 
 Once the necessary dependencies and files are installed and created, simply run `mvn spring-boot:run`, and Maven will download the necessary dependencies before running your backend application. This application is exposed to your personal device at `localhost:8080`, and endpoints can be called starting from this URI.
+
+This project is deployed on AWS EC2 - to deploy your own builds, you may do the following:
+
+- Sign up and create an Linux EC2 instance
+- Download docker cli
+
+Once that is done, you can run `sudo docker buildx build --platform linux/amd64 -t <name>/canyon:dev .` to build the project, `sudo docker push <name>/canyon:dev` to push the project to Docker Hub, and `sudo docker pull <name>/canyon:dev` on your EC2 instance. `sudo docker run -d -p 80:8080 <name>/canyon:dev` will run the backend quietly on your EC2 instance and forward port 8080 to port 80 so that you can access the backend and website at the base URL without specifying a port number.
 
 ## Endpoints
 
