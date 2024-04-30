@@ -66,6 +66,23 @@ Just remember a few things while working on Canyon:
 2. Please don't force add any ignored files, as they may contain secrets such as keys and passwords. If you add a new file with secrets, add it to the relevant `.gitignore` file and make a note when you create a pull request.
 3. Make sure to communicate with anyone else working on the same issue to make sure we don't do double work.
 
+### Frontend
+**Groups.js**
+Components that holds all groups the user is in
+
+*OnClick*
+  - Data is fetched
+  - Abilitly to:
+    - Create a new issue with our selectQuestion.js component
+    - View previous responses with our Question.js component
+
+
+**ResponsesPage.js and AnswerPage.js**
+- Using our Question.js component as well
+
+**Share Component**
+- Share component from react-native allows us to send messages in native IOS and Android environments
+
 ### Testing
 
 See each component's README for specific instructions on running and debugging its code.
