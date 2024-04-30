@@ -8,7 +8,7 @@ For a general overview, see the [broad overview](#broad-overview) section; if yo
 
 ### Architecture Diagram
 
-![backend architecture diagram](../doc/backend-architecture-diagram.png)
+![backend architecture diagram](../doc/img/backend-architecture-diagram.png)
 
 ### Broad Overview
 
