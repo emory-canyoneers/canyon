@@ -1,16 +1,21 @@
 # Canyon
 
-Canyon seeks to use limited questions to help facilitate meaningful interactions between users and increase engagement with each other, not just with the Canyon app itself.
+Canyon seeks to use limited questions to help facilitate meaningful interactions between users and increase engagement with each other, not just with the Canyon app itself. Available now at [joincanyon.org](http://joincanyon.org)!
 
 ## Table of Contents
 
-1. [Features](#features)
-2. [Setup](#setup)
-3. [Best Practice](#best-practice)
-4. [Testing](#testing)
-5. [Miscellaneous](#miscellaneous)
+1. [Documentation](#documentation)
+2. [Features](#features)
+3. [Setup](#setup)
+4. [Best Practice](#best-practice)
+5. [Testing](#testing)
+6. [Miscellaneous](#miscellaneous)
 
-### Features
+## Documentation
+
+Refer to the `doc` directory for documentation of our entire codebase.
+
+## Features
 
 Canyon is split into two main components:
 
@@ -19,7 +24,7 @@ Canyon is split into two main components:
 - For documentation on each aspect of the app, go to their respective directories and refer to their READMEs.
 - Alternatively, documentation for both are combined in the README of the `doc` directory.
 
-### Setup
+## Setup
 
 See each component's README for specific instructions on setting up its code. This section will be covering general environment setup.
 
@@ -41,7 +46,7 @@ There are a few extensions that will make your life easier, so I would recommend
 
 And that should be it! If at any point you have questions or run into difficulty, reach out for help!
 
-### Best Practice
+## Best Practice
 
 Just remember a few things while working on Canyon:
 
@@ -49,7 +54,7 @@ Just remember a few things while working on Canyon:
 2. Please don't force add any ignored files, as they may contain secrets such as keys and passwords. If you add a new file with secrets, add it to the relevant `.gitignore` file and make a note when you create a pull request.
 3. Make sure to communicate with anyone else working on the same issue to make sure we don't do double work.
 
-### Testing
+## Testing
 
 See each component's README for specific instructions on running and debugging its code.
 
