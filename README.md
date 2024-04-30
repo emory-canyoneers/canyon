@@ -1,40 +1,23 @@
 # Canyon
 
-TODO: fill in here, design, features, file structure, and extensions
+Canyon seeks to use limited questions to help facilitate meaningful interactions between users and increase engagement with each other, not just with the Canyon app itself.
 
 ## Table of Contents
 
-- [Vision](#vision)
-  - [Design](#design)
-  - [Features](#features)
-- [Docs](#docs)
-  - [File Structure](#file-structure)
-  - [Setup](#setup)
-  - [Best Practice](#best-practice)
-  - [Testing](#testing)
-- [Miscellaneous](#miscellaneous)
-
-## Vision
-
-### Design
-
-Canyon is split into three main components:
-
-- [Website](https://github.com/emory-canyoneers/canyon)
-- [Mobile App](https://github.com/emory-canyoneers/canyon)
-- [Backend](https://github.com/emory-canyoneers/canyon)
+1. [Features](#features)
+2. [Setup](#setup)
+3. [Best Practice](#best-practice)
+4. [Testing](#testing)
+5. [Miscellaneous](#miscellaneous)
 
 ### Features
 
-## Docs
+Canyon is split into two main components:
 
-For more specific information on each component, see their respective READMEs (located in their respective directories)
-
-### File Structure
-
-Canyon
-
--
+- [Mobile App](https://github.com/emory-canyoneers/canyon/tree/main/frontend)
+- [Service API](https://github.com/emory-canyoneers/canyon/tree/main/backend)
+- For documentation on each aspect of the app, go to their respective directories and refer to their READMEs.
+- Alternatively, documentation for both are combined in the README of the `doc` directory.
 
 ### Setup
 
@@ -65,28 +48,6 @@ Just remember a few things while working on Canyon:
 1. Edit code in a new branch to avoid conflicts by checking out a new branch on the "Source Control" tab of VS Code, naming it `username/feature`. Make sure to publish it - it is now your branch and you have free reign over what you do in it (within reason :)).
 2. Please don't force add any ignored files, as they may contain secrets such as keys and passwords. If you add a new file with secrets, add it to the relevant `.gitignore` file and make a note when you create a pull request.
 3. Make sure to communicate with anyone else working on the same issue to make sure we don't do double work.
-
-### Frontend
-**Groups.js**
-- Component that holds all groups the user is in
-
-*OnClick*
-  - Data is fetched
-  - Abilitly to:
-    - Create a new issue with our selectQuestion.js component
-    - View previous responses with our Question.js component
-
-
-**ResponsesPage.js and AnswerPage.js**
-- Using our Question.js component as well
-
-**Share Component**
-- Share component from react-native allows us to send messages in native IOS and Android environments
-
-
-![onShare share function](https://github.com/emory-canyoneers/canyon/blob/main/frontend/src/styles/img/onShare.png?raw=true)
-![inviteFriends share function](https://github.com/emory-canyoneers/canyon/blob/main/frontend/src/styles/img/inviteFriends.png?raw=true)
-
 
 ### Testing
 

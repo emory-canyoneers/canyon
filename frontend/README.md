@@ -22,19 +22,26 @@ Brand colors?
 - ![#eb5e28](https://placehold.co/15x15/eb5e28/eb5e28.png) `#eb5e28` - Dark 1
 - ![#9a3d2c](https://placehold.co/15x15/9a3d2c/9a3d2c.png) `#9a3d2c` - Dark 2
 
-## Todo List
+### Frontend
 
-1. **DONE** Self Provider
-2. **NOT NEEDED** Fake data for groups, issues, self
-3. **DONE** Update Auth to also fetch self
-4. **Done** Skeleton pages with styling
-5. Refactor Answers and Submit
-6. Create answer/edit component with modal for answers page (copy groups modal)
-7. Link answer/edit component to groups page
-8. Clean up error handling
+**Groups.js**
 
-## Notes to Self
+- Component that holds all groups the user is in
 
-1. Since groups are being stored now, when clicking on groups inside the landing page pass group info and use ID in calls for issues, etc
-2. For sending questions, use buttons to fill in response box and have input box
-3. For submitting answers, looking at group
+_OnClick_
+
+- Data is fetched
+- Abilitly to:
+  - Create a new issue with our selectQuestion.js component
+  - View previous responses with our Question.js component
+
+**ResponsesPage.js and AnswerPage.js**
+
+- Using our Question.js component as well
+
+**Share Component**
+
+- Share component from react-native allows us to send messages in native IOS and Android environments
+
+![onShare share function](https://github.com/emory-canyoneers/canyon/blob/main/frontend/src/styles/img/onShare.png?raw=true)
+![inviteFriends share function](https://github.com/emory-canyoneers/canyon/blob/main/frontend/src/styles/img/inviteFriends.png?raw=true)
