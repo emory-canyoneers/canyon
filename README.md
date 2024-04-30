@@ -82,6 +82,9 @@ Just remember a few things while working on Canyon:
 
 **Share Component**
 - Share component from react-native allows us to send messages in native IOS and Android environments
+![onShare share function](https://github.com/emory-canyoneers/canyon/blob/main/frontend/src/styles/img/onShare.png?raw=true)
+![inviteFriends share function](https://github.com/emory-canyoneers/canyon/blob/main/frontend/src/styles/img/inviteFriends.png?raw=true)
+
 
 ### Testing
 
