@@ -145,54 +145,6 @@ export const OurModal = ({ questions }) => {
           </Pressable>
         </View>
       )}
-      {/* {issueCreated && (
-        <>
-          <View style={{ flexDirection: "row" }}>
-            <Pressable
-              onPress={showDatepicker}
-              style={[styles.date, { marginLeft: 10 }]}
-            >
-              <Text style={{ textAlign: "center" }}>Select Date</Text>
-            </Pressable>
-            <Pressable onPress={showTimepicker} style={styles.date}>
-              <Text style={{ textAlign: "center" }}>Select Time</Text>
-            </Pressable>
-          </View>
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              marginTop: 20,
-            }}
-          >
-            {showDate && (
-              <Text style={styles.selectedDate}>
-                {date.toLocaleString("en-US")}
-              </Text>
-            )}
-            {show && (
-              <DateTimePicker
-                style={styles.picker}
-                testID="dateTimePicker"
-                value={date}
-                mode={mode}
-                is24Hour={true}
-                onChange={onChange}
-              />
-            )}
-          </View>
-          <Pressable
-            style={[
-              styles.sched,
-              showDate
-                ? { backgroundColor: "#B6D0E2" }
-                : { backgroundColor: "#e8e8e8" },
-            ]}
-          >
-            <Text style={{ textAlign: "center" }}>Schedule Notification </Text>
-          </Pressable>
-        </>
-      )} */}
     </SafeAreaView>
   );
 };

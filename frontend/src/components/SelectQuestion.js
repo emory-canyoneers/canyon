@@ -131,9 +131,6 @@ export default function SelectQuestion() {
                         <Text>
                           Pick a question for this week! 🎉 🙌
                         </Text>
-                        {/* <Text style={groupStyles.subTextStyle}>
-                          Pick a question for this week!
-                        </Text> */}
                       </View>
                     ) : null}
                     {this.renderQuestions()}
