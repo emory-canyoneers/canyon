@@ -68,7 +68,7 @@ Just remember a few things while working on Canyon:
 
 ### Frontend
 **Groups.js**
-Components that holds all groups the user is in
+- Component that holds all groups the user is in
 
 *OnClick*
   - Data is fetched
