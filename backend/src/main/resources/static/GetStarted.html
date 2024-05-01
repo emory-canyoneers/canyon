@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&display=swap" rel="stylesheet">
+
+        <link rel="stylesheet" href="./styles/header.css">
+        <title>Canyon</title>
+    </head>
+
+    <script>
+        function includeHTML() {
+            var z, i, elmnt, file, xhttp;
+            /*loop through a collection of all HTML elements:*/
+            z = document.getElementsByTagName("*");
+            for (i = 0; i < z.length; i++) {
+                elmnt = z[i];
+                /*search for elements with a certain attribute:*/
+                file = elmnt.getAttribute("navigation");
+                if (file) {
+                /*make an HTTP request using the attribute value as the file name:*/
+                xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                    if (this.readyState == 4) {
+                        if (this.status == 200) {elmnt.innerHTML = this.responseText;}
+                        if (this.status == 404) {elmnt.innerHTML = "Page not found.";}
+                        /*remove the attribute, and call this function once more:*/
+                        elmnt.removeAttribute("navigation");
+                        includeHTML();
+                    }
+                }      
+                xhttp.open("GET", file, true);
+                xhttp.send();
+                /*exit the function:*/
+                return;
+                }
+            }
+        };
+    </script>
+
+    <body>
+        <div navigation="nav.html"></div>
+
+        <script>
+            includeHTML();
+        </script>
+
+        <div class="split left">
+            <div class="centered">
+            <h2>Try out Canyon!</h2>
+            <p class="paragraph">At the moment, we unfortunately do not have the app built for iOS, so you cannot access it via the app store. Instead, download <a href="https://apps.apple.com/us/app/expo-go/id982107779" target="_blank">Expo Go</a> and scan the QR code on the right or download the Android APK below and install on your Android.</p>
+            <p class="paragraph">
+                If neither of these methods work, please refer to our documentation on <a href="https://github.com/emory-canyoneers/canyon/tree/main/frontend#testing">GitHub</a> to run the app on your local machine.
+            </p>
+            <div class="button-container">
+                <a href="/app.apk" style="cursor: pointer;" download><button>Download APK</button></a>
+            </div>
+            </div>
+        </div>
+        
+        <div class="split right">
+            <div class="centered">
+            <img src="expo-code.png" alt="iPhones">
+            
+            </div>
+        </div>
+    </body>
+</html>
