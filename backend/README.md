@@ -2,6 +2,10 @@
 
 The backend service that provides our frontend with an authentication-enforced view of models such as groups, questions, answers, and users.
 
+Find us at [joincanyon.org](http://joincanyon.org)!
+
+[![demo video](https://i.ytimg.com/an_webp/4SIHTw-OaV0/mqdefault_6s.webp?du=3000&sqp=CNjbxrEG&rs=AOn4CLA_Xjy8UEXfIC3DlbefLar7cpFYWQ)](https://www.youtube.com/watch?v=wN6ddzEGkuk)
+
 ## Documentation
 
 For a general overview, see the [broad overview](#broad-overview) section; if you'd like to get into the weeds, see the [technical details](#technical-details) section.

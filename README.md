@@ -2,6 +2,8 @@
 
 Canyon seeks to use limited questions to help facilitate meaningful interactions between users and increase engagement with each other, not just with the Canyon app itself. Available now at [joincanyon.org](http://joincanyon.org)!
 
+[![demo video](https://i.ytimg.com/an_webp/4SIHTw-OaV0/mqdefault_6s.webp?du=3000&sqp=CNjbxrEG&rs=AOn4CLA_Xjy8UEXfIC3DlbefLar7cpFYWQ)](https://www.youtube.com/watch?v=wN6ddzEGkuk)
+
 ## Table of Contents
 
 1. [Documentation](#documentation)
