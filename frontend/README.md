@@ -2,9 +2,9 @@
 
 The official Canyon app for a seamless communication experience, utilizing our backend with efficient state management to provide a minimal latency experience.
 
-Find us at [joincanyon.org](http://joincanyon.org)!
-
 [![demo video](https://i.ytimg.com/an_webp/4SIHTw-OaV0/mqdefault_6s.webp?du=3000&sqp=CNjbxrEG&rs=AOn4CLA_Xjy8UEXfIC3DlbefLar7cpFYWQ)](https://www.youtube.com/watch?v=wN6ddzEGkuk)
+
+**Note: since our EC2 instance and domain have been taken down due to cost reasons, you will need to refactor the frontend code to make requests to your backend instance and not `joincanyon.org/`!**
 
 ## Documentation
 

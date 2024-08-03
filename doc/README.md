@@ -1,6 +1,6 @@
 # Canyon
 
-Canyon seeks to use limited questions to help facilitate meaningful interactions between users and increase engagement with each other, not just with the Canyon app itself. Available now at [joincanyon.org](http://joincanyon.org)!
+Canyon seeks to use limited questions to help facilitate meaningful interactions between users and increase engagement with each other, not just with the Canyon app itself.
 
 [![demo video](https://i.ytimg.com/an_webp/4SIHTw-OaV0/mqdefault_6s.webp?du=3000&sqp=CNjbxrEG&rs=AOn4CLA_Xjy8UEXfIC3DlbefLar7cpFYWQ)](https://www.youtube.com/watch?v=wN6ddzEGkuk)
 
@@ -30,7 +30,9 @@ The home page allows users to also scroll through individual groups, create new 
 
 Our backend is a simple RESTful API serving various requests necessary to run the Canyon app. Specific requests that can be made are listed in the endpoints section in the backend README, but they mainly comprise of authentication endpoints allowing users to sign up or log in, and view endpoints, which provide access (create, read, update, destroy) to a user's groups, questions, answers.
 
-No installation needs to be done, as this is deployed online and accessible at [joincanyon.org](http://joincanyon.org). If you would like to run the backend yourself, please refer to the backend README's testing section to learn how to run the project locally.
+~~No installation needs to be done, as this is deployed online and accessible at [joincanyon.org](http://joincanyon.org). If you would like to run the backend yourself, please refer to the backend README's testing section to learn how to run the project locally.~~
+
+Now that our EC2 instance is down, and we've stopped paying for a domain name, you will need to set things up yourself! Follow the docs in the `backend/` and `frontend/` folders for specific instructions regarding those parts of the project.
 
 ### Frontend Technical
 
